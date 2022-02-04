@@ -1,6 +1,7 @@
 ---
 title: "IceSat-2 Atlas Products"
 output: rmarkdown::pdf_document
+always_allow_html: true
 vignette: >
   %\VignetteIndexEntry{IceSat-2 Atlas Products}
   %\VignetteEngine{knitr::rmarkdown}

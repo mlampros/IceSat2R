@@ -47,9 +47,9 @@ The usage of the *IceSat2R* package requires a geospatial setup as specified in 
 
 <br>
 
-The following 3-dimensional interactive line plot (which appears in the *'IceSat-2_Atlas_products'* Vignette) shows,
+The following 3-dimensional interactive line plot (which appears in the ['IceSat-2_Atlas_products' Vignette](https://mlampros.github.io/IceSat2R/articles/IceSat-2_Atlas_products_HTML.html)) shows,
 
-* in *blue* color the *elevation* based on the *DEM* for the two ICESat-2 beams ('gt1r' and 'gt2l'), as these are separated by a 3-km distance
+* in *blue* color the *elevation* based on the *DEM* compared to the two ICESat-2 beams ('gt1r' and 'gt2l'), as these are separated by a 3-km distance
 * in *orange* color the land-ice-height measurements of the *summer* period (separately for 'gt1r' and 'gt2l')
 * in *green* color the land-ice-height measurements of the *winter* period (separately for 'gt1r' and 'gt2l')
 

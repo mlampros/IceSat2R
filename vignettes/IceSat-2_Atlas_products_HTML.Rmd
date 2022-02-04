@@ -1402,7 +1402,7 @@ summary(merg_cells$dem_dif_dist)
 
 Based on the included 30-meter DEM there is a mean distance of 11.1490 and a maximum distance of 20.5394 meters between the *beam* and *DEM* coordinates. The following 3-dimensional interactive line plot shows,
 
-* in *blue* color the *elevation* based on the *DEM* (for the 2 beams as these are separated by a 3-km distance)
+* in *blue* color the *elevation* based on the *DEM* (compared to the 2 beams as these are separated by a 3-km distance)
 * in *orange* color the land-ice-height measurements of the *summer* period (separately for 'gt1r' and 'gt2l')
 * in *green* color the land-ice-height measurements of the *winter* period (separately for 'gt1r' and 'gt2l')
 

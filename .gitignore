@@ -1,3 +1,2 @@
 docs/
-^vignettes/IceSat-2_Atlas_products_PDF.Rmd$
-^vignettes/IceSat-2_Mission_Orbits_PDF.Rmd$
+*_PDF.Rmd

@@ -1,0 +1,7 @@
+^CODE_OF_CONDUCT\.md$
+^man/figures
+^.git$
+^.github$
+^inst/documentation/dictionaries
+^inst/documentation/info_images
+^inst/documentation/known_issues

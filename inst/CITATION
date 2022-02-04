@@ -1,0 +1,86 @@
+citHeader("Please cite both the package and the original articles / software in your publications:")
+
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(
+  bibtype = "Manual",
+  title   = "{IceSat2R}: ICESat-2 Altimeter Data using R",
+  author  = person("Lampros", "Mouselimis"),
+  year    = year,
+  note    = note,
+  url     = "https://CRAN.R-project.org/package=IceSat2R"
+)
+
+bibentry(
+  bibtype  = "Article",
+  title    = "OpenAltimetry - rapid analysis and visualization of Spaceborne altimeter data",
+  author   = c(as.person("S.J.S. Khalsa"), as.person("A. Borsa"), as.person("V. Nandigam")),
+  journal  = "Earth Sci Inform",
+  year     = "2020",
+  url      = "https://link.springer.com/content/pdf/10.1007/s12145-020-00520-2.pdf",
+  doi      = "10.1007/s12145-020-00520-2"
+)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "ATLAS/ICESat-2 L2A Global Geolocated Photon Data, Version 4, Boulder, Colorado USA",
+  author   = c(as.person("T. A. Neumann"), as.person("A. Brenner"), as.person("D. Hancock"), as.person("J. Robbins"), as.person("J. Saba"), as.person("K. Harbeck"), as.person("A. Gibbons"), as.person("J. Lee"), as.person("S. B. Luthcke"), as.person("T. Rebold")),
+  journal  = "NASA National Snow and Ice Data Center Distributed Active Archive Center",
+  year     = "2021",
+  doi      = "10.5067/ATLAS/ATL03.004"
+)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "ATLAS/ICESat-2 L3A Land Ice Height, Version 4, Boulder, Colorado USA",
+  author   = c(as.person("B. Smith"), as.person("H. A. Fricker"), as.person("A. Gardner"), as.person("M. R. Siegfried"), as.person("S. Adusumilli"), as.person("B. M. Csathó"), as.person("N. Holschuh"), as.person("J. Nilsson"), as.person("F. S. Paolo")),
+  journal  = "NASA National Snow and Ice Data Center Distributed Active Archive Center",
+  year     = "2021",
+  doi      = "10.5067/ATLAS/ATL06.004"
+)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "ATLAS/ICESat-2 L3A Sea Ice Height, Version 4, Boulder, Colorado USA",
+  author   = c(as.person("R. Kwok"), as.person("A. A. Petty"), as.person("G. Cunningham"), as.person("T. Markus"), as.person("D. Hancock"), as.person("A. Ivanoff"), as.person("J. Wimert"), as.person("M. Bagnardi"), as.person("N. Kurtz")),
+  journal  = "NASA National Snow and Ice Data Center Distributed Active Archive Center",
+  year     = "2021",
+  doi      = "10.5067/ATLAS/ATL07.004"
+)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "ATLAS/ICESat-2 L3A Land and Vegetation Height, Version 4, Boulder, Colorado USA",
+  author   = c(as.person("A. L. Neuenschwander"), as.person("K. L. Pitts"), as.person("B. P. Jelley"), as.person("J. Robbins"), as.person("B. Klotz"), as.person("S. C. Popescu"), as.person("R. F. Nelson"), as.person("D. Harding"), as.person("D. Pederson"), as.person("R. Sheridan")),
+  journal  = "NASA National Snow and Ice Data Center Distributed Active Archive Center",
+  year     = "2021",
+  doi      = "10.5067/ATLAS/ATL08.004"
+)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "ATLAS/ICESat-2 L3A Sea Ice Freeboard, Version 4, Boulder, Colorado USA",
+  author   = c(as.person("R. Kwok"), as.person("A. A. Petty"), as.person("G. Cunningham"), as.person("T. Markus"), as.person("D. Hancock"), as.person("A. Ivanoff"), as.person("J. Wimert"), as.person("M. Bagnardi"), as.person("N. Kurtz")),
+  journal  = "NSIDC: National Snow and Ice Data Center",
+  year     = "2021",
+  doi      = "10.5067/ATLAS/ATL10.004"
+)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "ATLAS/ICESat-2 L3A Ocean Surface Height, Version 4, Boulder, Colorado USA",
+  author   = c(as.person("J. H. Morison"), as.person("D. Hancock"), as.person("S. Dickinson"), as.person("J. Robbins"), as.person("L. Roberts"), as.person("R. Kwok"), as.person("S. P. Palm"), as.person("B. Smith"), as.person("M. F. Jasinski")),
+  journal  = "NASA National Snow and Ice Data Center Distributed Active Archive Center",
+  year     = "2021",
+  doi      = "10.5067/ATLAS/ATL12.004"
+)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "ATLAS/ICESat-2 L3A Inland Water Surface Height, Version 3, Boulder, Colorado USA",
+  author   = c(as.person("M. F. Jasinski"), as.person("J. D. Stoll"), as.person("D. Hancock"), as.person("J. Robbins"), as.person("J. Nattala"), as.person("J. Morison"), as.person("B. M. Jones"), as.person("M. E. Ondrusek"), as.person("T. M. Pavelsky"), as.person("C. Parrish")),
+  journal  = "NASA National Snow and Ice Data Center Distributed Active Archive Center",
+  year     = "2020",
+  doi      = "10.5067/ATLAS/ATL13.003"
+)

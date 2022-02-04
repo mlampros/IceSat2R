@@ -1,0 +1,8 @@
+pandoc: 2.7.3
+pkgdown: 2.0.2
+pkgdown_sha: ~
+articles:
+  IceSat-2_Atlas_products: IceSat-2_Atlas_products.html
+  IceSat-2_Mission_Orbits: IceSat-2_Mission_Orbits.html
+last_built: 2022-02-04T17:07Z
+

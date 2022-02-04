@@ -1,6 +1,5 @@
 ---
 title: "IceSat-2 Atlas Products"
-# output: rmarkdown::pdf_document
 output: rmarkdown::html_vignette
 always_allow_html: true
 vignette: >
@@ -1445,6 +1444,3 @@ fig_height
 
 <br>
 
-![](3d_plotly.png)
-
-<br>

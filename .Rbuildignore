@@ -8,3 +8,6 @@
 ^\.ccache$
 ^\.github$
 ^tic\.R$
+^Dockerfile$
+^vignettes/IceSat-2_Atlas_products_HTML.Rmd$
+^vignettes/IceSat-2_Mission_Orbits_HTML.Rmd$

@@ -23,9 +23,9 @@ jobs:
         config:
           # use a different tic template type if you do not want to build on all listed platforms
           - { os: windows-latest, r: "release" }
-          - { os: macOS-latest, r: "release", pkgdown: "true", latex: "true" }
+          #- { os: macOS-latest, r: "release", pkgdown: "true", latex: "true" }
           - { os: ubuntu-latest, r: "devel" }
-          - { os: ubuntu-latest, r: "release" }
+          - { os: ubuntu-latest, r: "release", pkgdown: "true", latex: "true" }
 
     env:
       # otherwise remotes::fun() errors cause the build to fail. Example: Unavailability of binaries
@@ -78,7 +78,7 @@ jobs:
 
       - name: "[Stage] [Linux] Install required system libs"
         if: runner.os == 'Linux'
-        run: sudo apt install libcurl4-openssl-dev libgit2-dev
+        run: sudo apt install libcurl4-openssl-dev libgit2-dev libsodium-dev libharfbuzz-dev libfribidi-dev
 
       # for some strange Windows reason this step and the next one need to be decoupled
       - name: "[Stage] Prepare"
@@ -100,9 +100,9 @@ jobs:
 
       - name: "[Custom block] [Linux] Install spatial libraries"
         if: runner.os == 'Linux'
-        run: sudo apt-get install libgdal-dev libproj-dev libgeos-dev libudunits2-dev
+        run: sudo apt-get install gdal-bin proj-bin libgdal-dev libproj-dev libgeos-dev libudunits2-dev
 
-      - name: "Install spatial libraries on MacOS (copied from https://github.com/r-spatial/sf/blob/master/.github/workflows/tic-db.yml#L99)"
+      - name: "[Custom block] [macOS] Install spatial libraries [ copied from https://github.com/r-spatial/sf/blob/master/.github/workflows/tic-db.yml#L99 ]"
         if: runner.os == 'macOS'
         run: |
           # conflicts with gfortran from r-lib/actions when linking gcc

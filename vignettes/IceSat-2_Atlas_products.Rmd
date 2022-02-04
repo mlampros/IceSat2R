@@ -1,6 +1,7 @@
 ---
 title: "IceSat-2 Atlas Products"
-output: rmarkdown::pdf_document
+# output: rmarkdown::pdf_document
+output: rmarkdown::html_vignette
 always_allow_html: true
 vignette: >
   %\VignetteIndexEntry{IceSat-2 Atlas Products}
@@ -1421,7 +1422,7 @@ merg_cells_viz = readRDS(file = system.file('data_files', 'vignette_data', '3d_p
 
 ```
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 
 merg_cells_viz_mlt = reshape2::melt(merg_cells_viz, id.vars = c('beam', 'longitude', 'latitude'))
 merg_cells_viz_mlt = data.table::data.table(merg_cells_viz_mlt, stringsAsFactors = F)

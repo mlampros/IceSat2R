@@ -1,6 +1,7 @@
 ---
 title: "IceSat-2 Mission Orbits"
-output: rmarkdown::pdf_document
+# output: rmarkdown::pdf_document
+output: rmarkdown::html_vignette
 always_allow_html: true
 vignette: >
   %\VignetteIndexEntry{IceSat-2 Mission Orbits}

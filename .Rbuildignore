@@ -5,3 +5,6 @@
 ^inst/documentation/dictionaries
 ^inst/documentation/info_images
 ^inst/documentation/known_issues
+^\.ccache$
+^\.github$
+^tic\.R$

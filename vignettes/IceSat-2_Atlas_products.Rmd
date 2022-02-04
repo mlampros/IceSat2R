@@ -1414,7 +1414,7 @@ merg_cells_viz = merg_cells[, ..cols_viz_dem]
 
 ```
 
-```{r, echo = FALSE, eval = FALSE}
+```{r, echo = FALSE, eval = TRUE}
 
 merg_cells_viz = readRDS(file = system.file('data_files', 'vignette_data', '3d_plot.RDS', package = "IceSat2R"))
 

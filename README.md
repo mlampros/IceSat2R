@@ -98,7 +98,7 @@ If you use the code of this repository in your paper or research please cite bot
 
 ## Code of Conduct
   
-  Please note that the IceSat2R project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+  Please note that the IceSat2R project is released with a [Contributor Code of Conduct](https://github.com/mlampros/IceSat2R/blob/master/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 
 ## Acknowledgment

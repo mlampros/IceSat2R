@@ -463,7 +463,7 @@ select_aoi_global_grid <- R6::R6Class("select_aoi_global_grid",
                                                                                leaflet_provider_base = self$leaflet_provider_base,
                                                                                leaflet_provider_secondary = self$leaflet_provider_secondary,
                                                                                overlay_group = NULL,                                           # !! set this group to NULL for the 'sync' map to work
-                                                                               overlay_polylines = 'Grid Tile to Download',
+                                                                               overlay_polylines = 'Grid Cell',
                                                                                width = 750,
                                                                                height = 750,
                                                                                popup = 'area',                                # use the 'area' column to display the area per grid cell

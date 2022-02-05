@@ -1,10 +1,11 @@
 
 [![tic](https://github.com/mlampros/IceSat2R/workflows/tic/badge.svg?branch=master)](https://github.com/mlampros/IceSat2R/actions)
-[![codecov.io](https://codecov.io/github/mlampros/IceSat2R/coverage.svg?branch=master)](https://codecov.io/github/mlampros/IceSat2R?branch=master)
+[![Rdoc](https://www.rdocumentation.org/badges/version/IceSat2R)](https://mlampros.github.io/IceSat2R/reference/index.html)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/IceSat2R)](http://cran.r-project.org/package=IceSat2R)
 [![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/IceSat2R?color=blue)](http://www.r-pkg.org/pkg/IceSat2R)
 [![](https://img.shields.io/docker/automated/mlampros/icesat2r.svg)](https://hub.docker.com/r/mlampros/icesat2r)
 [![Dependencies](https://tinyverse.netlify.com/badge/IceSat2R)](https://cran.r-project.org/package=IceSat2R)
+[![codecov.io](https://codecov.io/github/mlampros/IceSat2R/coverage.svg?branch=master)](https://codecov.io/github/mlampros/IceSat2R?branch=master)
 
 
 <img align="right" width="200" src="man/figures/hex_sticker.png"></img>
@@ -43,7 +44,19 @@ The usage of the *IceSat2R* package requires a geospatial setup as specified in 
 
 <br>
 
-### 3-Dimensional Line Plot by combining IceSat-2 and Copernicus DEM (Digital Elevation Model) Data
+### Shiny application to select an area of interest (AOI) from a 1- or 5-degree global grid
+
+<br>
+
+The [OpenAltimetry API](https://openaltimetry.org/data/swagger-ui/) restricts the requests to a *1x1* or *5x5* degree spatial bounding box, unless the *"sampling"* parameter is set to *TRUE*. The shiny application of the *IceSat2R* package allows the user to create a spatial grid of an AOI, preferably a 1- or 5-degree grid so that the selection can be within limits. An alternative would be to create a grid of smaller grid cells than required (for instance a 4-degree grid) and then to select multiple grid cells,
+
+<br>
+
+<img src="man/figures/shiny_app_grid.gif" ></img>
+
+<br>
+
+### Example Use Case: 3-Dimensional Line Plot by combining IceSat-2 and Copernicus DEM (Digital Elevation Model) Data
 
 <br>
 

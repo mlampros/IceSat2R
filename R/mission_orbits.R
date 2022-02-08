@@ -23,7 +23,7 @@ utils::globalVariables(c('i'))                        # for the foreach for-loop
 #' https://icesat-2.gsfc.nasa.gov/science/specs
 #'
 #' @importFrom glue glue
-#' @importFrom utils download.file unzip globalVariables
+#' @importFrom utils download.file unzip
 #' @importFrom tools file_ext
 #' @importFrom doParallel registerDoParallel
 #' @importFrom sf st_layers st_read st_as_sf st_zm

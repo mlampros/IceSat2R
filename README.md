@@ -1,6 +1,6 @@
 
 [![tic](https://github.com/mlampros/IceSat2R/workflows/tic/badge.svg?branch=master)](https://github.com/mlampros/IceSat2R/actions)
-[![Rdoc](https://www.rdocumentation.org/badges/version/IceSat2R)](https://mlampros.github.io/IceSat2R/reference/index.html)
+[![docs: passing](https://img.shields.io/badge/docs-passing-success.svg)](https://mlampros.github.io/IceSat2R/reference/index.html)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/IceSat2R)](http://cran.r-project.org/package=IceSat2R)
 [![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/IceSat2R?color=blue)](http://www.r-pkg.org/pkg/IceSat2R)
 [![](https://img.shields.io/docker/automated/mlampros/icesat2r.svg)](https://hub.docker.com/r/mlampros/icesat2r)

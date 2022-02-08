@@ -268,7 +268,9 @@ select_aoi_global_grid <- R6::R6Class("select_aoi_global_grid",
 
                                            shiny::observeEvent(input$undefined_draw_edited_features, {                       # 'edit' existing feature
                                              edited <<- input$undefined_draw_edited_features
-                                             ids <- unlist(lapply(draw_obj, function(x){x$properties$`_leaflet_id`}))
+                                             ids <- unlist(lapply(draw_obj, function(x) {
+                                               x$properties$`_leaflet_id`
+                                             }))
 
                                              lapply(edited$features, function(x){
                                                loc <- match(x$properties$`_leaflet_id`, ids)
@@ -283,8 +285,13 @@ select_aoi_global_grid <- R6::R6Class("select_aoi_global_grid",
                                              }
                                            })
 
-                                           shiny::observeEvent(input$done, { shiny::stopApp(returnValue = draw_obj) })     # 'returnValue' is the value that should be returned from the 'shiny::runGadget'
-                                           shiny::observeEvent(input$cancel, { shiny::stopApp (returnValue = NULL) })
+                                           shiny::observeEvent(input$done, {
+                                             shiny::stopApp(returnValue = draw_obj)
+                                           })
+                                                  # 'returnValue' is the value that should be returned from the 'shiny::runGadget'
+                                           shiny::observeEvent(input$cancel, {
+                                             shiny::stopApp (returnValue = NULL)
+                                           })
 
                                            # session$onSessionEnded(function() {
                                            #   shiny::stopApp()

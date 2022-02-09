@@ -1,0 +1,28 @@
+
+#.............................................................................................
+# Binder from docker image
+#
+# https://github.com/jupyterhub/repo2docker
+# discourse.jupyter.org/t/how-to-reduce-mybinder-org-repository-startup-time/4956/60
+# https://github.com/pangeo-data/pangeo-docker-images/blob/master/.github/workflows/Binder.yml
+# https://github.com/sylvaticus/BetaML.jl/blob/master/.github/workflows/binder.yaml
+#.............................................................................................
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: Binder
+
+jobs:
+  Create-MyBinderOrg-Cache:
+    runs-on: ubuntu-latest
+    steps:
+    - name: cache binder build on mybinder.org
+      uses: jupyterhub/repo2docker-action@master
+      with:
+        NO_PUSH: true
+        MYBINDERORG_TAG: ${{ github.event.ref }}        # This builds the container on mybinder.org with the branch that was pushed on.
+        IMAGE_NAME: mlampros/icesat2r

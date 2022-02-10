@@ -2,7 +2,8 @@ FROM mlampros/icesat2r:rstudiodev
 
 LABEL maintainer='Lampros Mouselimis'
 
-RUN pip install --no-cache --upgrade pip && \
+RUN apt-get install -y python3-pip && \
+    pip install --no-cache --upgrade pip && \
     pip install --no-cache notebook jupyterlab
 
 USER root

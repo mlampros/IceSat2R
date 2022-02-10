@@ -7,6 +7,11 @@ FROM rocker/binder:latest
 
 LABEL maintainer='Lampros Mouselimis'
 
+#.....................................................................................
+# Due to the 'binder' image I have to install dependencies as root
+# see: https://github.com/SeleniumHQ/docker-selenium/issues/725#issuecomment-381734966
+#.....................................................................................
+
 USER root
 
 RUN sudo apt-get -y update && \

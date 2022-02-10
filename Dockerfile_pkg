@@ -1,4 +1,9 @@
-FROM rocker/geospatial:latest
+FROM rocker/binder:latest
+
+#.............................................................
+# Adds binder abilities on top of the rocker/geospatial images
+# see: https://hub.docker.com/r/rocker/binder
+#.............................................................
 
 LABEL maintainer='Lampros Mouselimis'
 

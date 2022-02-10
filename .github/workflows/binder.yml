@@ -1,7 +1,18 @@
 
-#...................................................................................................
-# Binder using 'repo2docker' [ it seems that direct pull of existing docker image is not supported ]
-#...................................................................................................
+#.....................................................................................................
+# Binder using 'repo2docker' [ it seems that direct pull from existing docker image is not supported ]
+#
+# https://discourse.jupyter.org/t/use-published-docker-image-for-binder/10333/3
+# https://github.com/jupyterhub/mybinder.org-deploy/issues/1474#issuecomment-649769488
+# https://github.com/jupyterhub/binderhub/issues/1298#issuecomment-841547588
+# https://github.com/jupyterhub/repo2docker
+# https://github.com/jupyterhub/repo2docker-action
+# https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html
+# https://repo2docker.readthedocs.io/en/latest/config_files.html
+# discourse.jupyter.org/t/how-to-reduce-mybinder-org-repository-startup-time/4956/60
+# https://github.com/pangeo-data/pangeo-docker-images/blob/master/.github/workflows/Binder.yml
+# https://github.com/sylvaticus/BetaML.jl/blob/master/.github/workflows/binder.yaml
+#.....................................................................................................
 
 on:
   push:

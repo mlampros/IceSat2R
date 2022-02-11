@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">IceSat2R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
       </span>
     </div>
 
@@ -115,7 +115,7 @@
 </ul>
 <p>begun by ICESat in 2003.</p>
 <p><br></p>
-<p><strong>System Requirements</strong>:</p>
+<p><strong>System Requirements</strong></p>
 <p>The usage of the <em>IceSat2R</em> package requires a geospatial setup as specified in the <a href="https://github.com/r-spatial/sf#installing" class="external-link">sf</a> or <a href="https://github.com/rspatial/terra#from-source-code" class="external-link">terra</a> README.md files.</p>
 <p><br></p>
 <div class="section level3">
@@ -140,14 +140,60 @@
 <p><br></p>
 <p><img src="reference/figures/3_dim_plot.gif"></p>
 <p><br></p>
+<div class="section level4">
+<h4 id="binder">
+<strong>Binder</strong><a class="anchor" aria-label="anchor" href="#binder"></a>
+</h4>
+<p>The user of the <strong>IceSat2R</strong> R package can reproduce the examples of the documentation using the available <a href="https://mybinder.org/v2/gh/mlampros/IceSat2R/master?urlpath=rstudio" class="external-link">binder Rstudio image</a>. Once launched the cloud instance will take a few minutes to be ready. You can read more <a href="https://mybinder.org/" class="external-link">about binder on the web</a>. In short, binder allows to make “your code immediately reproducible by anyone, anywhere”.</p>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="docker-image">
+<strong>Docker Image</strong><a class="anchor" aria-label="anchor" href="#docker-image"></a>
+</h4>
+<p><br></p>
+<p><strong>Docker images</strong> of the <em>IceSat2R</em> package are available to download from my <a href="https://hub.docker.com/r/mlampros/icesat2r" class="external-link">dockerhub</a> account. The images come with <em>Rstudio</em> and the <em>R-development</em> version (latest) installed. The whole process was tested on Ubuntu 18.04. To <strong>pull</strong> &amp; <strong>run</strong> the image do the following,</p>
+<p><br></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2"></a>docker pull mlampros<span class="op">/</span>icesat2r<span class="op">:</span>rstudiodev</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>docker run <span class="op">-</span>d <span class="op">--</span>name rstudio_dev <span class="op">-</span>e USER=rstudio <span class="op">-</span>e PASSWORD=give_here_your_password <span class="op">--</span>rm <span class="op">-</span>p <span class="dv">8787</span><span class="op">:</span><span class="dv">8787</span> mlampros<span class="op">/</span>icesat2r<span class="op">:</span>rstudiodev</span></code></pre></div>
+<p><br></p>
+<p>The user can also <strong>bind</strong> a home directory / folder to the image to use its files by specifying the <strong>-v</strong> command,</p>
+<p><br></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2"></a>docker run <span class="op">-</span>d <span class="op">--</span>name rstudio_dev <span class="op">-</span>e USER=rstudio <span class="op">-</span>e PASSWORD=give_here_your_password <span class="op">--</span>rm <span class="op">-</span>p <span class="dv">8787</span><span class="op">:</span><span class="dv">8787</span> <span class="op">-</span>v <span class="op">/</span>home<span class="op">/</span>YOUR_DIR<span class="op">:</span><span class="er">/</span>home<span class="op">/</span>rstudio<span class="op">/</span>YOUR_DIR mlampros<span class="op">/</span>icesat2r<span class="op">:</span>rstudiodev</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span></code></pre></div>
+<p><br></p>
+<p>In the latter case you might have first give permission privileges for write access to <strong>YOUR_DIR</strong> directory (not necessarily) using,</p>
+<p><br></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2"></a>chmod <span class="op">-</span>R <span class="dv">777</span> <span class="op">/</span>home<span class="op">/</span>YOUR_DIR</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span></code></pre></div>
+<p><br></p>
+<p>The <strong>USER</strong> defaults to <em>rstudio</em> but you have to give your <strong>PASSWORD</strong> of preference (see <a href="https://www.rocker-project.org/" class="external-link">www.rocker-project.org</a> for more information).</p>
+<p><br></p>
+<p>Open your web-browser and depending where the docker image was <em>build / run</em> give,</p>
+<p><br></p>
+<p><strong>1st. Option</strong> on your personal computer,</p>
+<p><br></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>http<span class="op">:</span><span class="er">//</span><span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">0.0</span><span class="op">:</span><span class="dv">8787</span> </span></code></pre></div>
+<p><br></p>
+<p><strong>2nd. Option</strong> on a cloud instance,</p>
+<p><br></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>http<span class="op">:</span><span class="er">//</span>Public DNS<span class="op">:</span><span class="dv">8787</span></span></code></pre></div>
+<p><br></p>
+<p>to access the Rstudio console in order to give your username and password.</p>
+<p><br></p>
 <p>To install the package from CRAN use,</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"IceSat2R"</span><span class="op">)</span></code></pre></div>
 <p><br></p>
 <p>and to download the latest version of the package from Github,</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">'mlampros/IceSat2R'</span><span class="op">)</span></code></pre></div>
 <p><br></p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="citation">Citation:<a class="anchor" aria-label="anchor" href="#citation"></a>
@@ -155,13 +201,13 @@
 <p><br></p>
 <p>If you use the code of this repository in your paper or research please cite both <strong>IceSat2R</strong> and the <strong>original articles</strong> (see CITATION) <code>https://CRAN.R-project.org/package=IceSat2R</code>:</p>
 <p><br></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">@</span>Manual{,</span>
-<span id="cb3-2"><a href="#cb3-2"></a>  title =<span class="st"> </span>{{IceSat2R}<span class="op">:</span><span class="st"> </span>ICESat<span class="dv">-2</span> Altimeter Data using R},</span>
-<span id="cb3-3"><a href="#cb3-3"></a>  author =<span class="st"> </span>{Lampros Mouselimis},</span>
-<span id="cb3-4"><a href="#cb3-4"></a>  year =<span class="st"> </span>{<span class="dv">2022</span>},</span>
-<span id="cb3-5"><a href="#cb3-5"></a>  note =<span class="st"> </span>{R package version <span class="dv">1</span>.<span class="fl">0.0</span>},</span>
-<span id="cb3-6"><a href="#cb3-6"></a>  url =<span class="st"> </span>{https<span class="op">:</span><span class="er">//</span>CRAN.R<span class="op">-</span>project.org<span class="op">/</span>package=IceSat2R},</span>
-<span id="cb3-7"><a href="#cb3-7"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">@</span>Manual{,</span>
+<span id="cb8-2"><a href="#cb8-2"></a>  title =<span class="st"> </span>{{IceSat2R}<span class="op">:</span><span class="st"> </span>ICESat<span class="dv">-2</span> Altimeter Data using R},</span>
+<span id="cb8-3"><a href="#cb8-3"></a>  author =<span class="st"> </span>{Lampros Mouselimis},</span>
+<span id="cb8-4"><a href="#cb8-4"></a>  year =<span class="st"> </span>{<span class="dv">2022</span>},</span>
+<span id="cb8-5"><a href="#cb8-5"></a>  note =<span class="st"> </span>{R package version <span class="dv">1</span>.<span class="fl">0.0</span>},</span>
+<span id="cb8-6"><a href="#cb8-6"></a>  url =<span class="st"> </span>{https<span class="op">:</span><span class="er">//</span>CRAN.R<span class="op">-</span>project.org<span class="op">/</span>package=IceSat2R},</span>
+<span id="cb8-7"><a href="#cb8-7"></a>}</span></code></pre></div>
 <p><br></p>
 </div>
 </div>
@@ -222,6 +268,7 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://mybinder.org/v2/gh/mlampros/IceSat2R/master?urlpath=rstudio" class="external-link"><img src="http://mybinder.org/badge_logo.svg" alt="Binder"></a></li>
 <li><a href="https://github.com/mlampros/IceSat2R/actions" class="external-link"><img src="https://github.com/mlampros/IceSat2R/workflows/tic/badge.svg?branch=master" alt="tic"></a></li>
 <li><a href="https://mlampros.github.io/IceSat2R/reference/index.html" class="external-link"><img src="https://img.shields.io/badge/docs-passing-success.svg" alt="docs: passing"></a></li>
 <li><a href="http://cran.r-project.org/package=IceSat2R" class="external-link"><img src="http://www.r-pkg.org/badges/version/IceSat2R" alt="CRAN_Status_Badge"></a></li>

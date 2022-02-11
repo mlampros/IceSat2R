@@ -12,15 +12,16 @@ LABEL maintainer='Lampros Mouselimis'
 # see: https://github.com/SeleniumHQ/docker-selenium/issues/725#issuecomment-381734966
 #.....................................................................................
 
+ENV DEBIAN_FRONTEND=noninteractive
 USER root
 
-RUN sudo apt-get -y update && \
- sudo apt-get install unzip && \
+RUN apt-get -y update && \
+ apt-get install unzip && \
  R -e "install.packages('devtools', dependencies = TRUE, repos = 'https://cloud.r-project.org/')" && \
  R -e "install.packages(c( 'glue', 'sf', 'lwgeom', 'units', 'data.table', 'httr', 'utils', 'foreach', 'tools', 'doParallel', 'magrittr', 'leaflet', 'leafgl', 'leaflet.extras', 'leafsync', 'miniUI', 'shiny', 'rnaturalearth', 'rmarkdown', 'knitr', 'lubridate', 'DT', 'mapview', 'grDevices', 'stargazer', 'reshape2', 'plotly', 'geodist', 'CopernicusDEM', 'terra', 'testthat', 'remotes' ), repos =  'https://cloud.r-project.org/' )"
 
 RUN R -e "remotes::install_github('mlampros/IceSat2R', upgrade = 'always', dependencies = TRUE, repos = 'https://cloud.r-project.org/')" && \
- sudo apt-get autoremove -y && \
- sudo apt-get clean
+ apt-get autoremove -y && \
+ apt-get clean
 
 ENV USER rstudio

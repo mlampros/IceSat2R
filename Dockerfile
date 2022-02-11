@@ -1,28 +1,29 @@
 FROM mlampros/icesat2r:rstudiodev
 
-#..................................................
-# Reference: https://hub.docker.com/r/rocker/binder
-#..................................................
+#......................................................................................
+# References: https://hub.docker.com/r/rocker/binder
+#             https://github.com/yuvipanda/rstudio-binder-template/blob/main/Dockerfile
+#......................................................................................
 
 LABEL maintainer='Lampros Mouselimis'
 
 ## Declares build arguments
-
 ARG NB_USER
 ARG NB_UID
 
-## Copies your repo files into the Docker Container
+COPY --chown=${NB_USER} . ${HOME}
 
+ENV DEBIAN_FRONTEND=noninteractive
 USER root
-COPY . ${HOME}
-## Enable this to copy files from the binder subdirectory to the home,
-## overriding any existing files. Useful to create a setup on binder
-## that is different from a clone of your repository
-## COPY binder ${HOME}
-RUN chown -R ${NB_USER} ${HOME}
+RUN echo "Checking for 'apt.txt'..." \
+        ; if test -f "apt.txt" ; then \
+        apt-get update --fix-missing > /dev/null\
+        && xargs -a apt.txt apt-get install --yes \
+        && apt-get clean > /dev/null \
+        && rm -rf /var/lib/apt/lists/* \
+        ; fi
 
-## Become normal user again
 USER ${NB_USER}
 
-## Run an install.R script, if it exists [I don't have one]
-# RUN if [ -f install.R ]; then R --quiet -f install.R; fi
+## Run an install.R script, if it exists.
+RUN if [ -f install.R ]; then R --quiet -f install.R; fi

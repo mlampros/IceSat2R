@@ -243,9 +243,10 @@ row.names(dtbl_land_sea) = c('sea', 'land')
 
 ```{r, results = 'asis'}
 
-stargazer::stargazer(dtbl_land_sea, 
+stargazer::stargazer(dtbl_land_sea,
+                     type = 'html',
                      summary = FALSE, 
-                     rownames = FALSE, 
+                     rownames = TRUE, 
                      header = FALSE, 
                      table.placement = 'h', 
                      title = 'Land and Sea Proportions')
@@ -351,6 +352,7 @@ The next table shows the total number of days and RGTs for each one of the major
 ```{r, results = 'asis'}
 
 stargazer::stargazer(sum_stats_glac, 
+                     type = 'html',
                      summary = FALSE, 
                      rownames = FALSE, 
                      header = FALSE, 
@@ -378,7 +380,8 @@ dat_glac_smpl = dat_glac_name[[sample_glacier]]
 
 cols_display = c('name', 'day_of_year', 'Date', 'hour', 'minute', 'second', 'RGT')
 
-stargazer::stargazer(dat_glac_smpl[, ..cols_display], 
+stargazer::stargazer(dat_glac_smpl[, ..cols_display],
+                     type = 'html',
                      summary = FALSE, 
                      rownames = FALSE, 
                      header = FALSE, 

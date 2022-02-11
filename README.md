@@ -39,7 +39,7 @@ begun by ICESat in 2003.
 
 <br>
 
-**System Requirements**
+#### **System Requirements**
 
 The usage of the *IceSat2R* package requires a geospatial setup as specified in the [sf](https://github.com/r-spatial/sf#installing) or [terra](https://github.com/rspatial/terra#from-source-code) README.md files.
 

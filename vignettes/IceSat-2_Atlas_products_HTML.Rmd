@@ -690,6 +690,7 @@ dtbl_RGTs = data.table::fread(pth_subs_RGTs, header = T, stringsAsFactors = F)
 dtbl_RGTs = dtbl_RGTs[order(dtbl_RGTs$RGT, decreasing = F), ]
 
 stargazer::stargazer(dtbl_RGTs,
+                     type = 'html',
                      summary = FALSE, 
                      rownames = FALSE, 
                      header = FALSE, 
@@ -840,6 +841,7 @@ logs_out_dtbl = data.table::fread(file = pth_logs, stringsAsFactors = F, header 
 logs_out_dtbl = logs_out_dtbl[order(logs_out_dtbl$N_rows_winter, decreasing = T), ]
 
 stargazer::stargazer(logs_out_dtbl, 
+                     type = 'html',
                      summary = FALSE, 
                      rownames = FALSE, 
                      header = FALSE, 

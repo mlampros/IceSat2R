@@ -578,16 +578,24 @@ time_specific_orbits = function(date_from = NULL,
       if (threads > 1 & LEN_subset > 1) {
         inner_obj = foreach::foreach(i = 1:LEN_nams) %dopar% {
           LAYER = NAMS[i]
-          lr_dat = sf::st_read(dsn = iter_file, layer = LAYER, quiet = T)
+          lr_dat = sf::st_read(dsn = iter_file, layer = LAYER, quiet = T)         # I expect each .kml file to consist of a single 'sfc_POINT'
           lr_dat
         }
       }
       else {
         inner_obj = lapply(1:LEN_nams, function(x) {
           LAYER = NAMS[x]
-          lr_dat = sf::st_read(dsn = iter_file, layer = LAYER, quiet = T)
+          lr_dat = sf::st_read(dsn = iter_file, layer = LAYER, quiet = T)         # I expect each .kml file to consist of a single 'sfc_POINT'
           lr_dat
         })
+      }
+
+      # class_obj = as.vector(unlist(lapply(inner_obj, function(x) class(sf::st_geometry(x))[1])))                      # I expect each sublist to be of type "sfc_POINT" and normally observations which are not (and can be for instance "sfc_LINESTRING") won't have a description column either. Therefore use the next line for removal
+      descr_not_idx = which(as.vector(unlist(lapply(inner_obj, function(x) is.na(x$description) | x$description == ""))))
+      LEN_exc = length(descr_not_idx)
+      if (LEN_exc > 0) {
+        if (verbose) message(glue::glue("{LEN_exc} output sublist did not have a valid 'description' and will be removed!"))
+        inner_obj = inner_obj[-descr_not_idx]
       }
 
       inner_obj = sf::st_as_sf(data.table::rbindlist(inner_obj))

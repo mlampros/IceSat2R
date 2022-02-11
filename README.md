@@ -1,4 +1,5 @@
 
+[![Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mlampros/IceSat2R/master?urlpath=rstudio)
 [![tic](https://github.com/mlampros/IceSat2R/workflows/tic/badge.svg?branch=master)](https://github.com/mlampros/IceSat2R/actions)
 [![docs: passing](https://img.shields.io/badge/docs-passing-success.svg)](https://mlampros.github.io/IceSat2R/reference/index.html)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/IceSat2R)](http://cran.r-project.org/package=IceSat2R)
@@ -38,7 +39,7 @@ begun by ICESat in 2003.
 
 <br>
 
-**System Requirements**:
+**System Requirements**
 
 The usage of the *IceSat2R* package requires a geospatial setup as specified in the [sf](https://github.com/r-spatial/sf#installing) or [terra](https://github.com/rspatial/terra#from-source-code) README.md files.
 
@@ -69,6 +70,90 @@ The following 3-dimensional interactive line plot (which appears in the ['IceSat
 <br>
 
 <img src="man/figures/3_dim_plot.gif" ></img>
+
+<br>
+
+#### **Binder**
+
+The user of the **IceSat2R** R package can reproduce the examples of the documentation using the available [binder Rstudio image](https://mybinder.org/v2/gh/mlampros/IceSat2R/master?urlpath=rstudio). Once launched the cloud instance will take a few minutes to be ready. You can read more [about binder on the web](https://mybinder.org/). In short, binder allows to make "your code immediately reproducible by anyone, anywhere".
+
+<br>
+
+#### **Docker Image**
+
+<br>
+
+**Docker images** of the *IceSat2R* package are available to download from my [dockerhub](https://hub.docker.com/r/mlampros/icesat2r) account. The images come with *Rstudio* and the *R-development* version (latest) installed. The whole process was tested on Ubuntu 18.04. To **pull** & **run** the image do the following,
+
+<br>
+
+```R
+
+docker pull mlampros/icesat2r:rstudiodev
+
+docker run -d --name rstudio_dev -e USER=rstudio -e PASSWORD=give_here_your_password --rm -p 8787:8787 mlampros/icesat2r:rstudiodev
+
+```
+
+<br>
+
+The user can also **bind** a home directory / folder to the image to use its files by specifying the **-v** command,
+
+<br>
+
+```R
+
+docker run -d --name rstudio_dev -e USER=rstudio -e PASSWORD=give_here_your_password --rm -p 8787:8787 -v /home/YOUR_DIR:/home/rstudio/YOUR_DIR mlampros/icesat2r:rstudiodev
+
+
+```
+
+<br>
+
+In the latter case you might have first give permission privileges for write access to **YOUR_DIR** directory (not necessarily) using,
+
+<br>
+
+```R
+
+chmod -R 777 /home/YOUR_DIR
+
+
+```
+
+<br>
+
+The **USER** defaults to *rstudio* but you have to give your **PASSWORD** of preference (see [www.rocker-project.org](https://www.rocker-project.org/) for more information).
+
+<br>
+
+Open your web-browser and depending where the docker image was *build / run* give, 
+
+<br>
+
+**1st. Option** on your personal computer,
+
+<br>
+
+```R
+http://0.0.0.0:8787 
+
+```
+
+<br>
+
+**2nd. Option** on a cloud instance, 
+
+<br>
+
+```R
+http://Public DNS:8787
+
+```
+
+<br>
+
+to access the Rstudio console in order to give your username and password.
 
 <br>
 

@@ -26,7 +26,6 @@ RUN apt-get -y update && \
 #.........................................................
 
 ARG CACHEBUST=1
-RUN echo "$CACHEBUST"
 
 RUN R -e "remotes::install_github('mlampros/IceSat2R', upgrade = 'always', dependencies = TRUE, repos = 'https://cloud.r-project.org/')" && \
  apt-get autoremove -y && \

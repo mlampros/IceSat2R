@@ -40,7 +40,7 @@ jobs:
         with:
           context: ./
           build-args: |
-            CACHEBUST=$(date +%s)
+            CACHEBUST=0
           file: ./Dockerfile_pkg
           builder: ${{ steps.buildx.outputs.name }}
           push: true

@@ -531,7 +531,7 @@ greenl_grid = degrees_to_global_grid(minx = as.numeric(bbx_greenl_sh_east['xmin'
 
 <br>
 
-At the beginning, we created the bounding box of the *East 'Greenland Ice Sheet'* (the *bbx_greenl_sh_east* object), which automatically increased the dimensions of the Area of Interest (AOI). Now, that we have the up to 5x5 degree grid we can keep the grid cells that intersect with our initial area,
+In the beginning, we created the bounding box of the *East 'Greenland Ice Sheet'* (the *bbx_greenl_sh_east* object), which automatically increased the dimensions of the Area of Interest (AOI). Now, that we have the up to 5x5 degree grid we can keep the grid cells that intersect with our initial area,
 
 <br>
 
@@ -635,7 +635,7 @@ subs_join_s = readRDS(file = system.file('data_files', 'vignette_data', 'Greenla
 
 <br>
 
-Since that the *winter* and *summer* intersected spatial data are identical,
+Since the *winter* and *summer* intersected spatial data are identical,
 
 <br>
 

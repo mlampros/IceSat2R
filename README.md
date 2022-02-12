@@ -25,7 +25,9 @@ Programmatic connection to the [OpenAltimetry API](https://openaltimetry.org/dat
 * *'ATL12'* (Ocean Surface Height) 
 * *'ATL13'* (Inland Water Surface Height) 
 
-The user has the option to download the data by selecting a bounding box from a 1- or 5-degree grid globally utilizing a shiny application. 
+The user has the option to download the data by selecting a bounding box from a 1- or 5-degree grid globally utilizing a shiny application. The [Documentation](https://mlampros.github.io/IceSat2R/reference/index.html), the two package Vignettes ([first](https://mlampros.github.io/IceSat2R/articles/IceSat-2_Mission_Orbits_HTML.html), [second](https://mlampros.github.io/IceSat2R/articles/IceSat-2_Atlas_products_HTML.html)) and the [blog post](http://mlampros.github.io/2022/02/12/IceSat2R_Altimetry_data/) explain the functionality in detail.
+
+<br>
 
 The ICESat-2 mission collects altimetry data of the Earth's surface. The sole instrument on ICESat-2 is the Advanced Topographic Laser Altimeter System (ATLAS) instrument that measures ice sheet elevation change and sea ice thickness, while also generating an estimate of global vegetation biomass. 
 

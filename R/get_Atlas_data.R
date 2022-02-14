@@ -128,6 +128,12 @@
 #' #.....................
 #'
 #' df_inters = data.frame(res_inters)
+#'
+#' if (nrow(df_inters) == 0) {
+#'   stop("There is no intersection between the specified AOI and the RGTs!")
+#' }
+#'
+#'
 #' rgt_subs = res_rgt_many[df_inters$col.id, , drop = FALSE]
 #' rgt_subs
 #'

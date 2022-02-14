@@ -77,7 +77,12 @@ The following 3-dimensional interactive line plot (which appears in the ['IceSat
 
 #### **Binder**
 
-The user of the **IceSat2R** R package can reproduce the examples of the documentation using the available [binder Rstudio image](https://mybinder.org/v2/gh/mlampros/IceSat2R/HEAD?urlpath=rstudio). Once launched the cloud instance will take a few minutes to be ready. You can read more [about binder on the web](https://mybinder.org/). In short, binder allows to make "your code immediately reproducible by anyone, anywhere".
+The user of the **IceSat2R** R package can reproduce the examples of the documentation using the available [binder Rstudio image](https://mybinder.org/v2/gh/mlampros/IceSat2R/HEAD?urlpath=rstudio). Once launched the cloud instance will take a few minutes to be ready. You can read more [about binder on the web](https://mybinder.org/). In short, binder allows to make "your code immediately reproducible by anyone, anywhere". Limitations:
+
+* up to [maximum 100 concurrent users](https://mybinder.readthedocs.io/en/latest/about/user-guidelines.html#maximum-concurrent-users-for-a-repository)
+* [1 CPU](https://discourse.jupyter.org/t/mybinder-and-multiprocessing/3238/2)
+* [1 to 2 GB of memory](https://mybinder.readthedocs.io/en/latest/about/about.html#how-much-memory-am-i-given-when-using-binder)
+* [up to six hours of session time per user session](https://mybinder.readthedocs.io/en/latest/about/about.html#how-long-will-my-binder-session-last), or up to one cpu-hour for more computationally intensive sessions
 
 <br>
 

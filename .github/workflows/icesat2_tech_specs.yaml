@@ -1,0 +1,43 @@
+
+#..............................................................
+# Update the IceSat-2 'Nominal' and 'Time Specific' Orbits, i.e
+# the 'technical_specs_urls.csv' file in the 'inst' directory
+#..............................................................
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  push:
+    branches: master
+
+name: updatefile
+
+jobs:
+  blogdown:
+    name: update-orbits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        if: github.event_name == 'pull_request'
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: actions/checkout@v2
+        if: github.event_name != 'pull_request'
+        with:
+          fetch-depth: 0
+      - uses: r-lib/actions/setup-r@v1
+      - name: Install required packages
+        run: Rscript -e 'install.packages(c("remotes"))'
+      - name: "Install the Github version of 'IceSat2R'"
+        run: Rscript -e "Sys.setenv(GITHUB_PAT = '${{ secrets.GH_PAT }}'); remotes::install_github(c('mlampros/IceSat2R'), upgrade = 'always', dependencies = TRUE, repos = 'https://cloud.r-project.org/')"
+      - name: "Run code snippet to update the 'technical_specs_urls.csv' file"
+        working-directory: ${{ github.workspace }}
+        run: Rscript inst/data_files/technical_specs_urls.R
+      - name: Commit files
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add --all
+          git commit -am "update the 'technical_specs_urls.csv' file"
+          git push

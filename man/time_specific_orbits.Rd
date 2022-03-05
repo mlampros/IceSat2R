@@ -53,7 +53,6 @@ res_rgt_one = time_specific_orbits(date_from = '2019-06-01',
                                    download_method = 'curl',
                                    threads = 1,
                                    verbose = TRUE)
-
 str(res_rgt_one)
 
 #..........................................................
@@ -88,7 +87,8 @@ table(res_rgt_inters$RGT)
 # Observe the available RGT-cycles and use all available threads
 #...............................................................
 
-avail_cycles = available_RGTs(only_cycle_names = TRUE)
+avail_cycles = available_RGTs(only_cycle_names = TRUE,
+                              verbose = TRUE)
 avail_cycles
 
 choose_cycle = avail_cycles[3]

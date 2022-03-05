@@ -4,10 +4,18 @@
 \alias{available_RGTs}
 \title{Reference Ground Tracks (RGTs)}
 \usage{
-available_RGTs(only_cycle_names = FALSE)
+available_RGTs(
+  only_cycle_names = FALSE,
+  technical_specs_url = "https://icesat-2.gsfc.nasa.gov/science/specs",
+  verbose = FALSE
+)
 }
 \arguments{
 \item{only_cycle_names}{a boolean. If TRUE then only the RGT (Reference Ground Track) cycle names will be returned. Otherwise all orbit files, dates and cycle names.}
+
+\item{technical_specs_url}{a character string specifying the technical specs website}
+
+\item{verbose}{a boolean. If TRUE then information will be printed out in the console}
 }
 \value{
 a list object with the available orbit files, dates and cycle names
@@ -17,21 +25,27 @@ Reference Ground Tracks (RGTs)
 }
 \examples{
 
+\dontrun{
+
 require(IceSat2R)
 
 #.................................................
 # all available orbit files, dates and cycle names
 #.................................................
 
-avail_dat = available_RGTs(only_cycle_names = FALSE)
+avail_dat = available_RGTs(only_cycle_names = FALSE, 
+                           verbose = TRUE)
 avail_dat
 
 #.............................
 # receive only the cycle names
 #.............................
 
-avail_cycles = available_RGTs(only_cycle_names = TRUE)
+avail_cycles = available_RGTs(only_cycle_names = TRUE,
+                              verbose = TRUE)
 avail_cycles
+
+}
 }
 \references{
 https://icesat-2.gsfc.nasa.gov/science/specs

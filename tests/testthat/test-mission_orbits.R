@@ -31,3 +31,4 @@ testthat::test_that("the function 'time_specific_orbits()' gives an error if the
                                               date_to = '2020-01-01',
                                               RGT_cycle = NULL))
 })
+

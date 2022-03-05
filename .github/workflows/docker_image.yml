@@ -1,15 +1,15 @@
 
-#..................................................................
+#........................................................................................................................
 # build, push and cache the docker image, However don't cache the
 # installation of the latest version of the IceSat2R package
 # by adding the 'build-args' parameter
 #
 # References:
 #  https://docs.docker.com/ci-cd/github-actions/
-#  https://stackoverflow.com/a/63737657
-#  https://github.com/moby/moby/issues/1996#issuecomment-185872769
 #  https://github.com/docker/build-push-action#customizing
-#..................................................................
+# https://medium.com/@chamilad/lets-make-your-docker-image-better-than-90-of-existing-ones-8b1e5de950d
+# https://stackoverflow.com/questions/35134713/disable-cache-for-specific-run-commands/49772666#comment108836586_49772666
+#........................................................................................................................
 
 on:
   push:
@@ -40,8 +40,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./
-          build-args: |
-            CACHEBUST=$(date +%s)
+          build-args: BUILD_DATE="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
           file: ./Dockerfile_pkg
           builder: ${{ steps.buildx.outputs.name }}
           push: true

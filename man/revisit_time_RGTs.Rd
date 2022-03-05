@@ -38,7 +38,8 @@ rev_all
 # observe and choose one of the available RGT-cycles
 #...................................................
 
-avail_cycles = available_RGTs(only_cycle_names = TRUE)
+avail_cycles = available_RGTs(only_cycle_names = TRUE,
+                              verbose = TRUE)
 avail_cycles
 
 #.....................................

@@ -1,0 +1,20 @@
+Url,RGT,Date_from,Date_to,Type
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/antarcticaallorbits.zip,Antarctic Orbit,,,Nominal
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/arcticallorbits.zip,Arctic Orbit,,,Nominal
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/ICESat2groundtracksWesternHem.zip,Western Hemisphere Ground Tracks,,,Nominal
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/ICESat2groundtracksEasternHem.zip,Eastern Hemisphere Ground Tracks,,,Nominal
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle1_date_time.zip,IS2_RGTs_cycle1_date_time,2018-10-13,2018-12-28,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle2_date_time.zip,IS2_RGTs_cycle2_date_time,2018-12-28,2019-03-29,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle3_date_time_0.zip,IS2_RGTs_cycle3_date_time_0,2019-03-29,2019-06-28,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle4_date_time_rev2_0.zip,IS2_RGTs_cycle4_date_time_rev2_0,2019-07-09,2019-09-26,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle5_date_time_rev3.zip,IS2_RGTs_cycle5_date_time_rev3,2019-09-26,2019-12-26,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle6_date_time.zip,IS2_RGTs_cycle6_date_time,2019-12-26,2020-03-26,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle7_date_time.zip,IS2_RGTs_cycle7_date_time,2020-03-26,2020-06-25,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle8_date_time.zip,IS2_RGTs_cycle8_date_time,2020-06-25,2020-09-24,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle9_date_time.zip,IS2_RGTs_cycle9_date_time,2020-09-24,2020-12-23,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle10_date_time.zip,IS2_RGTs_cycle10_date_time,2020-12-24,2021-03-24,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle11_date_time.zip,IS2_RGTs_cycle11_date_time,2021-03-24,2021-06-23,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2RGTscycle12datetime.zip,IS2RGTscycle12datetime,2021-06-23,2021-09-22,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle13_date_time.zip,IS2_RGTs_cycle13_date_time,2021-09-22,2021-12-22,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle14_date_time.zip,IS2_RGTs_cycle14_date_time,2021-12-22,2022-03-23,Time_Specific
+https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/IS2_RGTs_cycle15_date_time.zip,IS2_RGTs_cycle15_date_time,2022-03-23,2022-06-21,Time_Specific

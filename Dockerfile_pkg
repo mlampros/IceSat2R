@@ -18,16 +18,16 @@ USER root
 RUN apt-get -y update && \
  apt-get install unzip && \
  R -e "install.packages('devtools', dependencies = TRUE, repos = 'https://cloud.r-project.org/')" && \
- R -e "install.packages(c( 'glue', 'sf', 'lwgeom', 'units', 'data.table', 'httr', 'utils', 'foreach', 'tools', 'doParallel', 'magrittr', 'leaflet', 'leafgl', 'leaflet.extras', 'leafsync', 'miniUI', 'shiny', 'rnaturalearth', 'rmarkdown', 'knitr', 'lubridate', 'DT', 'mapview', 'grDevices', 'stargazer', 'reshape2', 'plotly', 'geodist', 'CopernicusDEM', 'terra', 'testthat', 'remotes' ), repos =  'https://cloud.r-project.org/' )"
+ R -e "install.packages(c( 'glue', 'sf', 'lwgeom', 'units', 'data.table', 'httr', 'utils', 'foreach', 'tools', 'doParallel', 'magrittr', 'leaflet', 'leafgl', 'leaflet.extras', 'leafsync', 'miniUI', 'shiny', 'rnaturalearth', 'rmarkdown', 'knitr', 'lubridate', 'rvest', 'DT', 'mapview', 'grDevices', 'stargazer', 'reshape2', 'plotly', 'geodist', 'CopernicusDEM', 'terra', 'testthat', 'remotes' ), repos =  'https://cloud.r-project.org/' )"
 
 #.........................................................
 # whenever I push make sure that the 'IceSat2R' R package
 # is updated in the docker image and not cached
 #.........................................................
 
-ARG CACHEBUST
+ARG BUILD_DATE
 
-RUN /bin/bash -c "echo '$CACHEBUST'"
+RUN echo "$BUILD_DATE"
 RUN R -e "remotes::install_github('mlampros/IceSat2R', upgrade = 'always', dependencies = TRUE, repos = 'https://cloud.r-project.org/')" && \
  apt-get autoremove -y && \
  apt-get clean

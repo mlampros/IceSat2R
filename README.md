@@ -59,7 +59,7 @@ The [OpenAltimetry API](https://openaltimetry.org/data/swagger-ui/) restricts th
 
 <br>
 
-### Example Use Case: 3-Dimensional Line Plot by combining IceSat-2 and Copernicus DEM (Digital Elevation Model) Data
+### **Example Use Case-1**: 3-Dimensional Line Plot by combining IceSat-2 and Copernicus DEM (Digital Elevation Model) Data
 
 <br>
 
@@ -72,6 +72,14 @@ The following 3-dimensional interactive line plot (which appears in the ['IceSat
 <br>
 
 <img src="man/figures/3_dim_plot.gif" ></img>
+
+<br>
+
+### **Example Use Case-2**: Multi-Plot displaying the Ice, Land, Canopy and Copernicus DEM (30-meter) of each beam separately for a specific ICESat-2 Track and area of interest (Himalayas mountain range)
+
+<br>
+
+<img src="man/figures/ice_land_canopy_dem30.gif" ></img>
 
 <br>
 

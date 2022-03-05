@@ -37,6 +37,9 @@
     <li>
       <a href="../articles/IceSat-2_Mission_Orbits_HTML.html">IceSat-2 Mission Orbits</a>
     </li>
+    <li>
+      <a href="../articles/IceSat-2_Virtual_File_System_Orbits_HTML.html">IceSat-2 Virtual File System Orbits</a>
+    </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -241,6 +244,12 @@
 <span class="r-in"><span class="co">#.....................</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">df_inters</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">res_inters</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df_inters</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"There is no intersection between the specified AOI and the RGTs!"</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="va">rgt_subs</span> <span class="op">=</span> <span class="va">res_rgt_many</span><span class="op">[</span><span class="va">df_inters</span><span class="op">$</span><span class="va">col.id</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
 <span class="r-in"><span class="va">rgt_subs</span></span>
 <span class="r-in"></span>

@@ -37,6 +37,9 @@
     <li>
       <a href="../articles/IceSat-2_Mission_Orbits_HTML.html">IceSat-2 Mission Orbits</a>
     </li>
+    <li>
+      <a href="../articles/IceSat-2_Virtual_File_System_Orbits_HTML.html">IceSat-2 Virtual File System Orbits</a>
+    </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -63,8 +66,10 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.1" id="icesat2r-101">IceSat2R 1.0.1<a class="anchor" aria-label="anchor" href="#icesat2r-101"></a></h2>
 <ul><li>I’ve added the <em>‘IceSat2R.R’</em> file with required dependencies</li>
-<li>I’ve added an exception in the <em>time_specific_orbits()</em> function to remove internally processed sub-lists that do not have a ‘description’ (I expect that these sub-lists are not of type ‘POINT’)</li>
+<li>I’ve added an exception in the <em>time_specific_orbits()</em> function to remove internally processed sub-lists that do not have a ‘description’ (I expect that all ‘.kml’ file sublists are of type ‘POINT’)</li>
 <li>I’ve fixed a few minor issues in the vignettes</li>
+<li>I’ve added the <em>‘available_nominal_orbits()’</em>, <em>‘vsi_kml_from_zip()’</em>, <em>‘vsi_nominal_orbits_wkt()’</em>, <em>‘vsi_time_specific_orbits_wkt()’</em> and <em>‘latest_orbits()’</em> functions</li>
+<li>I’ve added the <em>‘IceSat-2_Virtual_File_System_Orbits_PDF.Rmd’</em> third vignette</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.0" id="icesat2r-100">IceSat2R 1.0.0<small>2022-02-07</small><a class="anchor" aria-label="anchor" href="#icesat2r-100"></a></h2>

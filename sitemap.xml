@@ -13,6 +13,9 @@
     <loc>/articles/IceSat-2_Mission_Orbits_HTML.html</loc>
   </url>
   <url>
+    <loc>/articles/IceSat-2_Virtual_File_System_Orbits_HTML.html</loc>
+  </url>
+  <url>
     <loc>/articles/index.html</loc>
   </url>
   <url>
@@ -26,6 +29,9 @@
   </url>
   <url>
     <loc>/reference/available_RGTs.html</loc>
+  </url>
+  <url>
+    <loc>/reference/available_nominal_orbits.html</loc>
   </url>
   <url>
     <loc>/reference/compute_elapsed_time.html</loc>
@@ -52,6 +58,9 @@
     <loc>/reference/inner_elapsed_time.html</loc>
   </url>
   <url>
+    <loc>/reference/latest_orbits.html</loc>
+  </url>
+  <url>
     <loc>/reference/leaflet_base_map.html</loc>
   </url>
   <url>
@@ -65,5 +74,14 @@
   </url>
   <url>
     <loc>/reference/time_specific_orbits.html</loc>
+  </url>
+  <url>
+    <loc>/reference/vsi_kml_from_zip.html</loc>
+  </url>
+  <url>
+    <loc>/reference/vsi_nominal_orbits_wkt.html</loc>
+  </url>
+  <url>
+    <loc>/reference/vsi_time_specific_orbits_wkt.html</loc>
   </url>
 </urlset>

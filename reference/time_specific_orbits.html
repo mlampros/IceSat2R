@@ -37,6 +37,9 @@
     <li>
       <a href="../articles/IceSat-2_Mission_Orbits_HTML.html">IceSat-2 Mission Orbits</a>
     </li>
+    <li>
+      <a href="../articles/IceSat-2_Virtual_File_System_Orbits_HTML.html">IceSat-2 Virtual File System Orbits</a>
+    </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -123,7 +126,6 @@ in the file name, so the user can easily ascertain where and when ICESat-2 will 
 <span class="r-in">                                   download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
 <span class="r-in">                                   threads <span class="op">=</span> <span class="fl">1</span>,</span>
 <span class="r-in">                                   verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">res_rgt_one</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">#..........................................................</span></span>
@@ -158,7 +160,8 @@ in the file name, so the user can easily ascertain where and when ICESat-2 will 
 <span class="r-in"><span class="co"># Observe the available RGT-cycles and use all available threads</span></span>
 <span class="r-in"><span class="co">#...............................................................</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">avail_cycles</span> <span class="op">=</span> <span class="fu"><a href="available_RGTs.html">available_RGTs</a></span><span class="op">(</span>only_cycle_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">avail_cycles</span> <span class="op">=</span> <span class="fu"><a href="available_RGTs.html">available_RGTs</a></span><span class="op">(</span>only_cycle_names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">                              verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">avail_cycles</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">choose_cycle</span> <span class="op">=</span> <span class="va">avail_cycles</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span>

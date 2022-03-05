@@ -37,6 +37,9 @@
     <li>
       <a href="../articles/IceSat-2_Mission_Orbits_HTML.html">IceSat-2 Mission Orbits</a>
     </li>
+    <li>
+      <a href="../articles/IceSat-2_Virtual_File_System_Orbits_HTML.html">IceSat-2 Virtual File System Orbits</a>
+    </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -512,7 +515,18 @@ should be correct to within a few minutes in time and better than 100m in the pr
 <span class="r-in"><span class="co"># observe and choose one of the available RGT-cycles</span></span>
 <span class="r-in"><span class="co">#...................................................</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">avail_cycles</span> <span class="op">=</span> <span class="fu"><a href="available_RGTs.html">available_RGTs</a></span><span class="op">(</span>only_cycle_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">avail_cycles</span> <span class="op">=</span> <span class="fu"><a href="available_RGTs.html">available_RGTs</a></span><span class="op">(</span>only_cycle_names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">                              verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The available Icesat-2 orbits will be red from 'https://icesat-2.gsfc.nasa.gov/science/specs' ... </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Access the data of the technical specs website ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Extract the .zip files and the corresponding titles ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Keep the relevant data from the url's and titles ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Process the nominal and time specific orbits separately ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adjust the Dates of the time specific orbits ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Create the nominal orbits data.table ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Create the time specific orbits data.table ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Return a single data.table ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Elapsed time: 0 hours and 0 minutes and 0 seconds. </span>
 <span class="r-in"><span class="va">avail_cycles</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "RGT_cycle_1"  "RGT_cycle_2"  "RGT_cycle_3"  "RGT_cycle_4"  "RGT_cycle_5" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "RGT_cycle_6"  "RGT_cycle_7"  "RGT_cycle_8"  "RGT_cycle_9"  "RGT_cycle_10"</span>

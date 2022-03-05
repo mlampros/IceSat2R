@@ -27,6 +27,10 @@ jobs:
         with:
           fetch-depth: 0
       - uses: r-lib/actions/setup-r@v1
+      - name: "Install curl and libgit2"
+        run: sudo apt install libcurl4-openssl-dev libgit2-dev
+      - name: "Install geo-spatial system requirements"
+        run: sudo apt-get install libgdal-dev libproj-dev libgeos-dev libudunits2-dev
       - name: Install required packages
         run: Rscript -e 'install.packages(c("remotes"))'
       - name: "Install the Github version of 'IceSat2R'"

@@ -25,7 +25,7 @@ RUN apt-get -y update && \
 # is updated in the docker image and not cached
 #.........................................................
 
-ARG BUILD_DATE
+ARG BUILD_DATE=1
 
 RUN echo "$BUILD_DATE"
 RUN R -e "remotes::install_github('mlampros/IceSat2R', upgrade = 'always', dependencies = TRUE, repos = 'https://cloud.r-project.org/')" && \

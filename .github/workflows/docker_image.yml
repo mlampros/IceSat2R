@@ -5,10 +5,12 @@
 # by adding the 'build-args' parameter
 #
 # References:
-#  https://docs.docker.com/ci-cd/github-actions/
-#  https://github.com/docker/build-push-action#customizing
+# https://docs.docker.com/ci-cd/github-actions/
+# https://github.com/docker/build-push-action#customizing
 # https://medium.com/@chamilad/lets-make-your-docker-image-better-than-90-of-existing-ones-8b1e5de950d
 # https://stackoverflow.com/questions/35134713/disable-cache-for-specific-run-commands/49772666#comment108836586_49772666
+# https://github.com/moby/moby/issues/1996#issuecomment-40334047
+# https://github.com/moby/moby/issues/1996#issuecomment-51292997
 #........................................................................................................................
 
 on:

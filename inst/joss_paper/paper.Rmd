@@ -62,7 +62,7 @@ Online access to data and analysis tools via easy-to-use interfaces can signific
 
 This work-flow is illustrated also in the next diagram,
 
-```{r icesat2-diagram, fig.pos='h', out.width = "110%", out.height = "60%", fig.align = 'center', fig.cap = "IceSat2R Workflow Diagram", fig.alt="The Diagram of the IceSat2R package functionality"}
+```{r icesat2-diagram, fig.pos='h', out.width = "100%", out.height = "40%", fig.align = 'center', fig.cap = "IceSat2R Workflow Diagram", fig.alt="The Diagram of the IceSat2R package functionality"}
 knitr::include_graphics(file.path("figures", "icesat_2_diagram.png"))
 ```
 

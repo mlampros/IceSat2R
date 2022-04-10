@@ -11,6 +11,7 @@ authors:
 affiliations:
  - name: Monopteryx, Rahouli Paramythias, Thesprotia, Greece
    index: 1
+citation_author: Lampros Sp. Mouselimis
 date: 05 April 2022
 year: 2022
 bibliography: paper.bib
@@ -59,7 +60,7 @@ This work-flow is illustrated also in the next diagram,
 
 \begin{figure}[h]
 
-{\centering \includegraphics[width=1.1\linewidth,height=0.6\textheight]{figures/icesat_2_diagram} 
+{\centering \includegraphics[width=1\linewidth,height=0.4\textheight]{figures/icesat_2_diagram} 
 
 }
 

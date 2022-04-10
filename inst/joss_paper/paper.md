@@ -11,7 +11,6 @@ authors:
 affiliations:
  - name: Monopteryx, Rahouli Paramythias, Thesprotia, Greece
    index: 1
-citation_author: Lampros Sp. Mouselimis
 date: 05 April 2022
 year: 2022
 bibliography: paper.bib

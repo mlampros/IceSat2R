@@ -24,13 +24,10 @@ overall_mission_orbits(
 an 'sf' object of multiple tracks (see the 'LAYER' column of the output object)
 }
 \description{
-Overall Mission Orbits
-}
-\details{
-These files contain the nominal mission orbits and beam locations, the files have 7 tracks per orbit: one for each of the six beams
-of ICESat-2, and the seventh for the Reference Ground Track (RGT). The RGT is an imaginary line through the six-beam pattern that is
-handy for getting a sense of where the orbits fall on Earth, and which the mission uses to point the observatory. However, the six
-tracks for the six beams are our best estimate of where the beams will actually fall on Earth's surface.
+This function allows the user to view information of the nominal mission orbits and beam locations: "The processed files have 7 tracks per
+orbit: one for each of the six beams of ICESat-2, and the seventh for the Reference Ground Track (RGT). The RGT is an imaginary line
+through the six-beam pattern that is handy for getting a sense of where the orbits fall on Earth, and which the mission uses to point the
+observatory. However, the six tracks for the six beams are our best estimate of where the beams will actually fall on Earth's surface."
 }
 \examples{
 

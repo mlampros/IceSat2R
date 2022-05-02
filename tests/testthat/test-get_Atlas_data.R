@@ -1,7 +1,4 @@
 
-context("icesat-2 atlas data R file")
-
-
 #............................
 # "get_atlas_data()" function
 #............................
@@ -91,6 +88,24 @@ testthat::test_that("the function 'get_atlas_data()' gives an error if the 'prod
 })
 
 
+testthat::test_that("the function 'get_atlas_data()' returns the correct output for a specific input parameter setting!", {
+
+  testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
+
+  iter_dat = get_atlas_data(minx = minx,
+                            miny = miny,
+                            maxx = maxx,
+                            maxy = maxy,
+                            date = "2021-02-15",
+                            trackId = 817,
+                            product = 'atl13',
+                            client = 'portal',
+                            outputFormat = 'csv',
+                            verbose = FALSE)
+
+  testthat::expect_true(nrow(iter_dat) == 34 & ncol(iter_dat) == 9 & length(unique(iter_dat$beam)) == 3)
+})
+
 
 #..............................
 # "get_level3a_data()" function
@@ -171,5 +186,25 @@ testthat::test_that("the function 'get_level3a_data()' gives an error if the 'be
                                           product = 'atl06',
                                           client = 'portal',
                                           outputFormat = 'csv'))
+})
+
+
+testthat::test_that("the function 'get_level3a_data()' returns the correct output for a specific input parameter setting!", {
+
+  testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
+
+  iter_dat = get_level3a_data(minx = minx,
+                              miny = miny,
+                              maxx = maxx,
+                              maxy = maxy,
+                              startDate = "2021-02-15",
+                              endDate = "2021-02-15",
+                              trackId = 817,
+                              beamName = NULL,
+                              product = 'atl13',
+                              client = 'portal',
+                              outputFormat = 'csv')
+
+  testthat::expect_true(nrow(iter_dat) == 34 & ncol(iter_dat) == 10 & length(unique(iter_dat$beam)) == 3)
 })
 

@@ -1,6 +1,8 @@
 
 #' Get IceSat-2 ATLAS data for a specific Date
 #'
+#' This function allows the user to download IceSat-2 ATLAS Product data for a specific date, bounding box, track and beam.
+#'
 #' @param minx the 'minx' parameter of the bounding box
 #' @param maxx the 'maxx' parameter of the bounding box
 #' @param miny the 'miny' parameter of the bounding box
@@ -109,11 +111,11 @@
 #'                                     verbose = TRUE)
 #' res_rgt_many
 #'
-#' #.....................................................
-#' # then we create the bounding of the selected area and
-#' # proceed to the intersection with the computed RGT's
+#' #.........................................................
+#' # then we create the bounding box of the selected area
+#' # and proceed to the intersection with the computed RGT's
 #' # ( include the bounding box for reproducibility )
-#' #.....................................................
+#' #.........................................................
 #'
 #' bbx_aoi = sf::st_bbox(obj = sf_obj)
 #' # c(xmin = 140, ymin = -6.641235, xmax = 145, ymax = -1.641235)
@@ -314,6 +316,8 @@ get_atlas_data = function(minx,
 
 
 #' Get IceSat-2 ATLAS 'Level-3A' data for a time interval (up to 1 year)
+#'
+#' This function allows the user to download IceSat-2 ATLAS 'Level-3A' data for a specific time interval, bounding box, track and beam.
 #'
 #' @param minx the 'minx' parameter of the bounding box
 #' @param maxx the 'maxx' parameter of the bounding box

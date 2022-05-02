@@ -24,7 +24,7 @@ vsi_kml_from_zip(
 an one column data.table of the output files
 }
 \description{
-Utilizing Virtual File Systems (vsi) to extract the .kml from the .zip file
+This function returns the '.kml' and '.kmz' files in form of virtual file paths. Moreover, the user has the option to download these files.
 }
 \examples{
 

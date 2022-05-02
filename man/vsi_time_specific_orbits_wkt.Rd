@@ -2,7 +2,7 @@
 % Please edit documentation in R/mission_orbits.R
 \name{vsi_time_specific_orbits_wkt}
 \alias{vsi_time_specific_orbits_wkt}
-\title{Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access time specific orbits}
+\title{Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access the 'time specific orbits'}
 \usage{
 vsi_time_specific_orbits_wkt(
   date_from,
@@ -27,7 +27,7 @@ vsi_time_specific_orbits_wkt(
 a list of 'sf' objects where each sublist will represent a different RGT cycle
 }
 \description{
-Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access time specific orbits
+Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access the 'time specific orbits'
 }
 \examples{
 

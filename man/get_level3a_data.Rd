@@ -54,7 +54,7 @@ get_level3a_data(
 if the 'file_path_zip' parameter is NULL it returns either a data.table (if outputFormat is 'csv') or a nested list (if outputFormat is 'json') else the file path where the .zip file is saved. In case that the 'outputFormat' is set to 'zip' and the 'file_path_zip' parameter to NULL then a data.table will be returned.
 }
 \description{
-Get IceSat-2 ATLAS 'Level-3A' data for a time interval (up to 1 year)
+This function allows the user to download IceSat-2 ATLAS 'Level-3A' data for a specific time interval, bounding box, track and beam.
 }
 \details{
 Up to 1 year worth of ICESat-2 \emph{Level-3A} product data can be downloaded. \emph{Note:} requests are limited to 5x5 degree spatial bounding box selection

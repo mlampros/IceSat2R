@@ -30,13 +30,10 @@ time_specific_orbits(
 an 'sf' object that will include one or more Reference Ground Tracks  (see the 'RGT' column of the output object)
 }
 \description{
-Time Specific Orbits
-}
-\details{
-These files contain the reference ground track time and locations for specific date ranges. Updated KML files have been posted to the 'tech-specs'
-website (see the 'references' section for more details) containing individual files for each RGT with a date and time stamp posted every 420 kilometers
-along-track (roughly 1 minute of flight time in between each point). The first RGT is 234; this is where the time series begins. The date of each RGT is
-in the file name, so the user can easily ascertain where and when ICESat-2 will be on a particular day.
+This function shows the reference ground track time and locations for specific date ranges. "Updated KML files have been posted to the 'tech-specs'
+website (see the 'references' section for more details) containing individual files for each Reference Ground Track (RGT) with a date and time stamp
+posted every 420 kilometers along-track (roughly 1 minute of flight time in between each point). The first RGT is 234; this is where the time series
+begins. The date of each RGT is in the file name, so the user can easily ascertain where and when ICESat-2 will be on a particular day."
 }
 \examples{
 

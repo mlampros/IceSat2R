@@ -2,7 +2,7 @@
 % Please edit documentation in R/mission_orbits.R
 \name{latest_orbits}
 \alias{latest_orbits}
-\title{Extracting the download url's from the Technical Specs website}
+\title{Extraction of the url from the Technical Specification Website}
 \usage{
 latest_orbits(
   technical_specs_url = "https://icesat-2.gsfc.nasa.gov/science/specs",
@@ -18,7 +18,7 @@ latest_orbits(
 a 'data.table' object
 }
 \description{
-Extracting the download url's from the Technical Specs website
+This function allows the user to view the latest 'Nominal' and 'Time Specfic' orbit metadata (Url, Reference Ground Track Names, Dates and Types)
 }
 \examples{
 

@@ -86,3 +86,61 @@ get_URL_data = function(URL,
   }
 }
 
+
+#' Convert an abbreviated month name to a numeric value
+#'
+#' @param month a character string specifying one of the twelve months, i.e. ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+#' @return a character string which will correspond to the numeric value of the input month, i.e. ("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+#'
+#' @keywords internal
+
+switch_abb = function(month) {
+
+  month = tolower(month)
+
+  switch(month,
+         jan = {mnth = '01'},
+         feb = {mnth = '02'},
+         mar = {mnth = '03'},
+         apr = {mnth = '04'},
+         may = {mnth = '05'},
+         jun = {mnth = '06'},
+         jul = {mnth = '07'},
+         aug = {mnth = '08'},
+         sep = {mnth = '09'},
+         oct = {mnth = '10'},
+         nov = {mnth = '11'},
+         dec = {mnth = '12'},
+  )
+  return(mnth)
+}
+
+
+#' Convert a full month name to a numeric value
+#'
+#' @param month a character string specifying one of the twelve months, i.e. ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+#' @return a character string which will correspond to the numeric value of the input month, i.e. ("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+#'
+#' @keywords internal
+
+switch_full = function(month) {
+
+  month = tolower(month)
+
+  switch(month,
+         january = {mnth = '01'},
+         february = {mnth = '02'},
+         march = {mnth = '03'},
+         april = {mnth = '04'},
+         may = {mnth = '05'},
+         june = {mnth = '06'},
+         july = {mnth = '07'},
+         august = {mnth = '08'},
+         september = {mnth = '09'},
+         october = {mnth = '10'},
+         november = {mnth = '11'},
+         december = {mnth = '12'},
+  )
+  return(mnth)
+}
+

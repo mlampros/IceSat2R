@@ -3,7 +3,9 @@ utils::globalVariables(c('i',                        # for the foreach for-loop
                          'Type'))                    # for the Type column when I use the base R subset() function
 
 
-#' Extracting the download url's from the Technical Specs website
+#' Extraction of the url from the Technical Specification Website
+#'
+#' This function allows the user to view the latest 'Nominal' and 'Time Specfic' orbit metadata (Url, Reference Ground Track Names, Dates and Types)
 #'
 #' @param technical_specs_url a character string specifying the technical specs website
 #' @param verbose a boolean. If TRUE then information will be printed out in the console
@@ -13,11 +15,11 @@ utils::globalVariables(c('i',                        # for the foreach for-loop
 #' @references
 #'
 #' https://icesat-2.gsfc.nasa.gov/science/specs
-#' 
-#' @importFrom rvest read_html html_elements       
+#'
+#' @importFrom rvest read_html html_elements
 #' @importFrom data.table data.table
 #' @import magrittr
-#' 
+#'
 #' @export
 #'
 #' @examples
@@ -25,10 +27,10 @@ utils::globalVariables(c('i',                        # for the foreach for-loop
 #' \dontrun{
 #'
 #' require(IceSat2R)
-#' 
+#'
 #' orbs = latest_orbits(verbose = TRUE)
 #' orbs
-#' 
+#'
 #' }
 
 latest_orbits = function(technical_specs_url = "https://icesat-2.gsfc.nasa.gov/science/specs",
@@ -37,40 +39,40 @@ latest_orbits = function(technical_specs_url = "https://icesat-2.gsfc.nasa.gov/s
     t_start = proc.time()
     cat("Access the data of the technical specs website ...\n")
   }
-  
+
   pg = rvest::read_html(technical_specs_url)
-  
+
   if (verbose) cat("Extract the .zip files and the corresponding titles ...\n")
   url_zipfiles = pg %>%
     rvest::html_elements("a[href$='.zip']") %>%       # see: https://stackoverflow.com/a/48146333
     as.character()
   # rvest::html_text2()                               # returns only the url-titles
-  
+
   if (verbose) cat("Keep the relevant data from the url's and titles ...\n")
   df_out = lapply(seq_along(url_zipfiles), function(x) {
     item = url_zipfiles[x]
     item = gsub(pattern = '<a href=\"', replacement = '', x = item)
     item = gsub(pattern = '</a>', replacement = '', x = item)
-    
+
     idx_str = which(gregexpr(pattern = '<strong>', text = item) != -1)
     if (length(idx_str) > 0) {
       item = gsub(pattern = '<strong>', replacement = '', x = item)
       item = gsub(pattern = '</strong>', replacement = '', x = item)
     }
-    
+
     item = strsplit(x = item, split = '[\">]')[[1]]
     item = item[item != ""]
     item = trimws(x = item, which = 'both')
     item
   })
-  
+
   df_out = do.call(rbind, df_out)
-  
+
   if (verbose) cat("Process the nominal and time specific orbits separately ...\n")
   idx_time_spec = which(gregexpr(pattern = "^RGTs", text = df_out[, 2]) != -1)
   nominal_orbits = df_out[-idx_time_spec, ]
   time_specific = df_out[idx_time_spec, ]
-  
+
   if (verbose) cat("Adjust the Dates of the time specific orbits ...\n")
   dates_spec = as.vector(unlist(lapply(strsplit(x = time_specific[, 2], split = "for"), function(x) trimws(x[2], which = 'both'))))
   dates_spec = strsplit(x = dates_spec, split = '-')
@@ -79,9 +81,9 @@ latest_orbits = function(technical_specs_url = "https://icesat-2.gsfc.nasa.gov/s
     x = gsub(pattern = "[(]", replacement = ",", x = x)
     x = gsub(pattern = "[)]", replacement = "", x = x)
     x = strsplit(x = x, split = ',')
-    
+
     x_out = rep(x = NA_character_, 2)
-    
+
     for (i in seq_along(x)) {
       y = trimws(x = x[[i]], which = 'both')
       if (length(y) == 1) {
@@ -91,20 +93,34 @@ latest_orbits = function(technical_specs_url = "https://icesat-2.gsfc.nasa.gov/s
     }
     x_out
   })
-  
+
+  #.................................................. conversion to a date requires to take into account system locale (see: https://github.com/mlampros/IceSat2R/issues/3)
+  # dates_spec = lapply(dates_spec, function(x) {
+  #   as.character(as.Date(x, format = "%b %d %Y"))
+  # })
+  #.................................................. therefore convert from different date format using simple character string processing
+
   dates_spec = lapply(dates_spec, function(x) {
-    as.character(as.Date(x, format = "%b %d %Y"))
+    as.vector(sapply(x, function(y) {
+      as.vector(unlist(lapply(strsplit(y, ' '), function(z) {
+        day_item = ifelse(nchar(z[2]) == 1, paste0('0', z[2]), z[2])
+        as.character(glue::glue("{z[3]}-{switch_full(z[1])}-{day_item}"))
+      })))
+    }))
   })
-  
+
+  any_nas = as.vector(unlist(lapply(dates_spec, function(x) any(is.na(x)))))
+  if (any(any_nas)) stop("The conversion to dates returned missing values!", call. = F)
+
   dates_spec = do.call(rbind, dates_spec)
-  
+
   if (verbose) cat("Create the nominal orbits data.table ...\n")
   nominal_orbits = data.table::data.table(nominal_orbits, stringsAsFactors = F)
   colnames(nominal_orbits) = c('Url', 'RGT')
   nominal_orbits$Date_from = NA_character_
   nominal_orbits$Date_to = NA_character_
   nominal_orbits$Type = 'Nominal'
-  
+
   if (verbose) cat("Create the time specific orbits data.table ...\n")
   time_specific = data.table::data.table(time_specific[, 1, drop = F], stringsAsFactors = F)
   colnames(time_specific) = 'Url'
@@ -112,17 +128,19 @@ latest_orbits = function(technical_specs_url = "https://icesat-2.gsfc.nasa.gov/s
   time_specific$Date_from = dates_spec[, 1]
   time_specific$Date_to = dates_spec[, 2]
   time_specific$Type = 'Time_Specific'
-  
+
   if (verbose) cat("Return a single data.table ...\n")
   res_both = rbind(nominal_orbits, time_specific)
   if (verbose) compute_elapsed_time(time_start = t_start)
-  
+
   return(res_both)
 }
 
 
 
 #' Nominal mission orbits
+#'
+#' This function allows the user to view the nominal orbits (all or a selection)
 #'
 #' @param orbit_area either NULL or a character string specifying the earth partition to use, it can be one of 'antarctic', 'arctic', 'western_hemisphere' and 'eastern_hemisphere'
 #' @param technical_specs_url a character string specifying the technical specs website
@@ -169,9 +187,9 @@ available_nominal_orbits = function(orbit_area = NULL,
     if (verbose) message(glue::glue("The 'latest_orbits()' function gave the following error: '{avail_urls$message}'! The existing orbits file will be uploaded!"))
     avail_urls = data.table::fread(file = system.file('data_files', 'technical_specs_urls.csv', package = "IceSat2R"), stringsAsFactors = F, header = T)
   }
-  
+
   nom_orb = subset(avail_urls, Type == 'Nominal')
-  
+
   rgts = as.vector(unlist(lapply(strsplit(x = nom_orb$RGT, split = ' '), function(x) {
     if (length(x) == 2) {
       x = x[1]
@@ -182,7 +200,7 @@ available_nominal_orbits = function(orbit_area = NULL,
     x = paste(x, collapse = '_')
     tolower(x)
   })))
-  
+
   nom_orb$RGT = rgts
   intern_orbits = list()
   for (i in 1:nrow(nom_orb)) {
@@ -201,19 +219,17 @@ available_nominal_orbits = function(orbit_area = NULL,
 
 #' Overall Mission Orbits
 #'
+#' This function allows the user to view information of the nominal mission orbits and beam locations: "The processed files have 7 tracks per
+#' orbit: one for each of the six beams of ICESat-2, and the seventh for the Reference Ground Track (RGT). The RGT is an imaginary line
+#' through the six-beam pattern that is handy for getting a sense of where the orbits fall on Earth, and which the mission uses to point the
+#' observatory. However, the six tracks for the six beams are our best estimate of where the beams will actually fall on Earth's surface."
+#'
 #' @param orbit_area a character string specifying the nominal mission orbits and beam locations. It can be one of 'antarctic', 'arctic', 'western_hemisphere' or 'eastern_hemisphere'
 #' @param download_method a character string specifying the download method. Corresponds to the 'method' parameter of the 'utils::download.file()' function. Can be one of 'internal', 'wininet' (Windows only), 'libcurl', 'wget', 'curl' or 'auto'
 #' @param threads an integer that specifies the number of threads to use in parallel when processing the data
 #' @param verbose a boolean. If TRUE then information will be printed out in the console
 #'
 #' @return an 'sf' object of multiple tracks (see the 'LAYER' column of the output object)
-#'
-#' @details
-#'
-#' These files contain the nominal mission orbits and beam locations, the files have 7 tracks per orbit: one for each of the six beams
-#' of ICESat-2, and the seventh for the Reference Ground Track (RGT). The RGT is an imaginary line through the six-beam pattern that is
-#' handy for getting a sense of where the orbits fall on Earth, and which the mission uses to point the observatory. However, the six
-#' tracks for the six beams are our best estimate of where the beams will actually fall on Earth's surface.
 #'
 #' @references
 #'
@@ -356,12 +372,14 @@ overall_mission_orbits = function(orbit_area,
 
 #' Reference Ground Tracks (RGTs)
 #'
+#' This function returns the url's of all Reference Ground Track (RGT) cycles. Moreover, it returns the dates that belong to each RGT cycle and the names of the RGT cycles.
+#'
 #' @param only_cycle_names a boolean. If TRUE then only the RGT (Reference Ground Track) cycle names will be returned. Otherwise all orbit files, dates and cycle names.
 #' @param technical_specs_url a character string specifying the technical specs website
 #' @param verbose a boolean. If TRUE then information will be printed out in the console
 #'
 #' @return a list object with the available orbit files, dates and cycle names
-#' 
+#'
 #' @importFrom glue glue
 #' @importFrom data.table fread
 #'
@@ -381,7 +399,7 @@ overall_mission_orbits = function(orbit_area,
 #' # all available orbit files, dates and cycle names
 #' #.................................................
 #'
-#' avail_dat = available_RGTs(only_cycle_names = FALSE, 
+#' avail_dat = available_RGTs(only_cycle_names = FALSE,
 #'                            verbose = TRUE)
 #' avail_dat
 #'
@@ -392,28 +410,28 @@ overall_mission_orbits = function(orbit_area,
 #' avail_cycles = available_RGTs(only_cycle_names = TRUE,
 #'                               verbose = TRUE)
 #' avail_cycles
-#' 
+#'
 #' }
 
 
 available_RGTs = function(only_cycle_names = FALSE,
                           technical_specs_url = "https://icesat-2.gsfc.nasa.gov/science/specs",
                           verbose = FALSE) {
-  
+
   if (verbose) cat(glue::glue("The available Icesat-2 orbits will be red from '{technical_specs_url}' ..."), '\n')
   avail_urls = tryCatch(latest_orbits(technical_specs_url = technical_specs_url, verbose = verbose), error = function(e) e)
   if (inherits(avail_urls, "error")) {
     if (verbose) message(glue::glue("The 'latest_orbits()' function gave the following error: '{avail_urls$message}'! The existing orbits file will be uploaded!"))
     avail_urls = data.table::fread(file = system.file('data_files', 'technical_specs_urls.csv', package = "IceSat2R"), stringsAsFactors = F, header = T)
   }
-  
+
   time_spec = subset(avail_urls, Type == 'Time_Specific')
   time_spec$Date_from = as.Date(time_spec$Date_from)
   time_spec$Date_to = as.Date(time_spec$Date_to)
   time_spec = time_spec[order(time_spec$Date_from, decreasing = F), ]              # sort by date to have the RGT-cycles ordered in increasing order
-  
+
   orbit_files = orbit_dates = list()
-  
+
   for (i in 1:nrow(time_spec)) {
     nam_i = glue::glue("RGT_cycle_{i}")
     orbit_files[[nam_i]] = time_spec$Url[i]
@@ -436,15 +454,16 @@ available_RGTs = function(only_cycle_names = FALSE,
 
 #' Revisit Time Reference Ground Tracks and Dates
 #'
+#' This function shows the information of the 'available_RGTs' function and additionally it returns the .zip (kmz files) of all laser
+#' tracks over each 91-day repeat period (revisit time). Note that the locations and times are estimates, but should be correct to
+#' within a few minutes in time and better than 100m in the predicted locations.
+#'
 #' @param RGT_cycle either NULL or a character string specifying a single RGT (Reference Ground Track) as determined by the output of the 'available_RGTs(only_cycle_names = TRUE)' function. If NULL then all available Data will be returned.
 #' @param complete_date_sequence a boolean. If TRUE a complete sequence of Dates will be returned, otherwise only the 'minimum' and 'maximum' Dates.
 #'
 #' @return a list object with the available orbit files, dates and date sequence lengths
 #'
 #' @details
-#'
-#' This function returns the .zip (kmz files) for all of the laser tracks over each 91-day repeat period (revisit time). Note that the locations and times are estimates, but
-#' should be correct to within a few minutes in time and better than 100m in the predicted locations.
 #'
 #' ICESat-2 was in safe-hold from June 26 through July 9, 2019. ATLAS was off during this time, so data was not collected or pointed to the reference ground track.
 #'
@@ -526,6 +545,11 @@ revisit_time_RGTs = function(RGT_cycle = NULL,
 
 #' Time Specific Orbits
 #'
+#' This function shows the reference ground track time and locations for specific date ranges. "Updated KML files have been posted to the 'tech-specs'
+#' website (see the 'references' section for more details) containing individual files for each Reference Ground Track (RGT) with a date and time stamp
+#' posted every 420 kilometers along-track (roughly 1 minute of flight time in between each point). The first RGT is 234; this is where the time series
+#' begins. The date of each RGT is in the file name, so the user can easily ascertain where and when ICESat-2 will be on a particular day."
+#'
 #' @param date_from either NULL or a character string specifying the start date in the format 'yyyy-MM-dd' (such as '2020-01-01'). If this parameter is NULL then the 'RGT_cycle' parameter must be specified
 #' @param date_to either NULL or a character string specifying the end date in the format 'yyyy-MM-dd' (such as '2020-01-01'). If this parameter is NULL then the 'RGT_cycle' parameter must be specified
 #' @param RGT_cycle a character vector specifying the RGT (Reference Ground Track) cycle(s) (the specific revisit times of ICESAT-2). This parameter can be greater or equal to 1 with a maximum 'RGT-cycle' names as determined by the output of the 'available_RGTs(only_cycle_names = TRUE)' function. The computation time of a single 'RGT-cycle' might take approximately 15 minutes utilizing 8 threads (in parallel) and require approximately 2 GB of memory.
@@ -534,13 +558,6 @@ revisit_time_RGTs = function(RGT_cycle = NULL,
 #' @param verbose a boolean. If TRUE then information will be printed out in the console
 #'
 #' @return an 'sf' object that will include one or more Reference Ground Tracks  (see the 'RGT' column of the output object)
-#'
-#' @details
-#'
-#' These files contain the reference ground track time and locations for specific date ranges. Updated KML files have been posted to the 'tech-specs'
-#' website (see the 'references' section for more details) containing individual files for each RGT with a date and time stamp posted every 420 kilometers
-#' along-track (roughly 1 minute of flight time in between each point). The first RGT is 234; this is where the time series begins. The date of each RGT is
-#' in the file name, so the user can easily ascertain where and when ICESat-2 will be on a particular day.
 #'
 #' @references
 #'
@@ -713,7 +730,12 @@ time_specific_orbits = function(date_from = NULL,
 
     dtbl_files = data.table::setDT(list(files = lst_kmz))
     vec_dates_files = trimws(as.vector(unlist(lapply(strsplit(lst_kmz, "[_.]"), function(x) x[length(x) - 1]))), which = 'both')
-    vec_dates_files = as.Date(strptime(x = vec_dates_files, format = "%d-%b-%Y"))
+    # vec_dates_files = as.Date(strptime(x = vec_dates_files, format = "%d-%b-%Y"))                                                   # this command might not work for specific system locale
+    vec_dates_files = as.vector(unlist(lapply(strsplit(vec_dates_files, '-'), function(x) {
+      iter_month = switch_abb(x[2])
+      as.character(glue::glue("{x[3]}-{iter_month}-{x[1]}"))
+    })))
+    vec_dates_files = as.Date(vec_dates_files)
     dtbl_files$date = vec_dates_files
 
     if (rgt_cycle_null) {
@@ -826,7 +848,13 @@ time_specific_orbits = function(date_from = NULL,
   }
 
   all_cycles = sf::st_as_sf(data.table::rbindlist(all_cycles))
-  all_cycles$Date_time = strptime(x = all_cycles$Date_time, format = "%d-%b-%Y %H:%M:%S")          # convert to Date-Time ('POSIXlt') format  [ !! I have to do that outside the for-loop, otherwise I might receive an error ]
+  # all_cycles$Date_time = strptime(x = all_cycles$Date_time, format = "%d-%b-%Y %H:%M:%S")          # convert to Date-Time ('POSIXlt') format  [ !! I have to do that outside the for-loop, otherwise I might receive an error ]
+  vec_dates_cycl = as.vector(unlist(lapply(strsplit(all_cycles$Date_time, ' '), function(x) {
+    iter_date = strsplit(x[1], '-')[[1]]
+    iter_month = switch_abb(iter_date[2])
+    as.character(glue::glue("{iter_date[3]}-{iter_month}-{iter_date[1]} {x[2]}"))
+  })))
+  all_cycles$Date_time = as.POSIXlt(vec_dates_cycl)
 
   if (verbose) {
     cat("Total ")
@@ -839,6 +867,8 @@ time_specific_orbits = function(date_from = NULL,
 
 
 #' Utilizing Virtual File Systems (vsi) to extract the .kml from the .zip file
+#'
+#' This function returns the '.kml' and '.kmz' files in form of virtual file paths. Moreover, the user has the option to download these files.
 #'
 #' @param icesat_rgt_url a character string specifying the input .zip URL
 #' @param download_zip a boolean. If TRUE the .zip file will be first downloaded and then the .kml files will be returned, otherwise the 'gdalinfo' function will be used as input to the R 'system2()' function to read the .kml files without downloading the .zip file. The 'gdalinfo' command requires that the user has configured GDAL properly.
@@ -975,7 +1005,7 @@ vsi_kml_from_zip = function(icesat_rgt_url,
 
 
 
-#' Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access nominal orbits
+#' Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access the 'nominal orbits'
 #'
 #' @param orbit_area a character string specifying the earth partition to use, it can be one of 'antarctic', 'arctic', 'western_hemisphere' and 'eastern_hemisphere'
 #' @param track a character string specifying the orbit track. Can be one of 'GT1L','GT1R','GT2L','GT2R','GT3L','GT3R' or 'GT7'
@@ -1129,7 +1159,7 @@ vsi_nominal_orbits_wkt = function(orbit_area,
 
 
 
-#' Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access time specific orbits
+#' Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access the 'time specific orbits'
 #'
 #' @param date_from a character string specifying the 'start' date in the format 'yyyy-MM-dd' (such as '2020-01-01')
 #' @param date_to a character string specifying the 'end' date in the format 'yyyy-MM-dd' (such as '2020-01-01')
@@ -1245,7 +1275,6 @@ vsi_time_specific_orbits_wkt = function(date_from,
   orbit_dates = avail_rgts$orbit_dates
 
   seq_dates = seq(from = as.Date(date_from), to = as.Date(date_to), by = '1 day')
-
   inters_dates = as.vector(unlist(lapply(orbit_dates, function(x) length(intersect(x = x, y = seq_dates)))))
 
   res_lst = list()
@@ -1275,7 +1304,7 @@ vsi_time_specific_orbits_wkt = function(date_from,
       zip_dat = vsi_kml_from_zip(icesat_rgt_url = iter_url,
                                  download_zip = FALSE,
                                  download_method = 'curl',
-                                 verbose = TRUE)
+                                 verbose = verbose)
       if (nrow(zip_dat) > 0) {
 
         greg_expr = as.character(glue::glue("IS2_RGT_{RGTs}"))
@@ -1372,7 +1401,12 @@ vsi_time_specific_orbits_wkt = function(date_from,
           list(date = iter_date, cycle = iter_cycle)
         })
         dat_tim = data.table::rbindlist(dat_tim)
-        yday = strptime(x = dat_tim$date, format = "%d-%b-%Y")
+        # yday = strptime(x = dat_tim$date, format = "%d-%b-%Y")                                                    # this command might not work for specific system locale
+        yday = as.vector(unlist(lapply(strsplit(dat_tim$date, '-'), function(x) {
+          iter_month = switch_abb(x[2])
+          as.character(glue::glue("{x[3]}-{iter_month}-{x[1]}"))
+        })))
+
         dat_tim$date = as.character(glue::glue("{dat_tim$date} 00:00:00"))       # add time so that it matches the next "else" condition time-format
 
         x$description = NULL
@@ -1399,7 +1433,14 @@ vsi_time_specific_orbits_wkt = function(date_from,
     })
 
     res_lst = sf::st_as_sf(data.table::rbindlist(res_lst))
-    res_lst$Date_time = strptime(x = res_lst$Date_time, format = "%d-%b-%Y %H:%M:%S")          # convert to Date-Time ('POSIXlt') format  [ !! I have to do that outside the for-loop, otherwise I might receive an error ]
+    # res_lst$Date_time = strptime(x = res_lst$Date_time, format = "%d-%b-%Y %H:%M:%S")          # convert to Date-Time ('POSIXlt') format  [ !! I have to do that outside the for-loop, otherwise I might receive an error ]
+
+    vec_lst_cycl = as.vector(unlist(lapply(strsplit(res_lst$Date_time, ' '), function(x) {
+      iter_date = strsplit(x[1], '-')[[1]]
+      iter_month = switch_abb(iter_date[2])
+      as.character(glue::glue("{iter_date[3]}-{iter_month}-{iter_date[1]} {x[2]}"))
+    })))
+    res_lst$Date_time = as.POSIXlt(vec_lst_cycl)
   }
   else {
     if (verbose) message(glue::glue("The specified parameter setting returned an empty list for all {length(idx_inters)} processed cycles!"))

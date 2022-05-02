@@ -4,6 +4,8 @@ utils::globalVariables(c('km'))                        # for the conversion from
 
 #' Create a global grid based on degrees
 #'
+#' This function allows the user to create a degrees grid based on an input bounding box
+#'
 #' @param minx the 'minx' parameter of the bounding box
 #' @param maxx the 'maxx' parameter of the bounding box
 #' @param miny the 'miny' parameter of the bounding box

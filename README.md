@@ -172,6 +172,10 @@ to access the Rstudio console in order to give your username and password.
 
 <br>
 
+### Installation:
+
+<br>
+
 To install the package from CRAN use, 
 
 ```R
@@ -189,6 +193,47 @@ remotes::install_github('mlampros/IceSat2R')
 
 <br>
 
+### R package tests:
+
+<br>
+
+To execute the package tests (all or a specific file) use the following code snippet:
+
+```R
+
+# first download the latest version of the package
+
+url_pkg = 'https://github.com/mlampros/IceSat2R/archive/refs/heads/master.zip'
+temp_pkg_file = tempfile(fileext = '.zip')
+print(temp_pkg_file)
+
+download.file(url = url_pkg, destfile = temp_pkg_file, method = 'wget', quiet = TRUE)
+utils::unzip(zipfile = temp_pkg_file, exdir = dirname(temp_pkg_file), junkpaths = FALSE)
+
+# run all tests
+
+testthat::test_local(path = file.path(dirname(temp_pkg_file), 'IceSat2R-master'),
+                     reporter = testthat::default_reporter())
+
+# run a specific test file from the 'testthat' directory of the package 
+# https://github.com/mlampros/IceSat2R/tree/master/tests/testthat
+
+test_specific_file = file.path(dirname(temp_pkg_file), 
+                               'IceSat2R-master', 
+                               'tests', 
+                               'testthat', 
+                               'test-mission_orbits.R')
+
+Sys.setenv(NOT_CRAN = "true")       # run all tests (including the ones skipped on CRAN)
+testthat::test_file(path = test_specific_file, reporter = testthat::default_reporter())
+Sys.unsetenv("NOT_CRAN")            # unset the previously modified environment variable
+
+```
+
+The previous code snippet allows a user to test if the package works as expected in any Operating System.
+
+<br>
+
 ### Citation:
 
 <br>
@@ -202,7 +247,7 @@ If you use the code of this repository in your paper or research please cite bot
   title = {{IceSat2R}: ICESat-2 Altimeter Data using R},
   author = {Lampros Mouselimis},
   year = {2022},
-  note = {R package version 1.0.0},
+  note = {R package version 1.0.2},
   url = {https://CRAN.R-project.org/package=IceSat2R},
 }
 ```

@@ -36,10 +36,7 @@ getTracks(
 either a data.table (if outputFormat is 'csv') or a nested list (if outputFormat is 'json')
 }
 \description{
-Get the ICESAT-2 Tracks
-}
-\details{
-Get a list of ICESat-2 tracks given a spatial bounding box selection
+Get a list of ICESat-2 tracks using a bounding box as input
 }
 \examples{
 

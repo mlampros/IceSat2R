@@ -2,7 +2,7 @@
 % Please edit documentation in R/mission_orbits.R
 \name{vsi_nominal_orbits_wkt}
 \alias{vsi_nominal_orbits_wkt}
-\title{Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access nominal orbits}
+\title{Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access the 'nominal orbits'}
 \usage{
 vsi_nominal_orbits_wkt(
   orbit_area,
@@ -33,7 +33,7 @@ vsi_nominal_orbits_wkt(
 an 'sf' object
 }
 \description{
-Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access nominal orbits
+Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access the 'nominal orbits'
 }
 \examples{
 

@@ -57,7 +57,7 @@ get_atlas_data(
 if the 'file_path_zip' parameter is NULL it returns either a data.table (if outputFormat is 'csv') or a nested list (if outputFormat is 'json') else the file path where the .zip file is saved. In case that the 'outputFormat' is set to 'zip' and the 'file_path_zip' parameter to NULL then a data.table will be returned.
 }
 \description{
-Get IceSat-2 ATLAS data for a specific Date
+This function allows the user to download IceSat-2 ATLAS Product data for a specific date, bounding box, track and beam.
 }
 \details{
 \describe{
@@ -136,11 +136,11 @@ res_rgt_many = time_specific_orbits(date_from = approx_date_start,
                                     verbose = TRUE)
 res_rgt_many
 
-#.....................................................
-# then we create the bounding of the selected area and
-# proceed to the intersection with the computed RGT's
+#.........................................................
+# then we create the bounding box of the selected area
+# and proceed to the intersection with the computed RGT's
 # ( include the bounding box for reproducibility )
-#.....................................................
+#.........................................................
 
 bbx_aoi = sf::st_bbox(obj = sf_obj)
 # c(xmin = 140, ymin = -6.641235, xmax = 145, ymax = -1.641235)

@@ -21,7 +21,7 @@ available_nominal_orbits(
 a list object with the available nominal orbits
 }
 \description{
-Nominal mission orbits
+This function allows the user to view the nominal orbits (all or a selection)
 }
 \examples{
 

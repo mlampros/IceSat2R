@@ -36,7 +36,7 @@ degrees_to_global_grid(
 a simple features (sf) object
 }
 \description{
-Create a global grid based on degrees
+This function allows the user to create a degrees grid based on an input bounding box
 }
 \details{
 The default global input 'minx', 'maxx', 'miny' and 'maxy' correspond to a WKT of "POLYGON ((-180 -90, 180 -90, 180 90, -180 90, -180 -90))"

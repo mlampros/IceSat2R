@@ -15,12 +15,11 @@ revisit_time_RGTs(RGT_cycle = NULL, complete_date_sequence = FALSE)
 a list object with the available orbit files, dates and date sequence lengths
 }
 \description{
-Revisit Time Reference Ground Tracks and Dates
+This function shows the information of the 'available_RGTs' function and additionally it returns the .zip (kmz files) of all laser
+tracks over each 91-day repeat period (revisit time). Note that the locations and times are estimates, but should be correct to
+within a few minutes in time and better than 100m in the predicted locations.
 }
 \details{
-This function returns the .zip (kmz files) for all of the laser tracks over each 91-day repeat period (revisit time). Note that the locations and times are estimates, but
-should be correct to within a few minutes in time and better than 100m in the predicted locations.
-
 ICESat-2 was in safe-hold from June 26 through July 9, 2019. ATLAS was off during this time, so data was not collected or pointed to the reference ground track.
 }
 \examples{

@@ -21,7 +21,7 @@ available_RGTs(
 a list object with the available orbit files, dates and cycle names
 }
 \description{
-Reference Ground Tracks (RGTs)
+This function returns the url's of all Reference Ground Track (RGT) cycles. Moreover, it returns the dates that belong to each RGT cycle and the names of the RGT cycles.
 }
 \examples{
 
@@ -33,7 +33,7 @@ require(IceSat2R)
 # all available orbit files, dates and cycle names
 #.................................................
 
-avail_dat = available_RGTs(only_cycle_names = FALSE, 
+avail_dat = available_RGTs(only_cycle_names = FALSE,
                            verbose = TRUE)
 avail_dat
 

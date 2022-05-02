@@ -2,6 +2,8 @@
 
 #' Get the ICESAT-2 Tracks
 #'
+#' Get a list of ICESat-2 tracks using a bounding box as input
+#'
 #' @param minx the 'minx' parameter of the bounding box
 #' @param maxx the 'maxx' parameter of the bounding box
 #' @param miny the 'miny' parameter of the bounding box
@@ -12,10 +14,6 @@
 #' @param verbose a boolean. If TRUE then information will be printed out in the console
 #'
 #' @return either a data.table (if outputFormat is 'csv') or a nested list (if outputFormat is 'json')
-#'
-#' @details
-#'
-#' Get a list of ICESat-2 tracks given a spatial bounding box selection
 #'
 #' @references
 #'

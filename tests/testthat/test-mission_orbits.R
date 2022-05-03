@@ -134,6 +134,7 @@ testthat::test_that("the function 'revisit_time_RGTs()' returns the expected out
 testthat::test_that("the function 'vsi_kml_from_zip()' returns the expected output!", {
 
   testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
+  testthat::skip_on_ci()           # skip on Github Actions which throws an error when using the '/vsi../' url  [ for the 'skip_on_ci()' see: https://github.com/r-lib/testthat/issues/970#issuecomment-611176719 AND https://github.com/r-lib/actions/issues/81 ]
 
   res_out = vsi_kml_from_zip(icesat_rgt_url = ORBITS_URL,
                              download_zip = FALSE,             # Don't download the file which takes too long
@@ -147,6 +148,7 @@ testthat::test_that("the function 'vsi_kml_from_zip()' returns the expected outp
 testthat::test_that("the function 'vsi_nominal_orbits_wkt()' returns the expected output!", {
 
   testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
+  testthat::skip_on_ci()           # skip on Github Actions which throws an error when using the '/vsi../' url  [ for the 'skip_on_ci()' see: https://github.com/r-lib/testthat/issues/970#issuecomment-611176719 AND https://github.com/r-lib/actions/issues/81 ]
 
   dat_rgt = vsi_nominal_orbits_wkt(orbit_area = 'eastern_hemisphere',
                                    track = 'GT7',
@@ -163,6 +165,7 @@ testthat::test_that("the function 'vsi_nominal_orbits_wkt()' returns the expecte
 testthat::test_that("the function 'vsi_nominal_orbits_wkt()' returns the expected output (extracting nominal orbits only for a WKT)!", {
 
   testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
+  testthat::skip_on_ci()           # skip on Github Actions which throws an error when using the '/vsi../' url  [ for the 'skip_on_ci()' see: https://github.com/r-lib/testthat/issues/970#issuecomment-611176719 AND https://github.com/r-lib/actions/issues/81 ]
 
   dat_rgt = vsi_nominal_orbits_wkt(orbit_area = 'western_hemisphere',
                                    track = 'GT3R',
@@ -179,6 +182,7 @@ testthat::test_that("the function 'vsi_nominal_orbits_wkt()' returns the expecte
 testthat::test_that("the function 'vsi_time_specific_orbits_wkt()' returns the expected output for an input WKT!", {
 
   testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
+  testthat::skip_on_ci()           # skip on Github Actions which throws an error when using the '/vsi../' url  [ for the 'skip_on_ci()' see: https://github.com/r-lib/testthat/issues/970#issuecomment-611176719 AND https://github.com/r-lib/actions/issues/81 ]
 
   orb_cyc_single = vsi_time_specific_orbits_wkt(date_from = date_start,
                                                 date_to = date_end,

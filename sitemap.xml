@@ -31,6 +31,9 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/reference/RGT_cycle_14.html</loc>
+  </url>
+  <url>
     <loc>/reference/available_RGTs.html</loc>
   </url>
   <url>
@@ -67,6 +70,9 @@
     <loc>/reference/leaflet_base_map.html</loc>
   </url>
   <url>
+    <loc>/reference/ne_10m_glaciated_areas.html</loc>
+  </url>
+  <url>
     <loc>/reference/overall_mission_orbits.html</loc>
   </url>
   <url>
@@ -83,6 +89,9 @@
   </url>
   <url>
     <loc>/reference/time_specific_orbits.html</loc>
+  </url>
+  <url>
+    <loc>/reference/verify_RGTs.html</loc>
   </url>
   <url>
     <loc>/reference/vsi_kml_from_zip.html</loc>

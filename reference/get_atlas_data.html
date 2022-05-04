@@ -259,39 +259,9 @@
 <span class="r-in"><span class="co"># match the OpenAltimetry Track-ID's</span></span>
 <span class="r-in"><span class="co">#..........................................</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">tracks_dates_RGT</span> <span class="op">=</span> <span class="va">tracks_dates_OpenAltimetry</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">item</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">rgt_subs</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">dat_item</span> <span class="op">=</span> <span class="va">rgt_subs</span><span class="op">[</span><span class="va">item</span>, , drop <span class="op">=</span> <span class="cn">F</span><span class="op">]</span></span>
-<span class="r-in">  <span class="va">Date</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">dat_item</span><span class="op">$</span><span class="va">Date_time</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">op_tra</span> <span class="op">=</span> <span class="fu"><a href="getTracks.html">getTracks</a></span><span class="op">(</span>minx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_aoi</span><span class="op">[</span><span class="st">'xmin'</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in">                     miny <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_aoi</span><span class="op">[</span><span class="st">'ymin'</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in">                     maxx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_aoi</span><span class="op">[</span><span class="st">'xmax'</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in">                     maxy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_aoi</span><span class="op">[</span><span class="st">'ymax'</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in">                     date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span>,</span>
-<span class="r-in">                     outputFormat <span class="op">=</span> <span class="st">'csv'</span>,</span>
-<span class="r-in">                     download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
-<span class="r-in">                     verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">date_obj</span> <span class="op">=</span> <span class="va">dat_item</span><span class="op">$</span><span class="va">Date_time</span></span>
-<span class="r-in">  <span class="va">tim_rgt</span> <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"Date: {date_obj} Time specific RGT: '{dat_item$RGT}'"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">op_tra</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">    <span class="va">iter_op_trac</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">op_tra</span><span class="op">$</span><span class="va">track</span>, collapse <span class="op">=</span> <span class="st">', '</span><span class="op">)</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{tim_rgt}  OpenAltimetry: '{iter_op_trac}'"</span><span class="op">)</span>, <span class="st">'\n'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">    <span class="va">tracks_dates_RGT</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="va">dat_item</span><span class="op">$</span><span class="va">RGT</span></span>
-<span class="r-in">    <span class="va">tracks_dates_OpenAltimetry</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="va">op_tra</span><span class="op">$</span><span class="va">track</span></span>
-<span class="r-in">  <span class="op">}</span></span>
-<span class="r-in">  <span class="kw">else</span> <span class="op">{</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{tim_rgt} without an OpenAltimetry match!"</span><span class="op">)</span>, <span class="st">'\n'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">tracks_dates_RGT</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">tracks_dates_OpenAltimetry</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dtbl_rgts</span> <span class="op">=</span> <span class="fu"><a href="verify_RGTs.html">verify_RGTs</a></span><span class="op">(</span>nsidc_rgts <span class="op">=</span> <span class="va">rgt_subs</span>,</span>
+<span class="r-in">                        bbx_aoi <span class="op">=</span> <span class="va">bbx_aoi</span>,</span>
+<span class="r-in">                        verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">#...................................</span></span>
 <span class="r-in"><span class="co"># we will iterate over the available:</span></span>
@@ -301,8 +271,8 @@
 <span class="r-in"><span class="co"># to gather the up to 5-degree data</span></span>
 <span class="r-in"><span class="co">#..................................</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">dates_iters</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tracks_dates_RGT</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">RGTs_iters</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">tracks_dates_RGT</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dates_iters</span> <span class="op">=</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/duplicated.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dtbl_rgts</span><span class="op">$</span><span class="va">Date_time</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">RGTs_iters</span> <span class="op">=</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/duplicated.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dtbl_rgts</span><span class="op">$</span><span class="va">RGT_NSIDC</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">prods_5_degrs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'atl06'</span>, <span class="st">'atl07'</span>, <span class="st">'atl08'</span>, <span class="st">'atl10'</span>, <span class="st">'atl12'</span>, <span class="st">'atl13'</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">dat_out</span> <span class="op">=</span> <span class="va">logs_out</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -350,8 +320,8 @@
 <span class="r-in"><span class="co">#.....</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">dtbl_logs</span> <span class="op">=</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/rbindlist.html" class="external-link">rbindlist</a></span><span class="op">(</span><span class="va">logs_out</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dtbl_logs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">dtbl_logs</span>, <span class="va">N_rows</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dtbl_logs</span> <span class="op">=</span> <span class="va">dtbl_logs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">dtbl_logs</span><span class="op">$</span><span class="va">N_rows</span>, decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, <span class="op">]</span></span>
+<span class="r-in"><span class="va">dtbl_logs</span> <span class="op">=</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/subset.data.table.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">dtbl_logs</span>, <span class="va">N_rows</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">dtbl_logs</span> <span class="op">=</span> <span class="va">dtbl_logs</span><span class="op">[</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/setorder.html" class="external-link">order</a></span><span class="op">(</span><span class="va">dtbl_logs</span><span class="op">$</span><span class="va">N_rows</span>, decreasing <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, <span class="op">]</span></span>
 <span class="r-in"><span class="va">dtbl_logs</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">#.............................................</span></span>
@@ -359,21 +329,21 @@
 <span class="r-in"><span class="co"># for the Dates and RGT's of the selected area</span></span>
 <span class="r-in"><span class="co">#.............................................</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dtbl_logs</span><span class="op">$</span><span class="va">Product</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/duplicated.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dtbl_logs</span><span class="op">$</span><span class="va">Product</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># c('atl08', 'atl13')</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">#................</span></span>
 <span class="r-in"><span class="co"># RGT's with data</span></span>
 <span class="r-in"><span class="co">#................</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dtbl_logs</span><span class="op">$</span><span class="va">RGT</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/duplicated.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dtbl_logs</span><span class="op">$</span><span class="va">RGT</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># c(627, 756, 688, 619, 817)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">#................</span></span>
 <span class="r-in"><span class="co"># Dates with Data</span></span>
 <span class="r-in"><span class="co">#................</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dtbl_logs</span><span class="op">$</span><span class="va">Date</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/duplicated.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dtbl_logs</span><span class="op">$</span><span class="va">Date</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># c("2021-02-03", "2021-02-11", "2021-02-07", "2021-02-02", "2021-02-15")</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="op">}</span></span>

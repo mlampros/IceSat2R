@@ -107,8 +107,8 @@ Area of Interest
 <p>First, we load the data,</p>
 <p><br></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlampros/IceSat2R" class="external-link">IceSat2R</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">pkgs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'IceSat2R'</span>, <span class="st">'magrittr'</span>, <span class="st">'sf'</span>, <span class="st">'mapview'</span>, <span class="st">'leaflet'</span><span class="op">)</span>
+<span class="va">load_pkgs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">pkgs</span>, <span class="va">require</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># load required R packages</span>
 
 <span class="va">geoms_himal_pth</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'data_files'</span>, <span class="st">'vignette_data'</span>, <span class="st">'himalayas.RDS'</span>, package <span class="op">=</span> <span class="st">"IceSat2R"</span><span class="op">)</span>
 <span class="va">geoms_himal</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">geoms_himal_pth</span><span class="op">)</span>
@@ -123,10 +123,10 @@ Area of Interest
 <span class="co"># 1     small POLYGON ((86.36902 27.66164...</span>
 <span class="co"># 2       big POLYGON ((86.35254 26.95635...</span></code></pre></div>
 <p><br></p>
-<p>Since the <em>Himalayas mountain range</em> is located in the <em>Eastern Hemisphere</em> we’ll pick this as an area when calling the <em>IceSat2R::vsi_nominal_orbits_wkt()</em> function. Moreover, we’ll iterate over all <em>8 available repeats</em> for the <em>Eastern Hemisphere</em> to retrieve the <em>Reference Ground Tracks (RGTs)</em> of the AOI based on the <em>nominal orbits</em>,</p>
+<p>Since the <em>Himalayas mountain range</em> is located in the <em>Eastern Hemisphere</em> we’ll pick this as an area to use as input to the <em>IceSat2R::vsi_nominal_orbits_wkt()</em> function. Moreover, we’ll iterate over all <em>8 available repeats</em> for the <em>Eastern Hemisphere</em> to retrieve the <em>Reference Ground Tracks (RGTs)</em> of the AOI based on the <em>nominal orbits</em>,</p>
 <p><br></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sf_wkt</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">geoms_himal</span>, <span class="va">area_size</span> <span class="op">==</span> <span class="st">'big'</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">sf_wkt</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/subset.data.table.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">geoms_himal</span>, <span class="va">area_size</span> <span class="op">==</span> <span class="st">'big'</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">centr_wkt</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="va">sf_wkt</span><span class="op">)</span><span class="op">)</span>
 <span class="va">dat_wkt</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_text.html" class="external-link">st_as_text</a></span><span class="op">(</span><span class="va">sf_wkt</span><span class="op">)</span>
@@ -168,7 +168,7 @@ Area of Interest
 <p><br></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lst_out</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">lst_out</span>, recursive <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
-<span class="va">unq_rgts</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">lst_out</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">RGT</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">unq_rgts</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/duplicated.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">lst_out</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">RGT</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">unq_rgts</span>
 
  <span class="co"># [1] "96"   "157"  "363"  "538"  "599"  "805"  "866"  "1041" "1308" "1247"</span></code></pre></div>
@@ -289,59 +289,30 @@ Intersected RGTs
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bbx_aoi</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">sf_wkt</span><span class="op">)</span>
 
-<span class="va">rows_match</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span><span class="op">)</span><span class="op">)</span>
+<span class="va">dtbl_rgts</span> <span class="op">=</span> <span class="fu"><a href="../reference/verify_RGTs.html">verify_RGTs</a></span><span class="op">(</span>nsidc_rgts <span class="op">=</span> <span class="va">orb_cyc_multi</span>, 
+                        bbx_aoi <span class="op">=</span> <span class="va">bbx_aoi</span>, 
+                        verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">dtbl_rgts</span>
 
-<span class="kw">for</span> <span class="op">(</span><span class="va">row</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  
-  <span class="va">dat_item</span> <span class="op">=</span> <span class="va">orb_cyc_multi</span><span class="op">[</span><span class="va">row</span>, , drop <span class="op">=</span> <span class="cn">F</span><span class="op">]</span>
-  <span class="va">Date</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">dat_item</span><span class="op">$</span><span class="va">Date_time</span><span class="op">)</span>
-  
-  <span class="va">op_tra</span> <span class="op">=</span> <span class="fu">IceSat2R</span><span class="fu">::</span><span class="fu"><a href="../reference/getTracks.html">getTracks</a></span><span class="op">(</span>minx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_aoi</span><span class="op">[</span><span class="st">'xmin'</span><span class="op">]</span><span class="op">)</span>,
-                               miny <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_aoi</span><span class="op">[</span><span class="st">'ymin'</span><span class="op">]</span><span class="op">)</span>,
-                               maxx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_aoi</span><span class="op">[</span><span class="st">'xmax'</span><span class="op">]</span><span class="op">)</span>,
-                               maxy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_aoi</span><span class="op">[</span><span class="st">'ymax'</span><span class="op">]</span><span class="op">)</span>,
-                               date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span>,
-                               outputFormat <span class="op">=</span> <span class="st">'csv'</span>,
-                               download_method <span class="op">=</span> <span class="st">'curl'</span>,
-                               verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-  
-  <span class="va">date_obj</span> <span class="op">=</span> <span class="va">dat_item</span><span class="op">$</span><span class="va">Date_time</span>
-  <span class="va">tim_rgt</span> <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"Date: {date_obj} Time specific RGT: '{dat_item$RGT}'"</span><span class="op">)</span>
-  
-  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">op_tra</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">iter_op_trac</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">op_tra</span><span class="op">$</span><span class="va">track</span>, collapse <span class="op">=</span> <span class="st">', '</span><span class="op">)</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{tim_rgt}  OpenAltimetry: '{iter_op_trac}'"</span><span class="op">)</span>, <span class="st">'\n'</span><span class="op">)</span>
-    
-    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">op_tra</span><span class="op">$</span><span class="va">track</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span>
-      <span class="kw">if</span> <span class="op">(</span><span class="va">op_tra</span><span class="op">$</span><span class="va">track</span> <span class="op">==</span> <span class="va">dat_item</span><span class="op">$</span><span class="va">RGT</span><span class="op">)</span> <span class="op">{</span>
-        <span class="va">rows_match</span><span class="op">[</span><span class="va">row</span><span class="op">]</span> <span class="op">=</span> <span class="cn">TRUE</span>
-      <span class="op">}</span>
-    <span class="op">}</span>
-  <span class="op">}</span>
-  <span class="kw">else</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{tim_rgt} without an OpenAltimetry match!"</span><span class="op">)</span>, <span class="st">'\n'</span><span class="op">)</span>
-  <span class="op">}</span>
-<span class="op">}</span>
-
-
-<span class="co"># Date: 2020-01-02 00:37:11 Time specific RGT: '96'  OpenAltimetry: '96' </span>
-<span class="co"># Date: 2020-01-30 23:13:14 Time specific RGT: '538'  OpenAltimetry: '538' </span>
-<span class="co"># Date: 2020-02-03 23:04:54 Time specific RGT: '599'  OpenAltimetry: '599' </span>
-<span class="co"># Date: 2020-03-03 21:40:57 Time specific RGT: '1041'  OpenAltimetry: '1041' </span>
-<span class="co"># Date: 2020-04-01 20:17:02 Time specific RGT: '96'  OpenAltimetry: '96' </span>
-<span class="co"># Date: 2020-05-04 18:44:45 Time specific RGT: '599'  OpenAltimetry: '599' </span>
-<span class="co"># Date: 2020-06-02 17:20:48 Time specific RGT: '1041'  OpenAltimetry: '1041' </span>
-<span class="co"># Date: 2020-07-01 15:56:55 Time specific RGT: '96'  OpenAltimetry: '96' </span>
-<span class="co"># Date: 2020-07-30 14:32:58 Time specific RGT: '538'  OpenAltimetry: '538' </span>
-<span class="co"># Date: 2020-08-03 14:24:38 Time specific RGT: '599'  OpenAltimetry: '599' </span>
-<span class="co"># Date: 2020-09-01 13:00:41 Time specific RGT: '1041'  OpenAltimetry: '1041' </span>
-<span class="co"># Date: 2020-09-30 11:36:37 Time specific RGT: '96'  OpenAltimetry: '96' </span>
-<span class="co"># Date: 2020-11-02 10:04:20 Time specific RGT: '599'  OpenAltimetry: '599' </span>
-<span class="co"># Date: 2020-12-01 08:40:23 Time specific RGT: '1041'  OpenAltimetry: '1041' </span>
-<span class="co"># Date: 2020-12-30 07:16:28 Time specific RGT: '96'  OpenAltimetry: '96' </span>
-<span class="co"># Date: 2021-01-28 05:52:31 Time specific RGT: '538'  OpenAltimetry: '538' </span>
-<span class="co"># Date: 2021-02-01 05:44:11 Time specific RGT: '599'  OpenAltimetry: '599' </span>
-<span class="co"># Date: 2021-03-02 04:20:14 Time specific RGT: '1041'  OpenAltimetry: '1041' </span></code></pre></div>
+<span class="co">#      Date_time RGT_OpenAlt RGT_NSIDC</span>
+<span class="co">#  1: 2020-01-02          96        96</span>
+<span class="co">#  2: 2020-01-30         538       538</span>
+<span class="co">#  3: 2020-02-03         599       599</span>
+<span class="co">#  4: 2020-03-03        1041      1041</span>
+<span class="co">#  5: 2020-04-01          96        96</span>
+<span class="co">#  6: 2020-05-04         599       599</span>
+<span class="co">#  7: 2020-06-02        1041      1041</span>
+<span class="co">#  8: 2020-07-01          96        96</span>
+<span class="co">#  9: 2020-07-30         538       538</span>
+<span class="co"># 10: 2020-08-03         599       599</span>
+<span class="co"># 11: 2020-09-01        1041      1041</span>
+<span class="co"># 12: 2020-09-30          96        96</span>
+<span class="co"># 13: 2020-11-02         599       599</span>
+<span class="co"># 14: 2020-12-01        1041      1041</span>
+<span class="co"># 15: 2020-12-30          96        96</span>
+<span class="co"># 16: 2021-01-28         538       538</span>
+<span class="co"># 17: 2021-02-01         599       599</span>
+<span class="co"># 18: 2021-03-02        1041      1041</span></code></pre></div>
 <p><br></p>
   </div>
 

@@ -4,7 +4,10 @@
 * I've added the *switch_full()* and *switch_abb()* internal functions which allow to process the dates of the downloaded files without taking into account the user's system locale (see issue: https://github.com/mlampros/IceSat2R/issues/3)
 * I've updated the documentation by adding more details to each exported function
 * I've updated the README.md file
-* I've added more tests that can be executed using *testthat::test_local()* or *testthat::test_file()* (see the section *R package tests* of the README.md file)
+* I've added more tests that can be executed using *testthat::test_local()* or *testthat::test_file()* (see the section [R package tests](https://github.com/mlampros/IceSat2R#r-package-tests) of the README.md file)
+* I added the *ne_10m_glaciated_areas.rda* and *RGT_cycle_14.rda* files in the *data* directory and I removed the *ne_10m_glaciated_areas.RDS* and *RGT_cycle_14.RDS* files from the *inst* directory
+* I've added the *verify_RGTs()* function
+* I modified / updated the Vignettes, Example sections and the JOSS paper taking into account all previously mentioned changes
 
 
 ## IceSat2R 1.0.1

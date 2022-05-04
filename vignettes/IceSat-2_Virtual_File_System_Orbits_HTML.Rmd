@@ -47,8 +47,8 @@ First, we load the data,
 
 ```{r}
 
-require(IceSat2R)
-require(magrittr)
+pkgs = c('IceSat2R', 'magrittr', 'sf', 'mapview', 'leaflet')
+load_pkgs = lapply(pkgs, require, character.only = TRUE)  # load required R packages
 
 geoms_himal_pth = system.file('data_files', 'vignette_data', 'himalayas.RDS', package = "IceSat2R")
 geoms_himal = readRDS(geoms_himal_pth)
@@ -67,7 +67,7 @@ geoms_himal
 
 <br>
 
-Since the *Himalayas mountain range* is located in the *Eastern Hemisphere* we'll pick this as an area when calling the *IceSat2R::vsi_nominal_orbits_wkt()* function. Moreover, we'll iterate over all *8 available repeats* for the *Eastern Hemisphere* to retrieve the *Reference Ground Tracks (RGTs)* of the AOI based on the *nominal orbits*,
+Since the *Himalayas mountain range* is located in the *Eastern Hemisphere* we'll pick this as an area to use as input to the *IceSat2R::vsi_nominal_orbits_wkt()* function. Moreover, we'll iterate over all *8 available repeats* for the *Eastern Hemisphere* to retrieve the *Reference Ground Tracks (RGTs)* of the AOI based on the *nominal orbits*,
 
 <br>
 
@@ -291,59 +291,30 @@ The output of *'vsi_time_specific_orbits_wkt()'* can be verified with the *OpenA
 
 bbx_aoi = sf::st_bbox(obj = sf_wkt)
 
-rows_match = rep(FALSE, nrow(orb_cyc_multi))
+dtbl_rgts = verify_RGTs(nsidc_rgts = orb_cyc_multi, 
+                        bbx_aoi = bbx_aoi, 
+                        verbose = TRUE)
+dtbl_rgts
 
-for (row in 1:nrow(orb_cyc_multi)) {
-  
-  dat_item = orb_cyc_multi[row, , drop = F]
-  Date = as.Date(dat_item$Date_time)
-  
-  op_tra = IceSat2R::getTracks(minx = as.numeric(bbx_aoi['xmin']),
-                               miny = as.numeric(bbx_aoi['ymin']),
-                               maxx = as.numeric(bbx_aoi['xmax']),
-                               maxy = as.numeric(bbx_aoi['ymax']),
-                               date = as.character(Date),
-                               outputFormat = 'csv',
-                               download_method = 'curl',
-                               verbose = FALSE)
-  
-  date_obj = dat_item$Date_time
-  tim_rgt = glue::glue("Date: {date_obj} Time specific RGT: '{dat_item$RGT}'")
-  
-  if (nrow(op_tra) > 0) {
-    iter_op_trac = paste(op_tra$track, collapse = ', ')
-    cat(glue::glue("{tim_rgt}  OpenAltimetry: '{iter_op_trac}'"), '\n')
-    
-    if (length(op_tra$track) == 1) {
-      if (op_tra$track == dat_item$RGT) {
-        rows_match[row] = TRUE
-      }
-    }
-  }
-  else {
-    cat(glue::glue("{tim_rgt} without an OpenAltimetry match!"), '\n')
-  }
-}
-
-
-# Date: 2020-01-02 00:37:11 Time specific RGT: '96'  OpenAltimetry: '96' 
-# Date: 2020-01-30 23:13:14 Time specific RGT: '538'  OpenAltimetry: '538' 
-# Date: 2020-02-03 23:04:54 Time specific RGT: '599'  OpenAltimetry: '599' 
-# Date: 2020-03-03 21:40:57 Time specific RGT: '1041'  OpenAltimetry: '1041' 
-# Date: 2020-04-01 20:17:02 Time specific RGT: '96'  OpenAltimetry: '96' 
-# Date: 2020-05-04 18:44:45 Time specific RGT: '599'  OpenAltimetry: '599' 
-# Date: 2020-06-02 17:20:48 Time specific RGT: '1041'  OpenAltimetry: '1041' 
-# Date: 2020-07-01 15:56:55 Time specific RGT: '96'  OpenAltimetry: '96' 
-# Date: 2020-07-30 14:32:58 Time specific RGT: '538'  OpenAltimetry: '538' 
-# Date: 2020-08-03 14:24:38 Time specific RGT: '599'  OpenAltimetry: '599' 
-# Date: 2020-09-01 13:00:41 Time specific RGT: '1041'  OpenAltimetry: '1041' 
-# Date: 2020-09-30 11:36:37 Time specific RGT: '96'  OpenAltimetry: '96' 
-# Date: 2020-11-02 10:04:20 Time specific RGT: '599'  OpenAltimetry: '599' 
-# Date: 2020-12-01 08:40:23 Time specific RGT: '1041'  OpenAltimetry: '1041' 
-# Date: 2020-12-30 07:16:28 Time specific RGT: '96'  OpenAltimetry: '96' 
-# Date: 2021-01-28 05:52:31 Time specific RGT: '538'  OpenAltimetry: '538' 
-# Date: 2021-02-01 05:44:11 Time specific RGT: '599'  OpenAltimetry: '599' 
-# Date: 2021-03-02 04:20:14 Time specific RGT: '1041'  OpenAltimetry: '1041' 
+#      Date_time RGT_OpenAlt RGT_NSIDC
+#  1: 2020-01-02          96        96
+#  2: 2020-01-30         538       538
+#  3: 2020-02-03         599       599
+#  4: 2020-03-03        1041      1041
+#  5: 2020-04-01          96        96
+#  6: 2020-05-04         599       599
+#  7: 2020-06-02        1041      1041
+#  8: 2020-07-01          96        96
+#  9: 2020-07-30         538       538
+# 10: 2020-08-03         599       599
+# 11: 2020-09-01        1041      1041
+# 12: 2020-09-30          96        96
+# 13: 2020-11-02         599       599
+# 14: 2020-12-01        1041      1041
+# 15: 2020-12-30          96        96
+# 16: 2021-01-28         538       538
+# 17: 2021-02-01         599       599
+# 18: 2021-03-02        1041      1041
 
 
 ```

@@ -156,10 +156,9 @@ leaflet_base_map = function(sf_obj = NULL,
 #' # 4th. Option: Use a bounding box as input  ('Greenland Ice Sheet')
 #' #.........................................
 #'
-#' pth_bbx = system.file('data_files', 'ne_10m_glaciated_areas.RDS',
-#'                       package = "IceSat2R")
+#' data(ne_10m_glaciated_areas)
 #'
-#' dat_bbx = readRDS(file = pth_bbx) %>%
+#' dat_bbx = ne_10m_glaciated_areas %>%
 #'   subset(!is.na(name)) %>%
 #'   subset(name == "Greenland Ice Sheet") %>%
 #'   sf::st_bbox(crs = 4326)

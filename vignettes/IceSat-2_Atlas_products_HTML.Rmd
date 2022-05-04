@@ -21,7 +21,7 @@ knitr::opts_chunk$set(warning = FALSE,
 
 <br>
 
-This *second* vignette relies on the computation of *time specific orbits* (as was the case in the *first* vignette too) and explains how to use the 'atl06' *ATLAS OpenAltimetry* product (additional use cases can be found in the *Examples section* of the R package documentation). We'll continue using the *Global glaciated areas* and specifically, the [Greenland Ice Sheet](https://en.wikipedia.org/wiki/Greenland_ice_sheet) which is the second-largest ice body in the world, after the Antarctic ice sheet.
+This *second* vignette relies on the computation of *time specific orbits* (as was the case in the *first* vignette too) and explains how to use the 'atl06' *ATLAS OpenAltimetry* product (additional use cases can be found in the *Examples section* of the R package documentation). We'll restrict the Area of Interest (AOI) to one of the *Global glaciated areas* and specifically to the [Greenland Ice Sheet](https://en.wikipedia.org/wiki/Greenland_ice_sheet), which is the second-largest ice body in the world, after the Antarctic ice sheet.
 
 <br>
 
@@ -42,9 +42,9 @@ First, we'll compute the time *specific orbits* for both periods,
 
 ```{r, eval = TRUE}
 
-require(IceSat2R)
-require(magrittr)
-require(sf)
+pkgs = c('IceSat2R', 'sf', 'mapview', 'data.table', 'stargazer', 'glue', 'utils',
+         'reshape2', 'plotly', 'magrittr', 'geodist', 'CopernicusDEM', 'terra')
+load_pkgs = lapply(pkgs, require, character.only = TRUE)  # load required R packages
 
 sf::sf_use_s2(use_s2 = FALSE)                        # disable 's2' in this vignette
 mapview::mapviewOptions(leafletHeight = '600px', 
@@ -214,15 +214,13 @@ for the summer it took approximately the same time as for winter to process the 
 
 ```{r}
 
-#.......................................
-# extract the 'Greenland Ice Sheet' 
-# glacier from the 'Natural Earth' data
-#.......................................
+#...............................
+# load the 'Greenland Ice Sheet' 
+#...............................
 
-ne_glaciers = system.file('data_files', 'ne_10m_glaciated_areas.RDS', package = "IceSat2R")
-ne_obj = readRDS(file = ne_glaciers)
+data(ne_10m_glaciated_areas)
 
-greenl_sh = subset(ne_obj, name == "Greenland Ice Sheet")
+greenl_sh = subset(ne_10m_glaciated_areas, name == "Greenland Ice Sheet")
 greenl_sh
 
 ```
@@ -387,61 +385,6 @@ Then we have to verify that the intersected *time specific orbit RGT's* match th
 
 ```{r}
 
-#...................................................
-# function to find which of the time specific RGT's
-# match the OpenAltimetry Track-ID's
-#...................................................
-
-verify_RGTs = function(rgt_subs, bbx_aoi, verbose = FALSE) {
-  
-  tracks_dates_RGT = list()
-  
-  for (item in 1:nrow(rgt_subs)) {
-    
-    dat_item = rgt_subs[item, , drop = F]
-    Date = as.Date(dat_item$Date_time)
-    
-    op_tra = getTracks(minx = as.numeric(bbx_aoi['xmin']),
-                       miny = as.numeric(bbx_aoi['ymin']),
-                       maxx = as.numeric(bbx_aoi['xmax']),
-                       maxy = as.numeric(bbx_aoi['ymax']),
-                       date = as.character(Date),
-                       outputFormat = 'csv',
-                       download_method = 'curl',
-                       verbose = FALSE)
-    
-    date_obj = dat_item$Date_time
-    tim_rgt = glue::glue("Date: {date_obj} Time specific RGT: '{dat_item$RGT}'")
-    
-    if (nrow(op_tra) > 0) {
-      
-      inters_trc = intersect(op_tra$track, dat_item$RGT)
-      
-      if (length(inters_trc) > 0) {
-        
-        iter_op_trac = paste(op_tra$track, collapse = ', ')
-        if (verbose) cat(glue::glue("Row: {item} {tim_rgt}  OpenAltimetry: '{iter_op_trac}'"), '\n')
-        
-        num_subl = glue::glue("{as.character(Date)}_{inters_trc}")
-        tracks_dates_RGT[[num_subl]] = data.table::setDT(list(date = as.character(Date), 
-                                                              RGT = inters_trc))
-      }
-    }
-    else {
-      if (verbose) cat(glue::glue("{tim_rgt} without an OpenAltimetry match!"), '\n')
-    }
-  }
-  
-  tracks_dates_RGT = data.table::rbindlist(tracks_dates_RGT)
-  return(tracks_dates_RGT)
-}
-
-```
-
-<br>
-
-```{r}
-
 #.........................................................
 # we keep the relevant columns and remove duplicated 
 # Dates and RGTs to iterate over each pair of observations
@@ -456,11 +399,13 @@ subs_rgt_w_trc$Date_time = as.character(as.Date(subs_rgt_w_trc$Date_time))
 dups_w = which(duplicated(sf::st_drop_geometry(subs_rgt_w_trc)))
 subs_rgt_w_trc = subs_rgt_w_trc[-dups_w, ]
 
-ver_trc_winter = verify_RGTs(rgt_subs = subs_rgt_w_trc, 
+ver_trc_winter = verify_RGTs(nsidc_rgts = subs_rgt_w_trc, 
                              bbx_aoi = bbx_greenl_sh_east,
                              verbose = TRUE)
 
-colnames(ver_trc_winter) = c('date_winter', 'RGT')
+# split(ver_trc_winter, by = 'Date_time')
+
+colnames(ver_trc_winter) = c('date_winter', 'RGT_OpenAlt', 'RGT_NSIDC')
 
 #.......
 # summer
@@ -471,31 +416,32 @@ subs_rgt_s_trc$Date_time = as.character(as.Date(subs_rgt_s_trc$Date_time))
 dups_s = which(duplicated(sf::st_drop_geometry(subs_rgt_s_trc)))
 subs_rgt_s_trc = subs_rgt_s_trc[-dups_s, ]
 
-ver_trc_summer = verify_RGTs(rgt_subs = subs_rgt_s_trc, 
+ver_trc_summer = verify_RGTs(nsidc_rgts = subs_rgt_s_trc, 
                              bbx_aoi = bbx_greenl_sh_east,
                              verbose = TRUE)
 
-colnames(ver_trc_summer) = c('date_summer', 'RGT')
+colnames(ver_trc_summer) = c('date_summer', 'RGT_OpenAlt', 'RGT_NSIDC')
 
 #.............
 # merge by RGT
 #.............
 
-rgts_ws = merge(ver_trc_winter, ver_trc_summer, by = 'RGT')
+rgts_ws = merge(ver_trc_winter[, 1:2], ver_trc_summer[, 1:2], by = 'RGT_OpenAlt')
+colnames(rgts_ws) = c('RGT', 'date_winter', 'date_summer')
 rgts_ws
 
-#       RGT date_summer date_winter
-#   1:    2  2021-06-23  2020-12-24
-#   2:   10  2021-06-24  2020-12-24
-#   3:   11  2021-06-24  2020-12-24
-#   4:   17  2021-06-24  2020-12-25
-#   5:   18  2021-06-24  2020-12-25
+#       RGT date_winter date_summer
+#   1:    2  2020-12-24  2021-06-23
+#   2:   10  2020-12-24  2021-06-24
+#   3:   11  2020-12-24  2021-06-24
+#   4:   17  2020-12-25  2021-06-24
+#   5:   18  2020-12-25  2021-06-24
 #  ---                             
-# 214: 1366  2021-06-22  2020-12-22
-# 215: 1367  2021-06-22  2020-12-22
-# 216: 1373  2021-06-22  2020-12-23
-# 217: 1374  2021-06-22  2020-12-23
-# 218: 1382  2021-06-23  2020-12-23
+# 226: 1366  2020-12-22  2021-06-22
+# 227: 1367  2020-12-22  2021-06-22
+# 228: 1373  2020-12-23  2021-06-22
+# 229: 1374  2020-12-23  2021-06-22
+# 230: 1382  2020-12-23  2021-06-23
 
 ```
 
@@ -581,7 +527,6 @@ subs_join_w = sf::st_join(x = greenl_grid_subs,
                           left = FALSE)
 
 subs_join_w = sf::st_as_sfc(unique(sf::st_geometry(subs_join_w)), crs = 4326)
-
 subs_join_w
 
 # Geometry set for 9 features 
@@ -610,7 +555,6 @@ subs_join_s = sf::st_join(x = greenl_grid_subs,
                           left = FALSE)
 
 subs_join_s = sf::st_as_sfc(unique(sf::st_geometry(subs_join_s)), crs = 4326)
-
 subs_join_s
 
 # Geometry set for 9 features 
@@ -874,7 +818,6 @@ sublist_name = glue::glue("geom_idx_{Greenland_Geom_index}_RGT_{RGT}")
 #...............
 
 w_subs = dat_out_w[[sublist_name]]
-
 w_subs
 
 
@@ -901,7 +844,6 @@ w_subs
 #...............
 
 s_subs = dat_out_s[[sublist_name]]
-
 s_subs
 
 #               date segment_id longitude latitude      h_li atl06_quality_summary track_id beam                                         file_name
@@ -1015,16 +957,16 @@ plotly_beams = function(spl_data,
   # plot for all segments
    #......................
   
-  fig_lines = plotly::plot_ly(data = subs_iter,
-                              x = ~segment_id_winter,
-                              y = ~value,
-                              color = ~variable,
-                              colors = c("blue", "red"), 
-                              line = list(width = 2),
-                              text = ~glue::glue("land-ice-height: {value}  Segment-id: {segment_id_winter}"),
-                              hoverinfo = "text",
-                              width = left_width,
-                              height = left_height) %>%
+    fig_lns = plot_ly(data = subs_iter,
+                      x = ~segment_id_winter,
+                      y = ~value,
+                      color = ~variable,
+                      colors = c("blue", "red"), 
+                      line = list(width = 2),
+                      text =~glue::glue("land-ice-height: {value} Segment-id: {segment_id_winter}"),
+                      hoverinfo = "text",
+                      width = left_width,
+                      height = left_height) %>%
     
     plotly::layout(xaxis = list(gridcolor = "grey", showgrid = T),
                    yaxis = list(gridcolor = "grey", showgrid = T)) %>%
@@ -1035,27 +977,28 @@ plotly_beams = function(spl_data,
   # plot for a subset of segments
   #..............................
   
-  segm_ids = 588326:588908                          # this subset of segments show a big difference betw. summer and winter
+  segm_ids = 588326:588908     # this subset of segments show a big difference betw. summer and winter
+  plt_title = glue::glue("Beam: '{beam}' ( Segments: from {min(segm_ids)} to {max(segm_ids)} )")
   subs_iter_segm = subset(subs_iter, segment_id_winter %in% segm_ids)
   
-  fig_lines_splt = plotly::plot_ly(data = subs_iter_segm,
-                                   x = ~segment_id_winter,
-                                   y = ~value,
-                                   color = ~variable,
-                                   colors = c("blue", "red"), 
-                                   line = list(width = 2),
-                                   text = ~glue::glue("land-ice-height: {value}  Segment-id: {segment_id_winter}"),
-                                   hoverinfo = "text",
-                                   width = right_width,
-                                   height = right_height) %>%
+    fig_spl = plot_ly(data = subs_iter_segm,
+                  x = ~segment_id_winter,
+                  y = ~value,
+                  color = ~variable,
+                  colors = c("blue", "red"), 
+                  line = list(width = 2),
+                  text =~glue::glue("land-ice-height: {value} Segment-id: {segment_id_winter}"),
+                  hoverinfo = "text",
+                  width = right_width,
+                  height = right_height) %>%
     
     plotly::layout(xaxis = list(gridcolor = "grey", showgrid = T),
                    yaxis = list(gridcolor = "grey", showgrid = T)) %>%
     
     plotly::add_lines(showlegend = FALSE)
   
-  both_plt = plotly::subplot(list(fig_lines, fig_lines_splt), nrows=1, margin = 0.03, widths = c(0.7, 0.3)) %>% 
-    plotly::layout(title = glue::glue("Beam: '{beam}' ( Segments: from {min(segm_ids)} to {max(segm_ids)} )"))
+  both_plt = plotly::subplot(list(fig_lns, fig_spl), nrows=1, margin = 0.03, widths = c(0.7, 0.3)) %>% 
+    plotly::layout(title = plt_title)
   # plotly::export(p = both_plt, file = glue::glue('{beam}.png'))
   
   return(both_plt)
@@ -1139,7 +1082,6 @@ for (nam_iter in nams_ws) {
                                                       median = median(sw_hq_merg$dif_height),
                                                       max = max(sw_hq_merg$dif_height),
                                                       N_rows = nrow(sw_hq_merg)))
-    
     #.......................................
     # save the plots for visual verification
     #.......................................
@@ -1166,23 +1108,23 @@ for (nam_iter in nams_ws) {
       # plot for all segments
       #......................
       
-      fig_lines = plotly::plot_ly(data = subs_iter,
-                                  x = ~segment_id_winter,
-                                  y = ~value,
-                                  color = ~variable,
-                                  colors = c("blue", "red"), 
-                                  line = list(width = 2),
-                                  text = ~glue::glue("land-ice-height: {value}  Segment-id: {segment_id_winter}"),
-                                  hoverinfo = "text",
-                                  width = 1800,
-                                  height = 1000) %>%
+        fig_lns = plot_ly(data = subs_iter,
+                          x = ~segment_id_winter,
+                          y = ~value,
+                          color = ~variable,
+                          colors = c("blue", "red"), 
+                          line = list(width = 2),
+                          text =~glue::glue("land-ice-height: {value} Segment-id: {segment_id_winter}"),
+                          hoverinfo = "text",
+                          width = 1800,
+                          height = 1000) %>%
         
         plotly::layout(xaxis = list(gridcolor = "grey", showgrid = T),
                        yaxis = list(gridcolor = "grey", showgrid = T)) %>%
         
         plotly::add_lines()
       
-      plotly::export(p = fig_lines, file = file.path(dir_save, glue::glue('{beam}.png')))
+      plotly::export(p = fig_lns, file = file.path(dir_save, glue::glue('{beam}.png')))
     }
   }
   else {
@@ -1417,7 +1359,7 @@ merg_cells_viz = merg_cells[, ..cols_viz_dem]
 
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, eval = TRUE, echo = FALSE}
 
 merg_cells_viz = readRDS(file = system.file('data_files', 'vignette_data', '3d_plot.RDS', package = "IceSat2R"))
 

@@ -45,12 +45,11 @@
 #' # Ice sheet area
 #' #...............
 #'
-#' pth_bbx = system.file('data_files', 'ne_10m_glaciated_areas.RDS',
-#'                       package = "IceSat2R")
+#' data(ne_10m_glaciated_areas)
 #'
 #' ice_sheet = 'Kluane Ice Cap'
 #'
-#' ice_sheet_geom = readRDS(file = pth_bbx) %>%
+#' ice_sheet_geom = ne_10m_glaciated_areas %>%
 #'   subset(!is.na(name)) %>%
 #'   subset(name == ice_sheet)
 #'
@@ -101,10 +100,11 @@
 #' rgt_subs = res_rgt_many[df_inters$col.id, , drop = FALSE]
 #'
 #'
-#' #.......................................
+#' #.......................................................
 #' # Keep the Date and the bounding box to
 #' # verify with the 'getTracks()' function
-#' #.......................................
+#' # an alternative is to use the "verify_RGTs()" function
+#' #.......................................................
 #'
 #' for (item in 1:nrow(rgt_subs)) {
 #'

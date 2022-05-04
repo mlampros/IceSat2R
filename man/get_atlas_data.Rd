@@ -170,39 +170,9 @@ rgt_subs
 # match the OpenAltimetry Track-ID's
 #..........................................
 
-tracks_dates_RGT = tracks_dates_OpenAltimetry = list()
-
-for (item in 1:nrow(rgt_subs)) {
-
-  dat_item = rgt_subs[item, , drop = F]
-  Date = as.Date(dat_item$Date_time)
-
-  op_tra = getTracks(minx = as.numeric(bbx_aoi['xmin']),
-                     miny = as.numeric(bbx_aoi['ymin']),
-                     maxx = as.numeric(bbx_aoi['xmax']),
-                     maxy = as.numeric(bbx_aoi['ymax']),
-                     date = as.character(Date),
-                     outputFormat = 'csv',
-                     download_method = 'curl',
-                     verbose = FALSE)
-
-  date_obj = dat_item$Date_time
-  tim_rgt = glue::glue("Date: {date_obj} Time specific RGT: '{dat_item$RGT}'")
-
-  if (nrow(op_tra) > 0) {
-    iter_op_trac = paste(op_tra$track, collapse = ', ')
-    cat(glue::glue("{tim_rgt}  OpenAltimetry: '{iter_op_trac}'"), '\n')
-
-    tracks_dates_RGT[[as.character(Date)]] = dat_item$RGT
-    tracks_dates_OpenAltimetry[[as.character(Date)]] = op_tra$track
-  }
-  else {
-    cat(glue::glue("{tim_rgt} without an OpenAltimetry match!"), '\n')
-  }
-}
-
-str(tracks_dates_RGT)
-str(tracks_dates_OpenAltimetry)
+dtbl_rgts = verify_RGTs(nsidc_rgts = rgt_subs,
+                        bbx_aoi = bbx_aoi,
+                        verbose = TRUE)
 
 #...................................
 # we will iterate over the available:
@@ -212,8 +182,8 @@ str(tracks_dates_OpenAltimetry)
 # to gather the up to 5-degree data
 #..................................
 
-dates_iters = names(tracks_dates_RGT)
-RGTs_iters = unlist(tracks_dates_RGT)
+dates_iters = unique(dtbl_rgts$Date_time)
+RGTs_iters = unique(dtbl_rgts$RGT_NSIDC)
 prods_5_degrs = c('atl06', 'atl07', 'atl08', 'atl10', 'atl12', 'atl13')
 
 dat_out = logs_out = list()

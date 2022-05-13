@@ -8,6 +8,7 @@
 * I added the *ne_10m_glaciated_areas.rda* and *RGT_cycle_14.rda* files in the *data* directory and I removed the *ne_10m_glaciated_areas.RDS* and *RGT_cycle_14.RDS* files from the *inst* directory
 * I've added the *verify_RGTs()* function
 * I modified / updated the Vignettes, Example sections and the JOSS paper taking into account all previously mentioned changes
+* I updated the README.md file
 
 
 ## IceSat2R 1.0.1

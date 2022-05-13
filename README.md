@@ -125,19 +125,6 @@ docker run -d --name rstudio_dev -e USER=rstudio -e PASSWORD=give_here_your_pass
 
 <br>
 
-In the latter case you might have first give permission privileges for write access to **YOUR_DIR** directory (not necessarily) using,
-
-<br>
-
-```R
-
-chmod -R 777 /home/YOUR_DIR
-
-
-```
-
-<br>
-
 The **USER** defaults to *rstudio* but you have to give your **PASSWORD** of preference (see [www.rocker-project.org](https://www.rocker-project.org/) for more information).
 
 <br>

@@ -49,7 +49,7 @@ require(sf)
 sf::sf_use_s2(use_s2 = FALSE)
 
 #..........................................................
-# In case we are interested to find the IceSat-2 tracks for
+# In case we are interested to find the ICESat-2 tracks for
 #     - a specific area (or bounding box)
 #     - a specific time interval (close to September 2021)
 #..........................................................

@@ -1,9 +1,9 @@
 ---
-title: "IceSat-2 Mission Orbits"
+title: "ICESat-2 Mission Orbits"
 output: rmarkdown::html_vignette
 always_allow_html: true
 vignette: >
-  %\VignetteIndexEntry{IceSat-2 Mission Orbits}
+  %\VignetteIndexEntry{ICESat-2 Mission Orbits}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -51,7 +51,7 @@ res_rgt_many
 
 <br>
 
-## Icesat-2 and Countries intersection
+## ICESat-2 and Countries intersection
 
 <br>
 
@@ -152,11 +152,11 @@ all RGT's (1387 in number) intersect with *"Antarctica"* and almost all with *"R
 
 <br>
 
-## 'Onshore' and 'Offshore' Points IceSat-2 coverage
+## 'Onshore' and 'Offshore' Points ICESat-2 coverage
 
 <br>
 
-The **onshore** and **offshore** number of IceSat-2 points and percentages for the *"RGT_cycle_14"* equal to
+The **onshore** and **offshore** number of ICESat-2 points and percentages for the *"RGT_cycle_14"* equal to
 
 <br>
 
@@ -192,11 +192,11 @@ stargazer::stargazer(dtbl_land_sea,
 
 <br>
 
-## Global glaciated areas and IceSat-2 coverage
+## Global glaciated areas and ICESat-2 coverage
 
 <br>
 
-We can also observe the IceSat-2 *"RGT_cycle_14"* coverage based on the 1 to 10 million large scale [Natural Earth Glaciated Areas](https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-glaciated-areas/) data,
+We can also observe the ICESat-2 *"RGT_cycle_14"* coverage based on the 1 to 10 million large scale [Natural Earth Glaciated Areas](https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-glaciated-areas/) data,
 
 <br>
 
@@ -238,7 +238,7 @@ mpv
 
 <br>
 
-We will see which orbits of the IceSat-2 *"RGT_cycle_14"* intersect with these major polar glaciers,
+We will see which orbits of the ICESat-2 *"RGT_cycle_14"* intersect with these major polar glaciers,
 
 <br>
 
@@ -299,7 +299,7 @@ stargazer::stargazer(sum_stats_glac,
 
 <br>
 
-We can restrict to one of the glaciers to visualize the IceSat-2 *"RGT_cycle_14"* coverage over this specific area (*'Southern Patagonian Ice Field'*),
+We can restrict to one of the glaciers to visualize the ICESat-2 *"RGT_cycle_14"* coverage over this specific area (*'Southern Patagonian Ice Field'*),
 
 <br>
 

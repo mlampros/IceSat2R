@@ -1,9 +1,9 @@
 ---
-title: "IceSat-2 Virtual File System Orbits"
+title: "ICESat-2 Virtual File System Orbits"
 output: rmarkdown::html_vignette
 always_allow_html: true
 vignette: >
-  %\VignetteIndexEntry{IceSat-2 Virtual File System Orbits}
+  %\VignetteIndexEntry{ICESat-2 Virtual File System Orbits}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

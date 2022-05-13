@@ -9,6 +9,7 @@
 * I've added the *verify_RGTs()* function
 * I modified / updated the Vignettes, Example sections and the JOSS paper taking into account all previously mentioned changes
 * I updated the README.md file
+* I modified all files of the R package to make the ICESat-2 naming consistent (see issue https://github.com/mlampros/IceSat2R/issues/8)
 
 
 ## IceSat2R 1.0.1

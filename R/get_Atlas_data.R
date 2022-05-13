@@ -1,7 +1,7 @@
 
-#' Get IceSat-2 ATLAS data for a specific Date
+#' Get ICESat-2 ATLAS data for a specific Date
 #'
-#' This function allows the user to download IceSat-2 ATLAS Product data for a specific date, bounding box, track and beam.
+#' This function allows the user to download ICESat-2 ATLAS Product data for a specific date, bounding box, track and beam.
 #'
 #' @param minx the 'minx' parameter of the bounding box
 #' @param maxx the 'maxx' parameter of the bounding box
@@ -95,7 +95,7 @@
 #'
 #'
 #' #....................................................
-#' # first we find available IceSat-2 track-ID's
+#' # first we find available ICESat-2 track-ID's
 #' # and Dates (time interval) from a specific RGT cycle
 #' #....................................................
 #'

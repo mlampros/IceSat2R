@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_Atlas_data.R
 \name{get_atlas_data}
 \alias{get_atlas_data}
-\title{Get IceSat-2 ATLAS data for a specific Date}
+\title{Get ICESat-2 ATLAS data for a specific Date}
 \usage{
 get_atlas_data(
   minx,
@@ -57,7 +57,7 @@ get_atlas_data(
 if the 'file_path_zip' parameter is NULL it returns either a data.table (if outputFormat is 'csv') or a nested list (if outputFormat is 'json') else the file path where the .zip file is saved. In case that the 'outputFormat' is set to 'zip' and the 'file_path_zip' parameter to NULL then a data.table will be returned.
 }
 \description{
-This function allows the user to download IceSat-2 ATLAS Product data for a specific date, bounding box, track and beam.
+This function allows the user to download ICESat-2 ATLAS Product data for a specific date, bounding box, track and beam.
 }
 \details{
 \describe{
@@ -120,7 +120,7 @@ sf_obj
 
 
 #....................................................
-# first we find available IceSat-2 track-ID's
+# first we find available ICESat-2 track-ID's
 # and Dates (time interval) from a specific RGT cycle
 #....................................................
 

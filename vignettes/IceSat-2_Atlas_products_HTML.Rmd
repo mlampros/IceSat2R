@@ -1,9 +1,9 @@
 ---
-title: "IceSat-2 Atlas Products"
+title: "ICESat-2 Atlas Products"
 output: rmarkdown::html_vignette
 always_allow_html: true
 vignette: >
-  %\VignetteIndexEntry{IceSat-2 Atlas Products}
+  %\VignetteIndexEntry{ICESat-2 Atlas Products}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

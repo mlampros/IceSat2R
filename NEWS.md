@@ -10,6 +10,7 @@
 * I modified / updated the Vignettes, Example sections and the JOSS paper taking into account all previously mentioned changes
 * I updated the README.md file
 * I modified all files of the R package to make the ICESat-2 naming consistent (see issue https://github.com/mlampros/IceSat2R/issues/8)
+* I've modified the "IceSat-2_Atlas_products.Rmd" Vignette files (.html and .pdf versions) to fix an issue related to the "vertical" Coordinate Reference System (CRS) of the Copernicus DEM (see issue: https://github.com/mlampros/IceSat2R/issues/7)
 
 
 ## IceSat2R 1.0.1

@@ -1202,6 +1202,8 @@ sm_stats = lapply(spl_beam, function(x) {
   summary(x$dist_dif)
 })
 
+sm_stats
+
 # $gt1l
 #     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
 # 0.006829 1.568755 2.107793 2.083547 2.654482 3.911961 
@@ -1306,18 +1308,56 @@ rst_crop = terra::crop(x = rst_inp,
                        y = vec_crop, 
                        snap = "out")      # snap = "in" gives NA's
 
+pth_egm = file.path(dem_dir, 'copernicus_dem_egm2008.tif')
+terra::writeRaster(x = rst_crop, filename = pth_egm)
+
+
+#...........................................................................................................
+# The Copernicus DEM has a "horizontal" CRS (Coordinate Reference System) of WGS84-G1150 (EPSG 4326)
+# and a "vertical" CRS of EGM2008 (EPSG 3855) - geoid. Therefore, a transformation of the vertical 
+# CRS is required to match the ellipsoid CRS of the ICESat-2 data
+# The Table 1 (page 10 of 37) of the following weblink includes more information:
+# https://spacedata.copernicus.eu/documents/20126/0/GEO1988-CopernicusDEM-SPE-002_ProductHandbook_I1.00.pdf
+# The 2.5 minute geoid grid .gtx file of EGM2008 was downloaded from the following "osgeo" url:
+# http://download.osgeo.org/proj/vdatum/egm08_25/
+#...........................................................................................................
+
+pth_gtx = file.path(dem_dir, 'egm08_25.gtx')
+
+download.file(url = 'http://download.osgeo.org/proj/vdatum/egm08_25/egm08_25.gtx', 
+              destfile = pth_gtx, 
+              method = 'curl')
+
+pth_dem_transformed = file.path(dem_dir, 'copernicus_dem_egm2008_transformed.tif')
+
+convrt = sf::gdal_utils(
+  util = "warp",
+  source = pth_egm,
+  destination = pth_dem_transformed,
+  options = c("-s_srs", glue::glue("+proj=longlat +datum=WGS84 +no_defs +geoidgrids={pth_gtx}"),
+              "-t_srs", "+proj=longlat +datum=WGS84 +no_def"),
+  quiet = FALSE)
+
+
+#....................................
+# load the transformed Copernicus DEM
+#....................................
+
+rst_crop_transformed = terra::rast(x = pth_dem_transformed)
+
+
 #...............................................
 # we also have to find the closest elevation 
 # value to the 'winter' and 'summer' coordinates
 # using the raster resolution
 #...............................................
 
-ter_dtbl = data.table::as.data.table(x = rst_crop, xy = TRUE, cells = TRUE)
+ter_dtbl = data.table::as.data.table(x = rst_crop_transformed, xy = TRUE, cells = TRUE)
 colnames(ter_dtbl) = c("cell", "lon_dem30", "lat_dem30", "dem30")
 # length(unique(ter_dtbl$cell)) == nrow(ter_dtbl)
 
 xy = as.matrix(sw_hq_merg_beams[, c('longitude', 'latitude')])
-sw_cells = terra::cellFromXY(object = rst_crop, xy = xy)
+sw_cells = terra::cellFromXY(object = rst_crop_transformed, xy = xy)
 
 sw_hq_merg_beams$cell = sw_cells
 # length(unique(sw_hq_merg_beams$cell)) < nrow(sw_hq_merg_beams)
@@ -1338,7 +1378,7 @@ merg_cells$dem_dif_dist = geodist::geodist(x = merg_cells[, c('longitude', 'lati
 summary(merg_cells$dem_dif_dist)
 
  #   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- # 0.2356  8.1619 11.5943 11.1490 14.3201 20.5394
+ # 0.1228  5.9179  8.9506  9.1205 12.5481 17.1965 
 
 ```
 

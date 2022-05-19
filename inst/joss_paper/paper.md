@@ -25,7 +25,7 @@ journal: JOSS
 
 # Summary
 
-Lidar technology (light detection and ranging) is integrated into autonomous cars, unmanned aerial vehicles (UAV), airplanes, and satellites and as of October 2021, it represents a growing market. Many satellite missions utilize lidar to observe the surface of the earth and one of these is ICESat-2, which was launched on 15th September 2018 with the primary goal to measure changes in glaciers and ice sheets [@smith2019]. ICESat-2 (the successor of ICESat) consists of 6 beams (3 pairs), where each pair is separated by 3 kilometers and each beam in the pair is also separated by 90 meters as the following image shows [@smith2019],
+Lidar technology (light detection and ranging) is integrated into autonomous cars, unmanned aerial vehicles (UAV), airplanes, and satellites and it represents a growing market. Many satellite missions utilize lidar to observe the surface of the earth and one of these is ICESat-2 [@MARKUS2017260], which was launched on 15th September 2018 with the primary goal to measure changes in glaciers and ice sheets [@smith2019]. ICESat-2 (the successor of ICESat) consists of 6 beams (3 pairs), where each pair is separated by 3 kilometers and each beam in the pair is also separated by 90 meters as the following image shows [@smith2019],
 
 \begin{figure}[h]
 \includegraphics[width=1\linewidth,height=0.3\textheight]{figures/icesat_2_details} \caption{the ICESat-2 ATLAS six-beam pattern}\label{fig:icesat-beams}
@@ -68,13 +68,24 @@ This work-flow is illustrated also in the next diagram,
 \end{figure}
 
 
+# State of the field
+
+In R programming there isn't currently a CRAN package that allows a user to download ICESat-2 data for the majority of the data products. 
+
+* The [icesat2R](https://github.com/mqueinnec/icesat2R) R package [@queinnec2022] appears only on Github and based on the [DESCRIPTION file](https://github.com/mqueinnec/icesat2R/blob/master/DESCRIPTION#L3) it includes code that allows the "Downloading and processing of ICESat-2 data for forest analysis" (Atlas-03 and Atlas-08 Products). 
+* In Python programming the [icepyx](https://github.com/icesat2py/icepyx) [@icepyx] is both a software library and a community composed of ICESat-2 data users, developers, and the scientific community that work together to develop a shared library of resources that simplify the process of querying, obtaining, analyzing, and manipulating ICESat-2 datasets to enable scientific discovery.
+* In Julia programming the [SpaceLiDAR.jl](https://github.com/evetion/SpaceLiDAR.jl) [@Pronk_SpaceLiDAR_jl_2021] is a research package that currently supports the "GLAH14 v34", "ATL03 v4", "ATL08 v4" and "ATL12 v4" ICESat-2 data products.
+
+The main difference between "IceSat2R" and the other programming packages ("icesat2R", "icepyx", "SpaceLiDAR.jl") is that the "IceSat2R" package allows the users to download ICESat-2 data using the OpenAltimetry API whereas users of the remaining software download ICESat-2 data directly from NSIDC.
+
+
 # Example use case
 
 The example code of this section explains how an R user can utilize the [IceSat2R](https://cran.r-project.org/web/packages/IceSat2R/index.html) package to,
 
 -   extract the *Reference Ground Tracks (RGT)* of an AOI (*Himalayas mountain range*) using the *GDAL Virtual File System*
 -   retrieve data from the *OpenAltimetry API* for a pre-specified bounding box (as described in the previous work-flow)
--   report the number of downloaded and available observations for each specified ICESat-2 product
+-   report the number of downloaded and available observations for the specified ICESat-2 product
 
 The following map shows the bounding box areas (small on the left and big on the right) that will be used in the code.
 
@@ -89,43 +100,32 @@ The following map shows the bounding box areas (small on the left and big on the
 
 
 ```r
-# required R packages
+# load the required R packages and the AOI
 
 pkgs = c('IceSat2R', 'magrittr', 'sf', 'mapview', 'leaflet', 
-         'glue', 'data.table')
+         'glue', 'data.table', 'dplyr')
+
 load_pkgs = lapply(pkgs, require, character.only = TRUE)
 
-# load the AOI
-
-himl_pth = system.file('data_files', 'vignette_data', 'himalayas.RDS',
-                       package = "IceSat2R")
-geoms_himal = readRDS(himl_pth)
+geoms_himal = system.file('data_files', 'vignette_data', 'himalayas.RDS',
+                          package = "IceSat2R") %>% readRDS()
 
 sf_wkt = sf::st_geometry(subset(geoms_himal, area_size == 'big'))
 centr_wkt = sf::st_coordinates(sf::st_centroid(sf_wkt))
 dat_wkt = sf::st_as_text(sf_wkt)
 
-# iterate over all 8 available repeats for the Eastern Hemisphere
+# set the "rgt_repeat" to 1 (there is also the option to iterate over the 
+# 8 available repeats for the Eastern Hemisphere and extract the unique RGTs
 
-lst_out = list()
-
-for (iter in 1:8) {        
-  dat_iter = IceSat2R::vsi_nominal_orbits_wkt(orbit_area = 'eastern_hemisphere',
-                                              track = 'GT7',
-                                              rgt_repeat = iter,
-                                              wkt_filter = dat_wkt,
-                                              download_method = 'curl',
-                                              download_zip = FALSE,
-                                              verbose = TRUE)
-  lst_out[[iter]] = dat_iter
-}
-
-# Extract the unique Reference Ground Tracks (RGTs)
-
-lst_out = unlist(lst_out, recursive = FALSE)
-unq_rgts = as.vector(unique(unlist(lapply(lst_out, function(x) x$RGT))))
+unq_rgts = IceSat2R::vsi_nominal_orbits_wkt(orbit_area = 'eastern_hemisphere',
+                                            track = 'GT7',
+                                            rgt_repeat = 1,
+                                            wkt_filter = dat_wkt,
+                                            download_method = 'curl',
+                                            download_zip = FALSE,
+                                            verbose = TRUE)[[1]]$RGT
 unq_rgts
-# [1] "96"   "157"  "363"  "538"  "599"  "805"  "866"  "1041" "1308" "1247"
+# [1] "96"   "157"  "363"  "538"  "599"  "805"  "866"  "1041" "1308"
 ```
 
 In this use case, we are interested in ICESat-2 data for a specific time period (from *'2020-01-01'* to *'2021-01-01'* - 1-year's data). We'll make use of the *IceSat2R::vsi_time_specific_orbits_wkt()* function which queries all *15 ICESat-2 RGTs cycles* (as of March 2022) to come to the RGTs intersection for the specified 1-year time interval,
@@ -148,7 +148,6 @@ The next map shows the 18 different Date-Time matches for our defined 1-year tim
 ```r
 orbit_cy = mapview::mapview(orb_cyc_multi, legend = FALSE)
 AOI_wkt = mapview::mapview(sf_wkt, legend = FALSE)
-
 lft = orbit_cy + AOI_wkt
 
 lft@map %>% leaflet::setView(lng = centr_wkt[, 'X'],
@@ -165,50 +164,35 @@ lft@map %>% leaflet::setView(lng = centr_wkt[, 'X'],
 \caption{Intersection of the AOI and the ICESat-2 Orbits}\label{fig:himalayas-rgts}
 \end{figure}
 
-The output of *'vsi_time_specific_orbits_wkt()'* can be verified with the *OpenAltimetry's 'getTracks()'* function,
+The output of *'vsi_time_specific_orbits_wkt()'* can be verified with the *OpenAltimetry's 'getTracks()'* function, so that we can keep the unique RGTs,
 
 
 ```r
-bbx_aoi = sf::st_bbox(obj = sf_wkt)
-dtbl_rgts = verify_RGTs(nsidc_rgts = orb_cyc_multi, 
-                        bbx_aoi = bbx_aoi, 
-                        verbose = TRUE)
-rows_match = which(dtbl_rgts$RGT_OpenAlt == dtbl_rgts$RGT_NSIDC)
-```
+dtbl_rgts = sf::st_bbox(obj = sf_wkt) %>%
+  verify_RGTs(nsidc_rgts = orb_cyc_multi, verbose = TRUE)
 
-We keep the rows that intersect with the output of the *OpenAltimetry getTracks()* function,
-
-
-```r
-inters_opnalt_rgt = orb_cyc_multi[rows_match, , drop = FALSE]
+RGTs = orb_cyc_multi[dtbl_rgts$RGT_OpenAlt == dtbl_rgts$RGT_NSIDC, ][['RGT']] %>%
+  unique()
 ```
 
 We also restrict our initial AOI to a smaller area in the *Himalayas mountain range*,
 
 
 ```r
-sf_wkt_init = sf::st_geometry(subset(geoms_himal, area_size == 'small'))
-bbx_aoi_init = sf::st_bbox(obj = sf_wkt_init)
+bbx_aoi_init = sf::st_geometry(subset(geoms_himal, area_size == 'small')) %>%
+  sf::st_bbox()
 ```
 
-A potential use case would be to visualize the *Ice*, *Land* and *Canopy* height differences, and the right function for this purpose would be the *IceSat2R::get_level3a_data()* function that takes a *time interval* as input. The corresponding ICESat-2 and OpenAltimetry API products are the **'atl06'** and **'atl08'**. In this example use case we'll restrict to the *'atl06'* product but iterating over multiple Products is also feasible,
+A potential use case would be to visualize the *Ice*, *Land*, and *Canopy* height differences, and the right function for this purpose would be the *IceSat2R::get_level3a_data()* function that takes a *time interval* as input. The corresponding ICESat-2 and OpenAltimetry API products are the **'atl06'** and **'atl08'**. In this example use case we'll restrict to the *'atl06'* product (iterating over multiple Products is also feasible), We'll iterate over the available tracks to retrieve the altimeter data,
 
 
 ```r
-RGTs = sort(unique(inters_opnalt_rgt$RGT))
-```
-
-We'll iterate over the available tracks to retrieve the altimeter data,
-
-
-```r
+prod = 'atl06'
 dat_out = logs_out = list()
 
 for (track_i in RGTs) {
   
   cat(paste0(track_i, '.'))
-  prod = 'atl06'
-
   iter_dat = IceSat2R::get_level3a_data(minx = bbx_aoi_init['xmin'],
                                         miny = bbx_aoi_init['ymin'],
                                         maxx = bbx_aoi_init['xmax'],
@@ -216,11 +200,7 @@ for (track_i in RGTs) {
                                         startDate = date_start,
                                         endDate = date_end,
                                         trackId = track_i,
-                                        beamName = NULL,
-                                        product = prod,
-                                        client = 'portal',
-                                        outputFormat = 'csv',
-                                        verbose = FALSE)
+                                        product = prod)
   iter_logs = list(RGT = track_i,
                    Product = prod,
                    N_rows = nrow(iter_dat))
@@ -234,12 +214,9 @@ The following table shows the RGTs and the retrieved number of rows for the spec
 
 
 ```r
-# output logs
-
 dtbl_logs = data.table::rbindlist(logs_out) %>%
-  subset(N_rows > 0)
-dtbl_logs = dtbl_logs[order(dtbl_logs$N_rows, decreasing = TRUE), ]
-dtbl_logs
+  subset(N_rows > 0) %>%
+  dplyr::arrange(dplyr::desc(N_rows))
 
 #     RGT Product N_rows
 # 1:  599   atl06  56531

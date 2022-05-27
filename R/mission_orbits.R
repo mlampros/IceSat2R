@@ -821,14 +821,47 @@ time_specific_orbits = function(date_from = NULL,
     sf_objs = sf::st_as_sf(data.table::rbindlist(sf_objs))
 
     if (verbose) cat("The 'description' column of the output data will be processed ...\n")
+    # descr_proc = strsplit(x = sf_objs$description, split = '[ \n]')                           # split either by newline or by space  [ it's wrong because it splits the date and time too ]
     descr_proc = strsplit(x = sf_objs$description, split = '\n')
     descr_proc = data.table::data.table(do.call(rbind, descr_proc), stringsAsFactors = F)
-    colnames(descr_proc) = c('RGT', 'Date_time', 'DOY', 'cycle')
+
+    #............................................................................................................................................
+    # !! IMPORTANT !! There was a case where only 'RGT' and 'Date_time' was returned. I have to include the other 2 columns too by using NA's
+    #                 I have to guess the column-names based on the 1st row of the "descr_proc" data
+
+    samp_rownames = as.vector(unlist(descr_proc[1, , drop = T]))
+    idx_rgt = which(as.vector(unlist(lapply(gregexpr(pattern = 'RGT', text = samp_rownames), function(x) all(x != -1)))))
+    if (length(idx_rgt) == 0) stop("I expect that the RGT column exists!", call. = F)
+
+    idx_date_time = which(as.vector(unlist(lapply(gregexpr(pattern = '-', text = samp_rownames), function(x) all(x != -1)))))
+    if (length(idx_date_time) == 0) stop("I expect that the Date-Time column exists!", call. = F)
+
+    colnames(descr_proc)[idx_rgt] = 'RGT'
+    colnames(descr_proc)[idx_date_time] = 'Date_time'
+
+    idx_doy = which(as.vector(unlist(lapply(gregexpr(pattern = 'DOY', text = samp_rownames), function(x) all(x != -1)))))
+    if (length(idx_doy) == 0) {
+      descr_proc$DOY = rep(NA_integer_, nrow(descr_proc))
+    }
+    else {
+      colnames(descr_proc)[idx_doy] = 'DOY'
+    }
+
+    idx_cycle = which(as.vector(unlist(lapply(gregexpr(pattern = 'Cycle', text = samp_rownames), function(x) all(x != -1)))))
+    if (length(idx_cycle) == 0) {
+      descr_proc$cycle = rep(NA_integer_, nrow(descr_proc))
+    }
+    else {
+      colnames(descr_proc)[idx_cycle] = 'cycle'
+    }
+
+    # colnames(descr_proc) = c('RGT', 'Date_time', 'DOY', 'cycle')   # this is the order that normally appears in the output data
+    #............................................................................................................................................
 
     sf_objs$description = NULL
     sf_objs$RGT = as.integer(gsub('RGT ', '', descr_proc$RGT))                                 # keep the integer from the character string which corresponds to the 'RGT'
     sf_objs$Date_time = descr_proc$Date_time
-    sf_objs$day_of_year = as.integer(gsub('DOY ', '', descr_proc$DOY))                                 # keep the integer from the character string which corresponds to the 'DOY'
+    sf_objs$day_of_year = as.integer(gsub('DOY ', '', descr_proc$DOY))                         # keep the integer from the character string which corresponds to the 'DOY'
     sf_objs$cycle = as.integer(gsub('Cycle ', '', descr_proc$cycle))                           # keep the integer from the character string which corresponds to the 'cycle'
     sf_objs = sf::st_zm(x = sf_objs, drop = T)                                                 # drop the Z dimension
 

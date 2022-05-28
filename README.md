@@ -237,7 +237,7 @@ Using a table to map the **strong** and **weak** beams (Reference: [sliderule-py
 
 <br>
 
-<center> <h1>ATLAS oriented forward (+x)</h1> </center>
+<center> <h1>ATLAS oriented forward</h1> </center>
 
 +------------------------+------------------------------+--------------------+
 | **ATLAS Spot Number**  | **Ground track Designation** | **Beam Strength**  |
@@ -257,7 +257,7 @@ Using a table to map the **strong** and **weak** beams (Reference: [sliderule-py
 
 <br>
 
-<center> <h1>ATLAS oriented backwards (-x)</h1> </center>
+<center> <h1>ATLAS oriented backwards</h1> </center>
 
 +------------------------+------------------------------+--------------------+
 | **ATLAS Spot Number**  | **Ground track Designation** | **Beam Strength**  |

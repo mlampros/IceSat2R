@@ -221,6 +221,63 @@ The previous code snippet allows a user to test if the package works as expected
 
 <br>
 
+### The Beam Pattern
+
+<br>
+
+The ATLAS beam pattern on the ground changes depending on the orientation of the ICESat-2 observatory. The pattern on top (of the following Figure) corresponds to traveling in the forward (+x) orientation, while the pattern on the bottom corresponds to traveling in the backward (-x) orientation. The numbers indicate the corresponding ATLAS beam, while the L/R mapping are used on the ATL03 and higher-level data products. The two strong beams with the TEP are ATLAS beams 1 and 3 (Fig.8, Neumann et al., 2019, https://doi.org/10.1016/j.rse.2019.111325)
+
+<br>
+
+<img src="man/figures/ATLAS_beam_pattern.jpg" ></img>
+
+<br>
+
+Using a table to map the **strong** and **weak** beams (Reference: [sliderule-python documentation](http://icesat2sliderule.org/rtd/user_guide/Background.html#icesat-2))
+
+<br>
+
+<center> <h1>ATLAS oriented forward (+x)</h1> </center>
+
++------------------------+------------------------------+--------------------+
+| **ATLAS Spot Number**  | **Ground track Designation** | **Beam Strength**  |
++------------------------+------------------------------+--------------------+
+| 1                      | gt3r                         | Strong             |
++------------------------+------------------------------+--------------------+
+| 2                      | gt3l                         | Weak               |
++------------------------+------------------------------+--------------------+
+| 3                      | gt2r                         | Strong             |
++------------------------+------------------------------+--------------------+
+| 4                      | gt2l                         | Weak               |
++------------------------+------------------------------+--------------------+
+| 5                      | gt1r                         | Strong             |
++------------------------+------------------------------+--------------------+
+| 6                      | gt1l                         | Weak               |
++------------------------+------------------------------+--------------------+
+
+<br>
+
+<center> <h1>ATLAS oriented backwards (-x)</h1> </center>
+
++------------------------+------------------------------+--------------------+
+| **ATLAS Spot Number**  | **Ground track Designation** | **Beam Strength**  |
++------------------------+------------------------------+--------------------+
+| 1                      | gt3r                         | Weak               |
++------------------------+------------------------------+--------------------+
+| 2                      | gt3l                         | Strong             |
++------------------------+------------------------------+--------------------+
+| 3                      | gt2r                         | Weak               |
++------------------------+------------------------------+--------------------+
+| 4                      | gt2l                         | Strong             |
++------------------------+------------------------------+--------------------+
+| 5                      | gt1r                         | Weak               |
++------------------------+------------------------------+--------------------+
+| 6                      | gt1l                         | Strong             |
++------------------------+------------------------------+--------------------+
+
+<br>
+
+
 ### Citation:
 
 <br>

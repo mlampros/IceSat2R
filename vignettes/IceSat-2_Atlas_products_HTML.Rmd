@@ -1311,6 +1311,14 @@ rst_crop = terra::crop(x = rst_inp,
 pth_egm = file.path(dem_dir, 'copernicus_dem_egm2008.tif')
 terra::writeRaster(x = rst_crop, filename = pth_egm)
 
+rst_dem = terra::rast(pth_egm)
+rst_dem
+
+CRS_dem = terra::crs(rst_dem, proj = TRUE)
+RES_dem = as.character(terra::res(rst_dem))
+EXT_dem = as.vector(terra::ext(rst_dem))
+EXT_dem = c(EXT_dem['xmin'], EXT_dem['ymin'], EXT_dem['xmax'], EXT_dem['ymax'])
+EXT_dem = as.character(EXT_dem)
 
 #...........................................................................................................
 # The Copernicus DEM has a "horizontal" CRS (Coordinate Reference System) of WGS84-G1150 (EPSG 4326)
@@ -1334,10 +1342,11 @@ convrt = sf::gdal_utils(
   util = "warp",
   source = pth_egm,
   destination = pth_dem_transformed,
-  options = c("-s_srs", glue::glue("+proj=longlat +datum=WGS84 +no_defs +geoidgrids={pth_gtx}"),
-              "-t_srs", "+proj=longlat +datum=WGS84 +no_def"),
+  options = c("-s_srs", glue::glue("{CRS_dem} +geoidgrids={pth_gtx}"),
+              "-t_srs", CRS_dem,
+              "-tr", RES_dem,
+              "-te", EXT_dem),
   quiet = FALSE)
-
 
 #....................................
 # load the transformed Copernicus DEM
@@ -1377,8 +1386,8 @@ merg_cells$dem_dif_dist = geodist::geodist(x = merg_cells[, c('longitude', 'lati
 
 summary(merg_cells$dem_dif_dist)
 
- #   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- # 0.1228  5.9179  8.9506  9.1205 12.5481 17.1965 
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.2356  8.1619 11.5943 11.1490 14.3201 20.5394 
 
 ```
 

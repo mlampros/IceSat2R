@@ -193,3 +193,20 @@ testthat::test_that("the function 'vsi_time_specific_orbits_wkt()' returns the e
   testthat::expect_true(inherits(orb_cyc_single, c("sf", "data.table", "data.frame")) & nrow(orb_cyc_single) == 2 & ncol(orb_cyc_single) == 15)
 })
 
+
+testthat::test_that("the function 'time_specific_orbits()' returns the expected output for an input WKT!", {
+
+  testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
+
+  approx_date_start = "2021-02-01"
+  approx_date_end = "2021-02-15"
+
+  res_rgt_many = time_specific_orbits(date_from = approx_date_start,
+                                      date_to = approx_date_end,
+                                      RGT_cycle = NULL,
+                                      download_method = 'curl',
+                                      threads = parallel::detectCores(),
+                                      verbose = FALSE)
+
+  testthat::expect_true( inherits(res_rgt_many, c("sf", "data.table", "data.frame")) & nrow(res_rgt_many) > 0 & ncol(res_rgt_many) > 0 )
+})

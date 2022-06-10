@@ -120,12 +120,12 @@ jobs:
           echo -e 'options(Ncpus = 4, pkgType = "source", repos = structure(c(CRAN = "https://cloud.r-project.org/")))' > $HOME/.Rprofile
           Rscript -e "remotes::install_github('ropensci/tic')" -e "print(tic::dsl_load())" -e "tic::prepare_all_stages()" -e "tic::before_install()" -e "tic::install()"
 
-      - name: "install the development version of the 'terra' package"
+      - name: "install the development version of 'terra' and 'mapview' packages"
         run: |
-          Rscript -e 'remove.packages(c("mapview", "terra"))'
-          Rscript -e 'Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")'
-          Rscript -e 'remotes::install_github("rspatial/terra")'
-          Rscript -e 'remotes::install_github("r-spatial/mapview")'
+          Rscript -e 'if suppressMessages(suppressWarnings(require("mapview", character.only = TRUE))) remove.packages("mapview")'
+          Rscript -e 'if suppressMessages(suppressWarnings(require("terra", character.only = TRUE))) remove.packages("terra")'
+          Rscript -e 'remotes::install_github("rspatial/terra", dependencies = TRUE)'
+          Rscript -e 'remotes::install_github("r-spatial/mapview", dependencies = TRUE)'
 
       - name: "[Stage] Script"
         run: Rscript -e 'tic::script()'

@@ -82,18 +82,29 @@
     <h2>Arguments</h2>
     <dl><dt>date_from</dt>
 <dd><p>a character string specifying the 'start' date in the format 'yyyy-MM-dd' (such as '2020-01-01')</p></dd>
+
+
 <dt>date_to</dt>
 <dd><p>a character string specifying the 'end' date in the format 'yyyy-MM-dd' (such as '2020-01-01')</p></dd>
+
+
 <dt>RGTs</dt>
 <dd><p>a character vector (consisting of one or more) Reference Ground Track (RGT). See the Examples section on how to come to these RGTs based on the "vsi_nominal_orbits_wkt()" function</p></dd>
+
+
 <dt>wkt_filter</dt>
 <dd><p>either NULL, or a Well Known Text (WKT) character string to allow a user to restrict to an area of interest rather than processing all data. It is possible that the WKT won't intersect with any of the available time specific orbits due to the sparsity of the coordinates (the output in that case will be an empty list)</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>a boolean. If TRUE then information will be printed out in the console</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a list of 'sf' objects where each sublist will represent a different RGT cycle</p>
+    
+
+<p>a list of 'sf' objects where each sublist will represent a different RGT cycle</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -185,7 +196,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

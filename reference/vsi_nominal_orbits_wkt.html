@@ -84,22 +84,37 @@
     <h2>Arguments</h2>
     <dl><dt>orbit_area</dt>
 <dd><p>a character string specifying the earth partition to use, it can be one of 'antarctic', 'arctic', 'western_hemisphere' and 'eastern_hemisphere'</p></dd>
+
+
 <dt>track</dt>
 <dd><p>a character string specifying the orbit track. Can be one of 'GT1L','GT1R','GT2L','GT2R','GT3L','GT3R' or 'GT7'</p></dd>
+
+
 <dt>rgt_repeat</dt>
 <dd><p>an integer specifying the orbit repeat. This parameter defaults to 1 and it is relevant if a user chooses one of the 'western_hemisphere' or 'eastern_hemisphere' where there are 8 orbit repeats, whereas for the 'antarctic' and 'arctic' there is only 1 repeat</p></dd>
+
+
 <dt>wkt_filter</dt>
 <dd><p>either NULL, or a Well Known Text (WKT) character string to allow a user to restrict to an area of interest rather than processing all data (this parameter will be used as input to the 'sf::st_read()' function)</p></dd>
+
+
 <dt>download_method</dt>
 <dd><p>a character string specifying the download method. Corresponds to the 'method' parameter of the 'utils::download.file()' function. Can be one of 'internal', 'wininet' (Windows only), 'libcurl', 'wget', 'curl' or 'auto'</p></dd>
+
+
 <dt>download_zip</dt>
 <dd><p>a boolean. If TRUE the .zip file will be first downloaded and then the .kml files will be returned, otherwise the 'gdalinfo' function will be used as input to the R 'system2()' function to read the .kml files without downloading the .zip file. The 'gdalinfo' command requires that the user has configured GDAL properly. Set the parameter 'download_zip' to TRUE if GDAL is not (properly) installed.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>a boolean. If TRUE then information will be printed out in the console</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>an 'sf' object</p>
+    
+
+<p>an 'sf' object</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -175,7 +190,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

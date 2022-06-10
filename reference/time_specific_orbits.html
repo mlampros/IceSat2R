@@ -89,20 +89,33 @@ begins. The date of each RGT is in the file name, so the user can easily ascerta
     <h2>Arguments</h2>
     <dl><dt>date_from</dt>
 <dd><p>either NULL or a character string specifying the start date in the format 'yyyy-MM-dd' (such as '2020-01-01'). If this parameter is NULL then the 'RGT_cycle' parameter must be specified</p></dd>
+
+
 <dt>date_to</dt>
 <dd><p>either NULL or a character string specifying the end date in the format 'yyyy-MM-dd' (such as '2020-01-01'). If this parameter is NULL then the 'RGT_cycle' parameter must be specified</p></dd>
+
+
 <dt>RGT_cycle</dt>
 <dd><p>a character vector specifying the RGT (Reference Ground Track) cycle(s) (the specific revisit times of ICESAT-2). This parameter can be greater or equal to 1 with a maximum 'RGT-cycle' names as determined by the output of the 'available_RGTs(only_cycle_names = TRUE)' function. The computation time of a single 'RGT-cycle' might take approximately 15 minutes utilizing 8 threads (in parallel) and require approximately 2 GB of memory.</p></dd>
+
+
 <dt>download_method</dt>
 <dd><p>a character string specifying the download method. Corresponds to the 'method' parameter of the 'utils::download.file()' function. Can be one of 'internal', 'wininet' (Windows only), 'libcurl', 'wget', 'curl' or 'auto'</p></dd>
+
+
 <dt>threads</dt>
 <dd><p>an integer that specifies the number of threads to use in parallel when processing the data</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>a boolean. If TRUE then information will be printed out in the console</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>an 'sf' object that will include one or more Reference Ground Tracks  (see the 'RGT' column of the output object)</p>
+    
+
+<p>an 'sf' object that will include one or more Reference Ground Tracks  (see the 'RGT' column of the output object)</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -184,7 +197,7 @@ begins. The date of each RGT is in the file name, so the user can easily ascerta
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

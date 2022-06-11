@@ -122,8 +122,6 @@ jobs:
 
       - name: "install the development version of 'terra' and 'mapview' packages"
         run: |
-          Rscript -e 'if (requireNamespace("mapview")) remove.packages("mapview")'
-          Rscript -e 'if (requireNamespace("terra")) remove.packages("terra")'
           Rscript -e 'remotes::install_github("rspatial/terra", dependencies = TRUE)'
           Rscript -e 'remotes::install_github("r-spatial/mapview", dependencies = TRUE)'
 

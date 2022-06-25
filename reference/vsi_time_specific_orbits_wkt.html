@@ -69,13 +69,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vsi_time_specific_orbits_wkt</span><span class="op">(</span>
-  <span class="va">date_from</span>,
-  <span class="va">date_to</span>,
-  <span class="va">RGTs</span>,
-  wkt_filter <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">vsi_time_specific_orbits_wkt</span><span class="op">(</span></span>
+<span>  <span class="va">date_from</span>,</span>
+<span>  <span class="va">date_to</span>,</span>
+<span>  <span class="va">RGTs</span>,</span>
+<span>  wkt_filter <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -114,74 +114,74 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlampros/IceSat2R" class="external-link">IceSat2R</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#...........................................</span></span>
-<span class="r-in"><span class="co"># extracting nominal orbits only for the WKT</span></span>
-<span class="r-in"><span class="co">#...........................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">WKT</span> <span class="op">=</span> <span class="st">'POLYGON ((-14.765 18.979, -11.25 18.979, -11.25 21.943, -14.765 21.943, -14.765 18.979))'</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">dat_rgt</span> <span class="op">=</span> <span class="fu"><a href="vsi_nominal_orbits_wkt.html">vsi_nominal_orbits_wkt</a></span><span class="op">(</span>orbit_area <span class="op">=</span> <span class="st">'western_hemisphere'</span>,</span>
-<span class="r-in">                                 track <span class="op">=</span> <span class="st">'GT3R'</span>,</span>
-<span class="r-in">                                 rgt_repeat <span class="op">=</span> <span class="fl">8</span>,</span>
-<span class="r-in">                                 wkt_filter <span class="op">=</span> <span class="va">WKT</span>,</span>
-<span class="r-in">                                 download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
-<span class="r-in">                                 download_zip <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">                                 verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dat_rgt</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">out_rgt</span> <span class="op">=</span> <span class="va">dat_rgt</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">RGT</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#.........................................</span></span>
-<span class="r-in"><span class="co"># time specific RGTs (for a time interval)</span></span>
-<span class="r-in"><span class="co"># request using a single RGT cycle</span></span>
-<span class="r-in"><span class="co">#.........................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">date_start</span> <span class="op">=</span> <span class="st">'2020-01-01'</span></span>
-<span class="r-in"><span class="va">date_end</span> <span class="op">=</span> <span class="st">'2020-02-01'</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">orb_cyc_single</span> <span class="op">=</span> <span class="fu">vsi_time_specific_orbits_wkt</span><span class="op">(</span>date_from <span class="op">=</span> <span class="va">date_start</span>,</span>
-<span class="r-in">                                              date_to <span class="op">=</span> <span class="va">date_end</span>,</span>
-<span class="r-in">                                              RGTs <span class="op">=</span> <span class="va">out_rgt</span>,</span>
-<span class="r-in">                                              wkt_filter <span class="op">=</span> <span class="va">WKT</span>,</span>
-<span class="r-in">                                              verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">orb_cyc_single</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#.........................................</span></span>
-<span class="r-in"><span class="co"># time specific RGTs (for a time interval)</span></span>
-<span class="r-in"><span class="co"># request using more than one RGT cycles</span></span>
-<span class="r-in"><span class="co">#.........................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">date_start</span> <span class="op">=</span> <span class="st">'2019-11-01'</span></span>
-<span class="r-in"><span class="va">date_end</span> <span class="op">=</span> <span class="st">'2020-01-01'</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">orb_cyc_multi</span> <span class="op">=</span> <span class="fu">vsi_time_specific_orbits_wkt</span><span class="op">(</span>date_from <span class="op">=</span> <span class="va">date_start</span>,</span>
-<span class="r-in">                                             date_to <span class="op">=</span> <span class="va">date_end</span>,</span>
-<span class="r-in">                                             RGTs <span class="op">=</span> <span class="va">out_rgt</span>,</span>
-<span class="r-in">                                             wkt_filter <span class="op">=</span> <span class="va">WKT</span>,</span>
-<span class="r-in">                                             verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span><span class="op">$</span><span class="va">cycle</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#.......................................................</span></span>
-<span class="r-in"><span class="co"># visualization of the output cycles (including the WKT)</span></span>
-<span class="r-in"><span class="co">#.......................................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">orb_cyc_multi</span><span class="op">$</span><span class="va">cycle</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span><span class="op">$</span><span class="va">cycle</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">mp_orb</span> <span class="op">=</span> <span class="fu">mapview</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span>, legend <span class="op">=</span> <span class="cn">TRUE</span>, zcol <span class="op">=</span> <span class="st">'cycle'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">sf_aoi</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">st_as_sfc</a></span><span class="op">(</span><span class="va">WKT</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">mp_aoi</span> <span class="op">=</span> <span class="fu">mapview</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">sf_aoi</span>, alpha.regions <span class="op">=</span> <span class="fl">0.3</span>, legend <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">mp_orb</span> <span class="op">+</span> <span class="va">mp_aoi</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlampros/IceSat2R" class="external-link">IceSat2R</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#...........................................</span></span></span>
+<span class="r-in"><span><span class="co"># extracting nominal orbits only for the WKT</span></span></span>
+<span class="r-in"><span><span class="co">#...........................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">WKT</span> <span class="op">=</span> <span class="st">'POLYGON ((-14.765 18.979, -11.25 18.979, -11.25 21.943, -14.765 21.943, -14.765 18.979))'</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dat_rgt</span> <span class="op">=</span> <span class="fu"><a href="vsi_nominal_orbits_wkt.html">vsi_nominal_orbits_wkt</a></span><span class="op">(</span>orbit_area <span class="op">=</span> <span class="st">'western_hemisphere'</span>,</span></span>
+<span class="r-in"><span>                                 track <span class="op">=</span> <span class="st">'GT3R'</span>,</span></span>
+<span class="r-in"><span>                                 rgt_repeat <span class="op">=</span> <span class="fl">8</span>,</span></span>
+<span class="r-in"><span>                                 wkt_filter <span class="op">=</span> <span class="va">WKT</span>,</span></span>
+<span class="r-in"><span>                                 download_method <span class="op">=</span> <span class="st">'curl'</span>,</span></span>
+<span class="r-in"><span>                                 download_zip <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                                 verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dat_rgt</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">out_rgt</span> <span class="op">=</span> <span class="va">dat_rgt</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">RGT</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#.........................................</span></span></span>
+<span class="r-in"><span><span class="co"># time specific RGTs (for a time interval)</span></span></span>
+<span class="r-in"><span><span class="co"># request using a single RGT cycle</span></span></span>
+<span class="r-in"><span><span class="co">#.........................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">date_start</span> <span class="op">=</span> <span class="st">'2020-01-01'</span></span></span>
+<span class="r-in"><span><span class="va">date_end</span> <span class="op">=</span> <span class="st">'2020-02-01'</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">orb_cyc_single</span> <span class="op">=</span> <span class="fu">vsi_time_specific_orbits_wkt</span><span class="op">(</span>date_from <span class="op">=</span> <span class="va">date_start</span>,</span></span>
+<span class="r-in"><span>                                              date_to <span class="op">=</span> <span class="va">date_end</span>,</span></span>
+<span class="r-in"><span>                                              RGTs <span class="op">=</span> <span class="va">out_rgt</span>,</span></span>
+<span class="r-in"><span>                                              wkt_filter <span class="op">=</span> <span class="va">WKT</span>,</span></span>
+<span class="r-in"><span>                                              verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">orb_cyc_single</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#.........................................</span></span></span>
+<span class="r-in"><span><span class="co"># time specific RGTs (for a time interval)</span></span></span>
+<span class="r-in"><span><span class="co"># request using more than one RGT cycles</span></span></span>
+<span class="r-in"><span><span class="co">#.........................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">date_start</span> <span class="op">=</span> <span class="st">'2019-11-01'</span></span></span>
+<span class="r-in"><span><span class="va">date_end</span> <span class="op">=</span> <span class="st">'2020-01-01'</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">orb_cyc_multi</span> <span class="op">=</span> <span class="fu">vsi_time_specific_orbits_wkt</span><span class="op">(</span>date_from <span class="op">=</span> <span class="va">date_start</span>,</span></span>
+<span class="r-in"><span>                                             date_to <span class="op">=</span> <span class="va">date_end</span>,</span></span>
+<span class="r-in"><span>                                             RGTs <span class="op">=</span> <span class="va">out_rgt</span>,</span></span>
+<span class="r-in"><span>                                             wkt_filter <span class="op">=</span> <span class="va">WKT</span>,</span></span>
+<span class="r-in"><span>                                             verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span><span class="op">$</span><span class="va">cycle</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#.......................................................</span></span></span>
+<span class="r-in"><span><span class="co"># visualization of the output cycles (including the WKT)</span></span></span>
+<span class="r-in"><span><span class="co">#.......................................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">orb_cyc_multi</span><span class="op">$</span><span class="va">cycle</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span><span class="op">$</span><span class="va">cycle</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mp_orb</span> <span class="op">=</span> <span class="fu">mapview</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span>, legend <span class="op">=</span> <span class="cn">TRUE</span>, zcol <span class="op">=</span> <span class="st">'cycle'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sf_aoi</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">st_as_sfc</a></span><span class="op">(</span><span class="va">WKT</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mp_aoi</span> <span class="op">=</span> <span class="fu">mapview</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">sf_aoi</span>, alpha.regions <span class="op">=</span> <span class="fl">0.3</span>, legend <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">mp_orb</span> <span class="op">+</span> <span class="va">mp_aoi</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>

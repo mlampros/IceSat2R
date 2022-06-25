@@ -69,12 +69,12 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vsi_kml_from_zip</span><span class="op">(</span>
-  <span class="va">icesat_rgt_url</span>,
-  download_zip <span class="op">=</span> <span class="cn">FALSE</span>,
-  download_method <span class="op">=</span> <span class="st">"curl"</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">vsi_kml_from_zip</span><span class="op">(</span></span>
+<span>  <span class="va">icesat_rgt_url</span>,</span>
+<span>  download_zip <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  download_method <span class="op">=</span> <span class="st">"curl"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -109,35 +109,35 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlampros/IceSat2R" class="external-link">IceSat2R</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">URL</span> <span class="op">=</span> <span class="st">'https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/arcticallorbits.zip'</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#..................................</span></span>
-<span class="r-in"><span class="co"># without downloading the .zip file</span></span>
-<span class="r-in"><span class="co">#..................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res_out</span> <span class="op">=</span> <span class="fu">vsi_kml_from_zip</span><span class="op">(</span>icesat_rgt_url <span class="op">=</span> <span class="va">URL</span>,</span>
-<span class="r-in">                           download_zip <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">                           download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
-<span class="r-in">                           verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">res_out</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#.............................</span></span>
-<span class="r-in"><span class="co"># by downloading the .zip file</span></span>
-<span class="r-in"><span class="co">#.............................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res_out</span> <span class="op">=</span> <span class="fu">vsi_kml_from_zip</span><span class="op">(</span>icesat_rgt_url <span class="op">=</span> <span class="va">URL</span>,</span>
-<span class="r-in">                           download_zip <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">                           download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
-<span class="r-in">                           verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">res_out</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlampros/IceSat2R" class="external-link">IceSat2R</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">URL</span> <span class="op">=</span> <span class="st">'https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/arcticallorbits.zip'</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#..................................</span></span></span>
+<span class="r-in"><span><span class="co"># without downloading the .zip file</span></span></span>
+<span class="r-in"><span><span class="co">#..................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res_out</span> <span class="op">=</span> <span class="fu">vsi_kml_from_zip</span><span class="op">(</span>icesat_rgt_url <span class="op">=</span> <span class="va">URL</span>,</span></span>
+<span class="r-in"><span>                           download_zip <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                           download_method <span class="op">=</span> <span class="st">'curl'</span>,</span></span>
+<span class="r-in"><span>                           verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">res_out</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#.............................</span></span></span>
+<span class="r-in"><span><span class="co"># by downloading the .zip file</span></span></span>
+<span class="r-in"><span><span class="co">#.............................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res_out</span> <span class="op">=</span> <span class="fu">vsi_kml_from_zip</span><span class="op">(</span>icesat_rgt_url <span class="op">=</span> <span class="va">URL</span>,</span></span>
+<span class="r-in"><span>                           download_zip <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                           download_method <span class="op">=</span> <span class="st">'curl'</span>,</span></span>
+<span class="r-in"><span>                           verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">res_out</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>

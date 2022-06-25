@@ -212,11 +212,11 @@
 <p><br></p>
 <p>To install the package from CRAN use,</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"IceSat2R"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"IceSat2R"</span><span class="op">)</span></span></code></pre></div>
 <p><br></p>
 <p>and to download the latest version of the package from Github,</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">'mlampros/IceSat2R'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">'mlampros/IceSat2R'</span><span class="op">)</span></span></code></pre></div>
 <p><br></p>
 </div>
 <div class="section level3">
@@ -225,33 +225,33 @@
 <p><br></p>
 <p>To execute the package tests (all or a specific file) use the following code snippet:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># first download the latest version of the package</span>
-
-<span class="va">url_pkg</span> <span class="op">=</span> <span class="st">'https://github.com/mlampros/IceSat2R/archive/refs/heads/master.zip'</span>
-<span class="va">temp_pkg_file</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">'.zip'</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">temp_pkg_file</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">url_pkg</span>, destfile <span class="op">=</span> <span class="va">temp_pkg_file</span>, method <span class="op">=</span> <span class="st">'wget'</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html" class="external-link">unzip</a></span><span class="op">(</span>zipfile <span class="op">=</span> <span class="va">temp_pkg_file</span>, exdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="va">temp_pkg_file</span><span class="op">)</span>, junkpaths <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="co"># run all tests</span>
-
-<span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_package.html" class="external-link">test_local</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="va">temp_pkg_file</span><span class="op">)</span>, <span class="st">'IceSat2R-master'</span><span class="op">)</span>,
-                     reporter <span class="op">=</span> <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/default_reporter.html" class="external-link">default_reporter</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># run a specific test file from the 'testthat' directory of the package </span>
-<span class="co"># https://github.com/mlampros/IceSat2R/tree/master/tests/testthat</span>
-
-<span class="va">test_specific_file</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="va">temp_pkg_file</span><span class="op">)</span>, 
-                               <span class="st">'IceSat2R-master'</span>, 
-                               <span class="st">'tests'</span>, 
-                               <span class="st">'testthat'</span>, 
-                               <span class="st">'test-mission_orbits.R'</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>NOT_CRAN <span class="op">=</span> <span class="st">"true"</span><span class="op">)</span>       <span class="co"># run all tests (including the ones skipped on CRAN)</span>
-<span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_file.html" class="external-link">test_file</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">test_specific_file</span>, reporter <span class="op">=</span> <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/default_reporter.html" class="external-link">default_reporter</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.unsetenv</a></span><span class="op">(</span><span class="st">"NOT_CRAN"</span><span class="op">)</span>            <span class="co"># unset the previously modified environment variable</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># first download the latest version of the package</span></span>
+<span></span>
+<span><span class="va">url_pkg</span> <span class="op">=</span> <span class="st">'https://github.com/mlampros/IceSat2R/archive/refs/heads/master.zip'</span></span>
+<span><span class="va">temp_pkg_file</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">'.zip'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">temp_pkg_file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">url_pkg</span>, destfile <span class="op">=</span> <span class="va">temp_pkg_file</span>, method <span class="op">=</span> <span class="st">'wget'</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html" class="external-link">unzip</a></span><span class="op">(</span>zipfile <span class="op">=</span> <span class="va">temp_pkg_file</span>, exdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="va">temp_pkg_file</span><span class="op">)</span>, junkpaths <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># run all tests</span></span>
+<span></span>
+<span><span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_package.html" class="external-link">test_local</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="va">temp_pkg_file</span><span class="op">)</span>, <span class="st">'IceSat2R-master'</span><span class="op">)</span>,</span>
+<span>                     reporter <span class="op">=</span> <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/default_reporter.html" class="external-link">default_reporter</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># run a specific test file from the 'testthat' directory of the package </span></span>
+<span><span class="co"># https://github.com/mlampros/IceSat2R/tree/master/tests/testthat</span></span>
+<span></span>
+<span><span class="va">test_specific_file</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="va">temp_pkg_file</span><span class="op">)</span>, </span>
+<span>                               <span class="st">'IceSat2R-master'</span>, </span>
+<span>                               <span class="st">'tests'</span>, </span>
+<span>                               <span class="st">'testthat'</span>, </span>
+<span>                               <span class="st">'test-mission_orbits.R'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>NOT_CRAN <span class="op">=</span> <span class="st">"true"</span><span class="op">)</span>       <span class="co"># run all tests (including the ones skipped on CRAN)</span></span>
+<span><span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_file.html" class="external-link">test_file</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">test_specific_file</span>, reporter <span class="op">=</span> <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/default_reporter.html" class="external-link">default_reporter</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.unsetenv</a></span><span class="op">(</span><span class="st">"NOT_CRAN"</span><span class="op">)</span>            <span class="co"># unset the previously modified environment variable</span></span></code></pre></div>
 <p>The previous code snippet allows a user to test if the package works as expected in any Operating System.</p>
 <p><br></p>
 </div>

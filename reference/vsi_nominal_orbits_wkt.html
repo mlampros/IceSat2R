@@ -69,15 +69,15 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">vsi_nominal_orbits_wkt</span><span class="op">(</span>
-  <span class="va">orbit_area</span>,
-  track <span class="op">=</span> <span class="st">"GT7"</span>,
-  rgt_repeat <span class="op">=</span> <span class="fl">1</span>,
-  wkt_filter <span class="op">=</span> <span class="cn">NULL</span>,
-  download_method <span class="op">=</span> <span class="st">"curl"</span>,
-  download_zip <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">vsi_nominal_orbits_wkt</span><span class="op">(</span></span>
+<span>  <span class="va">orbit_area</span>,</span>
+<span>  track <span class="op">=</span> <span class="st">"GT7"</span>,</span>
+<span>  rgt_repeat <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  wkt_filter <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  download_method <span class="op">=</span> <span class="st">"curl"</span>,</span>
+<span>  download_zip <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -124,58 +124,58 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlampros/IceSat2R" class="external-link">IceSat2R</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#......................................</span></span>
-<span class="r-in"><span class="co"># processing all data of the orbit area</span></span>
-<span class="r-in"><span class="co">#......................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">dat_rgt</span> <span class="op">=</span> <span class="fu">vsi_nominal_orbits_wkt</span><span class="op">(</span>orbit_area <span class="op">=</span> <span class="st">'eastern_hemisphere'</span>,</span>
-<span class="r-in">                                 track <span class="op">=</span> <span class="st">'GT7'</span>,</span>
-<span class="r-in">                                 rgt_repeat <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">                                 wkt_filter <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span class="r-in">                                 download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
-<span class="r-in">                                 download_zip <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">                                 verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dat_rgt</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#...........................................</span></span>
-<span class="r-in"><span class="co"># extracting nominal orbits only for the WKT</span></span>
-<span class="r-in"><span class="co">#...........................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">WKT</span> <span class="op">=</span> <span class="st">'POLYGON ((-14.765 18.979, -11.25 18.979, -11.25 21.943, -14.765 21.943, -14.765 18.979))'</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">dat_rgt</span> <span class="op">=</span> <span class="fu">vsi_nominal_orbits_wkt</span><span class="op">(</span>orbit_area <span class="op">=</span> <span class="st">'western_hemisphere'</span>,</span>
-<span class="r-in">                                 track <span class="op">=</span> <span class="st">'GT3R'</span>,</span>
-<span class="r-in">                                 rgt_repeat <span class="op">=</span> <span class="fl">8</span>,</span>
-<span class="r-in">                                 wkt_filter <span class="op">=</span> <span class="va">WKT</span>,</span>
-<span class="r-in">                                 download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
-<span class="r-in">                                 download_zip <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">                                 verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dat_rgt</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dat_rgt</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">RGT</span>                 <span class="co"># Reference Ground Tracks of input WKT</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#.............................</span></span>
-<span class="r-in"><span class="co"># Visualize the results</span></span>
-<span class="r-in"><span class="co"># (first compute the centroid)</span></span>
-<span class="r-in"><span class="co">#.............................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">wkt_sf</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">st_as_sfc</a></span><span class="op">(</span><span class="va">WKT</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">centr_wkt</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="va">wkt_sf</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">RGTs</span> <span class="op">=</span> <span class="fu">mapview</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">dat_rgt</span>, legend <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">AOI_wkt</span> <span class="op">=</span> <span class="fu">mapview</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">wkt_sf</span>, legend <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">lft</span> <span class="op">=</span> <span class="va">RGTs</span> <span class="op">+</span> <span class="va">AOI_wkt</span></span>
-<span class="r-in"><span class="va">lft</span><span class="op">@</span><span class="va">map</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">leaflet</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-methods.html" class="external-link">setView</a></span><span class="op">(</span>lng <span class="op">=</span> <span class="va">centr_wkt</span><span class="op">[</span>, <span class="st">'X'</span><span class="op">]</span>,</span>
-<span class="r-in">                             lat <span class="op">=</span> <span class="va">centr_wkt</span><span class="op">[</span>, <span class="st">'Y'</span><span class="op">]</span>,</span>
-<span class="r-in">                             zoom <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlampros/IceSat2R" class="external-link">IceSat2R</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#......................................</span></span></span>
+<span class="r-in"><span><span class="co"># processing all data of the orbit area</span></span></span>
+<span class="r-in"><span><span class="co">#......................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dat_rgt</span> <span class="op">=</span> <span class="fu">vsi_nominal_orbits_wkt</span><span class="op">(</span>orbit_area <span class="op">=</span> <span class="st">'eastern_hemisphere'</span>,</span></span>
+<span class="r-in"><span>                                 track <span class="op">=</span> <span class="st">'GT7'</span>,</span></span>
+<span class="r-in"><span>                                 rgt_repeat <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>                                 wkt_filter <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>                                 download_method <span class="op">=</span> <span class="st">'curl'</span>,</span></span>
+<span class="r-in"><span>                                 download_zip <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                                 verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dat_rgt</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#...........................................</span></span></span>
+<span class="r-in"><span><span class="co"># extracting nominal orbits only for the WKT</span></span></span>
+<span class="r-in"><span><span class="co">#...........................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">WKT</span> <span class="op">=</span> <span class="st">'POLYGON ((-14.765 18.979, -11.25 18.979, -11.25 21.943, -14.765 21.943, -14.765 18.979))'</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dat_rgt</span> <span class="op">=</span> <span class="fu">vsi_nominal_orbits_wkt</span><span class="op">(</span>orbit_area <span class="op">=</span> <span class="st">'western_hemisphere'</span>,</span></span>
+<span class="r-in"><span>                                 track <span class="op">=</span> <span class="st">'GT3R'</span>,</span></span>
+<span class="r-in"><span>                                 rgt_repeat <span class="op">=</span> <span class="fl">8</span>,</span></span>
+<span class="r-in"><span>                                 wkt_filter <span class="op">=</span> <span class="va">WKT</span>,</span></span>
+<span class="r-in"><span>                                 download_method <span class="op">=</span> <span class="st">'curl'</span>,</span></span>
+<span class="r-in"><span>                                 download_zip <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                                 verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dat_rgt</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dat_rgt</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">RGT</span>                 <span class="co"># Reference Ground Tracks of input WKT</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#.............................</span></span></span>
+<span class="r-in"><span><span class="co"># Visualize the results</span></span></span>
+<span class="r-in"><span><span class="co"># (first compute the centroid)</span></span></span>
+<span class="r-in"><span><span class="co">#.............................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">wkt_sf</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">st_as_sfc</a></span><span class="op">(</span><span class="va">WKT</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">centr_wkt</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="va">wkt_sf</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">RGTs</span> <span class="op">=</span> <span class="fu">mapview</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">dat_rgt</span>, legend <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">AOI_wkt</span> <span class="op">=</span> <span class="fu">mapview</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">wkt_sf</span>, legend <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">lft</span> <span class="op">=</span> <span class="va">RGTs</span> <span class="op">+</span> <span class="va">AOI_wkt</span></span></span>
+<span class="r-in"><span><span class="va">lft</span><span class="op">@</span><span class="va">map</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">leaflet</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-methods.html" class="external-link">setView</a></span><span class="op">(</span>lng <span class="op">=</span> <span class="va">centr_wkt</span><span class="op">[</span>, <span class="st">'X'</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>                             lat <span class="op">=</span> <span class="va">centr_wkt</span><span class="op">[</span>, <span class="st">'Y'</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>                             zoom <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>

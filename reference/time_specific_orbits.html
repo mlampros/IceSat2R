@@ -75,14 +75,14 @@ begins. The date of each RGT is in the file name, so the user can easily ascerta
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">time_specific_orbits</span><span class="op">(</span>
-  date_from <span class="op">=</span> <span class="cn">NULL</span>,
-  date_to <span class="op">=</span> <span class="cn">NULL</span>,
-  RGT_cycle <span class="op">=</span> <span class="cn">NULL</span>,
-  download_method <span class="op">=</span> <span class="st">"curl"</span>,
-  threads <span class="op">=</span> <span class="fl">1</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">time_specific_orbits</span><span class="op">(</span></span>
+<span>  date_from <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  date_to <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  RGT_cycle <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  download_method <span class="op">=</span> <span class="st">"curl"</span>,</span>
+<span>  threads <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -124,65 +124,65 @@ begins. The date of each RGT is in the file name, so the user can easily ascerta
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlampros/IceSat2R" class="external-link">IceSat2R</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#................................................</span></span>
-<span class="r-in"><span class="co"># RGTs (Reference Ground Tracks) for a single day</span></span>
-<span class="r-in"><span class="co">#................................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res_rgt_one</span> <span class="op">=</span> <span class="fu">time_specific_orbits</span><span class="op">(</span>date_from <span class="op">=</span> <span class="st">'2019-06-01'</span>,</span>
-<span class="r-in">                                   date_to <span class="op">=</span> <span class="st">'2019-06-01'</span>,</span>
-<span class="r-in">                                   download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
-<span class="r-in">                                   threads <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">                                   verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">res_rgt_one</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#..........................................................</span></span>
-<span class="r-in"><span class="co"># RGTs (Reference Ground Tracks) for a specific time period</span></span>
-<span class="r-in"><span class="co">#..........................................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res_rgt_many</span> <span class="op">=</span> <span class="fu">time_specific_orbits</span><span class="op">(</span>date_from <span class="op">=</span> <span class="st">'2019-06-01'</span>,</span>
-<span class="r-in">                                    date_to <span class="op">=</span> <span class="st">'2019-06-03'</span>,</span>
-<span class="r-in">                                    download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
-<span class="r-in">                                    threads <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">                                    verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">res_rgt_many</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#.........................................................</span></span>
-<span class="r-in"><span class="co"># processing more than one RGTs for a specified date range</span></span>
-<span class="r-in"><span class="co">#.........................................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res_rgt_inters</span> <span class="op">=</span> <span class="fu">time_specific_orbits</span><span class="op">(</span>date_from <span class="op">=</span> <span class="st">'2021-03-23'</span>,</span>
-<span class="r-in">                                      date_to <span class="op">=</span> <span class="st">'2021-03-26'</span>,</span>
-<span class="r-in">                                      download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
-<span class="r-in">                                      threads <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">                                      verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">res_rgt_inters</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res_rgt_inters</span><span class="op">$</span><span class="va">cycle</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res_rgt_inters</span><span class="op">$</span><span class="va">day_of_year</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res_rgt_inters</span><span class="op">$</span><span class="va">RGT</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#...............................................................</span></span>
-<span class="r-in"><span class="co"># RGTs (Reference Ground Tracks) for a selected 'cycle'</span></span>
-<span class="r-in"><span class="co"># Observe the available RGT-cycles and use all available threads</span></span>
-<span class="r-in"><span class="co">#...............................................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">avail_cycles</span> <span class="op">=</span> <span class="fu"><a href="available_RGTs.html">available_RGTs</a></span><span class="op">(</span>only_cycle_names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">                              verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">avail_cycles</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">choose_cycle</span> <span class="op">=</span> <span class="va">avail_cycles</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res_rgt_many</span> <span class="op">=</span> <span class="fu">time_specific_orbits</span><span class="op">(</span>RGT_cycle <span class="op">=</span> <span class="va">choose_cycle</span>,</span>
-<span class="r-in">                                    download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
-<span class="r-in">                                    threads <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">                                    verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlampros/IceSat2R" class="external-link">IceSat2R</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#................................................</span></span></span>
+<span class="r-in"><span><span class="co"># RGTs (Reference Ground Tracks) for a single day</span></span></span>
+<span class="r-in"><span><span class="co">#................................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res_rgt_one</span> <span class="op">=</span> <span class="fu">time_specific_orbits</span><span class="op">(</span>date_from <span class="op">=</span> <span class="st">'2019-06-01'</span>,</span></span>
+<span class="r-in"><span>                                   date_to <span class="op">=</span> <span class="st">'2019-06-01'</span>,</span></span>
+<span class="r-in"><span>                                   download_method <span class="op">=</span> <span class="st">'curl'</span>,</span></span>
+<span class="r-in"><span>                                   threads <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>                                   verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">res_rgt_one</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#..........................................................</span></span></span>
+<span class="r-in"><span><span class="co"># RGTs (Reference Ground Tracks) for a specific time period</span></span></span>
+<span class="r-in"><span><span class="co">#..........................................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res_rgt_many</span> <span class="op">=</span> <span class="fu">time_specific_orbits</span><span class="op">(</span>date_from <span class="op">=</span> <span class="st">'2019-06-01'</span>,</span></span>
+<span class="r-in"><span>                                    date_to <span class="op">=</span> <span class="st">'2019-06-03'</span>,</span></span>
+<span class="r-in"><span>                                    download_method <span class="op">=</span> <span class="st">'curl'</span>,</span></span>
+<span class="r-in"><span>                                    threads <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>                                    verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">res_rgt_many</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#.........................................................</span></span></span>
+<span class="r-in"><span><span class="co"># processing more than one RGTs for a specified date range</span></span></span>
+<span class="r-in"><span><span class="co">#.........................................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res_rgt_inters</span> <span class="op">=</span> <span class="fu">time_specific_orbits</span><span class="op">(</span>date_from <span class="op">=</span> <span class="st">'2021-03-23'</span>,</span></span>
+<span class="r-in"><span>                                      date_to <span class="op">=</span> <span class="st">'2021-03-26'</span>,</span></span>
+<span class="r-in"><span>                                      download_method <span class="op">=</span> <span class="st">'curl'</span>,</span></span>
+<span class="r-in"><span>                                      threads <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>                                      verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">res_rgt_inters</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res_rgt_inters</span><span class="op">$</span><span class="va">cycle</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res_rgt_inters</span><span class="op">$</span><span class="va">day_of_year</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res_rgt_inters</span><span class="op">$</span><span class="va">RGT</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#...............................................................</span></span></span>
+<span class="r-in"><span><span class="co"># RGTs (Reference Ground Tracks) for a selected 'cycle'</span></span></span>
+<span class="r-in"><span><span class="co"># Observe the available RGT-cycles and use all available threads</span></span></span>
+<span class="r-in"><span><span class="co">#...............................................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">avail_cycles</span> <span class="op">=</span> <span class="fu"><a href="available_RGTs.html">available_RGTs</a></span><span class="op">(</span>only_cycle_names <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                              verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">avail_cycles</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">choose_cycle</span> <span class="op">=</span> <span class="va">avail_cycles</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res_rgt_many</span> <span class="op">=</span> <span class="fu">time_specific_orbits</span><span class="op">(</span>RGT_cycle <span class="op">=</span> <span class="va">choose_cycle</span>,</span></span>
+<span class="r-in"><span>                                    download_method <span class="op">=</span> <span class="st">'curl'</span>,</span></span>
+<span class="r-in"><span>                                    threads <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                    verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>

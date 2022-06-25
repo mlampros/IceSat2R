@@ -69,16 +69,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">getTracks</span><span class="op">(</span>
-  <span class="va">minx</span>,
-  <span class="va">miny</span>,
-  <span class="va">maxx</span>,
-  <span class="va">maxy</span>,
-  <span class="va">date</span>,
-  outputFormat <span class="op">=</span> <span class="st">"csv"</span>,
-  download_method <span class="op">=</span> <span class="st">"curl"</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getTracks</span><span class="op">(</span></span>
+<span>  <span class="va">minx</span>,</span>
+<span>  <span class="va">miny</span>,</span>
+<span>  <span class="va">maxx</span>,</span>
+<span>  <span class="va">maxy</span>,</span>
+<span>  <span class="va">date</span>,</span>
+<span>  outputFormat <span class="op">=</span> <span class="st">"csv"</span>,</span>
+<span>  download_method <span class="op">=</span> <span class="st">"curl"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -129,113 +129,113 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlampros/IceSat2R" class="external-link">IceSat2R</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span>use_s2 <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#..........................................................</span></span>
-<span class="r-in"><span class="co"># In case we are interested to find the ICESat-2 tracks for</span></span>
-<span class="r-in"><span class="co">#     - a specific area (or bounding box)</span></span>
-<span class="r-in"><span class="co">#     - a specific time interval (close to September 2021)</span></span>
-<span class="r-in"><span class="co">#..........................................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#...............</span></span>
-<span class="r-in"><span class="co"># Ice sheet area</span></span>
-<span class="r-in"><span class="co">#...............</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ne_10m_glaciated_areas</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ice_sheet</span> <span class="op">=</span> <span class="st">'Kluane Ice Cap'</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ice_sheet_geom</span> <span class="op">=</span> <span class="va">ne_10m_glaciated_areas</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/subset.data.table.html" class="external-link">subset</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/subset.data.table.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="va">ice_sheet</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ice_sheet_geom</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#..............</span></span>
-<span class="r-in"><span class="co"># time interval</span></span>
-<span class="r-in"><span class="co">#..............</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">approx_date_start</span> <span class="op">=</span> <span class="st">"2021-09-05"</span></span>
-<span class="r-in"><span class="va">approx_date_end</span> <span class="op">=</span> <span class="st">"2021-09-20"</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res_rgt_many</span> <span class="op">=</span> <span class="fu"><a href="time_specific_orbits.html">time_specific_orbits</a></span><span class="op">(</span>date_from <span class="op">=</span> <span class="va">approx_date_start</span>,</span>
-<span class="r-in">                                    date_to <span class="op">=</span> <span class="va">approx_date_end</span>,</span>
-<span class="r-in">                                    RGT_cycle <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span class="r-in">                                    download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
-<span class="r-in">                                    threads <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">                                    verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res_rgt_many</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># table(as.Date(res_rgt_many$Date_time))</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#..............................................</span></span>
-<span class="r-in"><span class="co"># create the bounding box of the ice</span></span>
-<span class="r-in"><span class="co"># sheet so that I use the same area in the</span></span>
-<span class="r-in"><span class="co"># 'st_intersects()' and 'getTracks()' functions</span></span>
-<span class="r-in"><span class="co"># ('getTracks()' takes a bounding box as input)</span></span>
-<span class="r-in"><span class="co">#..............................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">bbx_ice_sheet</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">ice_sheet_geom</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">sf_obj_ice_sheet</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">st_as_sfc</a></span><span class="op">(</span><span class="va">bbx_ice_sheet</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#.........................................</span></span>
-<span class="r-in"><span class="co"># intersection of the Ice Sheet with</span></span>
-<span class="r-in"><span class="co"># the tracks for the specified time period</span></span>
-<span class="r-in"><span class="co">#.........................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res_inters</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">st_intersects</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">sf_obj_ice_sheet</span><span class="op">)</span>,</span>
-<span class="r-in">                               y <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">res_rgt_many</span><span class="op">)</span>,</span>
-<span class="r-in">                               sparse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#...........................................</span></span>
-<span class="r-in"><span class="co"># one or more intersected RGT's for the area</span></span>
-<span class="r-in"><span class="co">#...........................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">df_inters</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">res_inters</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">rgt_subs</span> <span class="op">=</span> <span class="va">res_rgt_many</span><span class="op">[</span><span class="va">df_inters</span><span class="op">$</span><span class="va">col.id</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#.......................................................</span></span>
-<span class="r-in"><span class="co"># Keep the Date and the bounding box to</span></span>
-<span class="r-in"><span class="co"># verify with the 'getTracks()' function</span></span>
-<span class="r-in"><span class="co"># an alternative is to use the "verify_RGTs()" function</span></span>
-<span class="r-in"><span class="co">#.......................................................</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">item</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">rgt_subs</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">dat_item</span> <span class="op">=</span> <span class="va">rgt_subs</span><span class="op">[</span><span class="va">item</span>, , drop <span class="op">=</span> <span class="cn">F</span><span class="op">]</span></span>
-<span class="r-in">  <span class="va">Date</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">dat_item</span><span class="op">$</span><span class="va">Date_time</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">op_tra</span> <span class="op">=</span> <span class="fu">getTracks</span><span class="op">(</span>minx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_ice_sheet</span><span class="op">[</span><span class="st">'xmin'</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in">                               miny <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_ice_sheet</span><span class="op">[</span><span class="st">'ymin'</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in">                               maxx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_ice_sheet</span><span class="op">[</span><span class="st">'xmax'</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in">                               maxy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_ice_sheet</span><span class="op">[</span><span class="st">'ymax'</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in">                               date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span>,</span>
-<span class="r-in">                               outputFormat <span class="op">=</span> <span class="st">'csv'</span>,</span>
-<span class="r-in">                               download_method <span class="op">=</span> <span class="st">'curl'</span>,</span>
-<span class="r-in">                               verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">date_obj</span> <span class="op">=</span> <span class="va">dat_item</span><span class="op">$</span><span class="va">Date_time</span></span>
-<span class="r-in">  <span class="va">tim_rgt</span> <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"Date: {date_obj} Time specific RGT: '{dat_item$RGT}'"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">op_tra</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">    <span class="va">iter_op_trac</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">op_tra</span><span class="op">$</span><span class="va">track</span>, collapse <span class="op">=</span> <span class="st">', '</span><span class="op">)</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{tim_rgt}  OpenAltimetry: '{iter_op_trac}'"</span><span class="op">)</span>, <span class="st">'\n'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span></span>
-<span class="r-in">  <span class="kw">else</span> <span class="op">{</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{tim_rgt} without an OpenAltimetry match!"</span><span class="op">)</span>, <span class="st">'\n'</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlampros/IceSat2R" class="external-link">IceSat2R</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span>use_s2 <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#..........................................................</span></span></span>
+<span class="r-in"><span><span class="co"># In case we are interested to find the ICESat-2 tracks for</span></span></span>
+<span class="r-in"><span><span class="co">#     - a specific area (or bounding box)</span></span></span>
+<span class="r-in"><span><span class="co">#     - a specific time interval (close to September 2021)</span></span></span>
+<span class="r-in"><span><span class="co">#..........................................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#...............</span></span></span>
+<span class="r-in"><span><span class="co"># Ice sheet area</span></span></span>
+<span class="r-in"><span><span class="co">#...............</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ne_10m_glaciated_areas</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ice_sheet</span> <span class="op">=</span> <span class="st">'Kluane Ice Cap'</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ice_sheet_geom</span> <span class="op">=</span> <span class="va">ne_10m_glaciated_areas</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="va">ice_sheet</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ice_sheet_geom</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#..............</span></span></span>
+<span class="r-in"><span><span class="co"># time interval</span></span></span>
+<span class="r-in"><span><span class="co">#..............</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">approx_date_start</span> <span class="op">=</span> <span class="st">"2021-09-05"</span></span></span>
+<span class="r-in"><span><span class="va">approx_date_end</span> <span class="op">=</span> <span class="st">"2021-09-20"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res_rgt_many</span> <span class="op">=</span> <span class="fu"><a href="time_specific_orbits.html">time_specific_orbits</a></span><span class="op">(</span>date_from <span class="op">=</span> <span class="va">approx_date_start</span>,</span></span>
+<span class="r-in"><span>                                    date_to <span class="op">=</span> <span class="va">approx_date_end</span>,</span></span>
+<span class="r-in"><span>                                    RGT_cycle <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>                                    download_method <span class="op">=</span> <span class="st">'curl'</span>,</span></span>
+<span class="r-in"><span>                                    threads <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                    verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res_rgt_many</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># table(as.Date(res_rgt_many$Date_time))</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#..............................................</span></span></span>
+<span class="r-in"><span><span class="co"># create the bounding box of the ice</span></span></span>
+<span class="r-in"><span><span class="co"># sheet so that I use the same area in the</span></span></span>
+<span class="r-in"><span><span class="co"># 'st_intersects()' and 'getTracks()' functions</span></span></span>
+<span class="r-in"><span><span class="co"># ('getTracks()' takes a bounding box as input)</span></span></span>
+<span class="r-in"><span><span class="co">#..............................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">bbx_ice_sheet</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">ice_sheet_geom</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sf_obj_ice_sheet</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">st_as_sfc</a></span><span class="op">(</span><span class="va">bbx_ice_sheet</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#.........................................</span></span></span>
+<span class="r-in"><span><span class="co"># intersection of the Ice Sheet with</span></span></span>
+<span class="r-in"><span><span class="co"># the tracks for the specified time period</span></span></span>
+<span class="r-in"><span><span class="co">#.........................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res_inters</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">st_intersects</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">sf_obj_ice_sheet</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                               y <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">res_rgt_many</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                               sparse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#...........................................</span></span></span>
+<span class="r-in"><span><span class="co"># one or more intersected RGT's for the area</span></span></span>
+<span class="r-in"><span><span class="co">#...........................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">df_inters</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">res_inters</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">rgt_subs</span> <span class="op">=</span> <span class="va">res_rgt_many</span><span class="op">[</span><span class="va">df_inters</span><span class="op">$</span><span class="va">col.id</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#.......................................................</span></span></span>
+<span class="r-in"><span><span class="co"># Keep the Date and the bounding box to</span></span></span>
+<span class="r-in"><span><span class="co"># verify with the 'getTracks()' function</span></span></span>
+<span class="r-in"><span><span class="co"># an alternative is to use the "verify_RGTs()" function</span></span></span>
+<span class="r-in"><span><span class="co">#.......................................................</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">item</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">rgt_subs</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">dat_item</span> <span class="op">=</span> <span class="va">rgt_subs</span><span class="op">[</span><span class="va">item</span>, , drop <span class="op">=</span> <span class="cn">F</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="va">Date</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">dat_item</span><span class="op">$</span><span class="va">Date_time</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">op_tra</span> <span class="op">=</span> <span class="fu">getTracks</span><span class="op">(</span>minx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_ice_sheet</span><span class="op">[</span><span class="st">'xmin'</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                               miny <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_ice_sheet</span><span class="op">[</span><span class="st">'ymin'</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                               maxx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_ice_sheet</span><span class="op">[</span><span class="st">'xmax'</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                               maxy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">bbx_ice_sheet</span><span class="op">[</span><span class="st">'ymax'</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                               date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                               outputFormat <span class="op">=</span> <span class="st">'csv'</span>,</span></span>
+<span class="r-in"><span>                               download_method <span class="op">=</span> <span class="st">'curl'</span>,</span></span>
+<span class="r-in"><span>                               verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">date_obj</span> <span class="op">=</span> <span class="va">dat_item</span><span class="op">$</span><span class="va">Date_time</span></span></span>
+<span class="r-in"><span>  <span class="va">tim_rgt</span> <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"Date: {date_obj} Time specific RGT: '{dat_item$RGT}'"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">op_tra</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="va">iter_op_trac</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">op_tra</span><span class="op">$</span><span class="va">track</span>, collapse <span class="op">=</span> <span class="st">', '</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{tim_rgt}  OpenAltimetry: '{iter_op_trac}'"</span><span class="op">)</span>, <span class="st">'\n'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="kw">else</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{tim_rgt} without an OpenAltimetry match!"</span><span class="op">)</span>, <span class="st">'\n'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>

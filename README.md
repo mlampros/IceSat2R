@@ -47,6 +47,27 @@ The usage of the *IceSat2R* package requires a geospatial setup as specified in 
 
 <br>
 
+#### **How the IceSat2R package can be used?**
+
+<br>
+
+The *IceSat2R* package includes the code, documentation, and examples so that,
+
+* A user can select an area of interest (AOI) either programmatically or interactively
+* If the Reference Ground Track (RGT) is not known, the user has the option to utilize either
+  + one of the "overall_mission_orbits()" or "time_specific_orbits()" to compute the RGT(s) for a pre-specified global area or for a time period, or
+  + one of the "vsi_nominal_orbits_wkt()" or "vsi_time_specific_orbits_wkt()" to compute the RGT(s) for a specific AOI
+* Once the RGT is computed it can be verified with the "getTracks()" function of the OpenAltimetry Web API
+* Finally the user can utilize one of the "get_atlas_data()" or "get_level3a_data()" functions to retrieve the data for specific product(s), Date(s) and Beam(s)
+
+This work-flow is illustrated also in the following diagram,
+
+<br>
+
+<img src="man/figures/icesat_2_diagram.png" ></img>
+
+<br>
+
 ### Shiny application to select an area of interest (AOI) from a 1- or 5-degree global grid
 
 <br>
@@ -194,8 +215,23 @@ url_pkg = 'https://github.com/mlampros/IceSat2R/archive/refs/heads/master.zip'
 temp_pkg_file = tempfile(fileext = '.zip')
 print(temp_pkg_file)
 
-download.file(url = url_pkg, destfile = temp_pkg_file, method = 'wget', quiet = TRUE)
-utils::unzip(zipfile = temp_pkg_file, exdir = dirname(temp_pkg_file), junkpaths = FALSE)
+download.file(url = url_pkg, destfile = temp_pkg_file, quiet = TRUE)
+
+dir_pkg_save = dirname(temp_pkg_file)
+utils::unzip(zipfile = temp_pkg_file, exdir = dir_pkg_save, junkpaths = FALSE)
+
+# build and install the latest version of the package
+
+require(glue)
+
+setwd(dir_pkg_save)
+system('R CMD build --compact-vignettes="gs+qpdf" --resave-data IceSat2R-master')
+gz_file = which(gregexpr(pattern = "^IceSat2R+_+[0-9]+.+[0-9]+.+[0-9]+.tar.gz", text = list.files()) != -1)
+system(glue::glue("R CMD INSTALL {list.files()[gz_file]}"))
+
+# load the package
+
+require(IceSat2R)
 
 # run all tests
 

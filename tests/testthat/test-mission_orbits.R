@@ -60,18 +60,18 @@ testthat::test_that("the function 'available_nominal_orbits()' returns the expec
 })
 
 
-# #................................................................................................. commented out because it takes too long to download and process the required files (approximately 1 minute)
-# testthat::test_that("the function 'overall_mission_orbits()' returns the expected output!", {
-#
-#   testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
-#
-#   res_orb  = overall_mission_orbits(orbit_area = 'eastern_hemisphere',
-#                                     download_method = 'curl',
-#                                     threads = 1,
-#                                     verbose = FALSE)
-#
-#   testthat::expect_true(inherits(res_orb, c("sf", "data.table", "data.frame")) & nrow(res_orb) > 1 & ncol(res_orb) == 13)
-# })
+# #................................................................................................. it takes approximately 1 minute using 1 thread
+testthat::test_that("the function 'overall_mission_orbits()' returns the expected output!", {
+
+  testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
+
+  res_orb  = overall_mission_orbits(orbit_area = 'eastern_hemisphere',
+                                    download_method = 'curl',
+                                    threads = 1,
+                                    verbose = FALSE)
+
+  testthat::expect_true(inherits(res_orb, c("sf", "data.table", "data.frame")) & nrow(res_orb) > 1 & ncol(res_orb) == 13)
+})
 # #.................................................................................................
 
 
@@ -115,19 +115,19 @@ testthat::test_that("the function 'revisit_time_RGTs()' returns the expected out
 })
 
 
-# #................................................................................................. commented out because it takes too long to download and process the required data (approximately 2 minutes)
-# testthat::test_that("the function 'time_specific_orbits()' returns the expected output!", {
-#
-#   testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
-#
-#   res_rgt_one = time_specific_orbits(date_from = '2019-06-01',
-#                                      date_to = '2019-06-01',
-#                                      download_method = 'curl',
-#                                      threads = 1,
-#                                      verbose = FALSE)
-#
-#   testthat::expect_true(inherits(res_rgt_one, c("sf", "data.table", "data.frame")) & nrow(res_rgt_one) > 0 & ncol(res_rgt_one) == 15 & !any(is.na(res_rgt_one$Date_time)))
-# })
+# #................................................................................................. it takes approximately 2 minutes using 1 thread
+testthat::test_that("the function 'time_specific_orbits()' returns the expected output!", {
+
+  testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
+
+  res_rgt_one = time_specific_orbits(date_from = '2019-06-01',
+                                     date_to = '2019-06-01',
+                                     download_method = 'curl',
+                                     threads = 1,
+                                     verbose = FALSE)
+
+  testthat::expect_true(inherits(res_rgt_one, c("sf", "data.table", "data.frame")) & nrow(res_rgt_one) > 0 & all(c("Name", "RGT", "Date_time", "day_of_year", "cycle", "geometry") %in% colnames(res_rgt_one)) & !any(is.na(res_rgt_one$Date_time)))
+})
 # #.................................................................................................
 
 
@@ -190,7 +190,7 @@ testthat::test_that("the function 'vsi_time_specific_orbits_wkt()' returns the e
                                                 wkt_filter = WKT,
                                                 verbose = FALSE)
 
-  testthat::expect_true(inherits(orb_cyc_single, c("sf", "data.table", "data.frame")) & nrow(orb_cyc_single) == 2 & ncol(orb_cyc_single) == 15)
+  testthat::expect_true(inherits(orb_cyc_single, c("sf", "data.table", "data.frame")) & nrow(orb_cyc_single) == 2 & all(c("Name", "RGT", "Date_time", "day_of_year", "cycle", "geometry") %in% colnames(orb_cyc_single)))
 })
 
 
@@ -205,8 +205,8 @@ testthat::test_that("the function 'time_specific_orbits()' returns the expected 
                                       date_to = approx_date_end,
                                       RGT_cycle = NULL,
                                       download_method = 'curl',
-                                      threads = parallel::detectCores(),
+                                      threads = 1,
                                       verbose = FALSE)
 
-  testthat::expect_true( inherits(res_rgt_many, c("sf", "data.table", "data.frame")) & nrow(res_rgt_many) > 0 & ncol(res_rgt_many) > 0 )
+  testthat::expect_true( inherits(res_rgt_many, c("sf", "data.table", "data.frame")) & nrow(res_rgt_many) > 0 & all(c("Name", "RGT", "Date_time", "day_of_year", "cycle", "geometry") %in% colnames(res_rgt_many)))
 })

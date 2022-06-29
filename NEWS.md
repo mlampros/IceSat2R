@@ -11,7 +11,7 @@
 * I modified all files of the R package to make the ICESat-2 naming consistent (see issue https://github.com/mlampros/IceSat2R/issues/8)
 * I've modified the "IceSat-2_Atlas_products.Rmd" Vignette files (.html and .pdf versions) to fix an issue related to the "vertical" Coordinate Reference System (CRS) of the Copernicus DEM (see issue: https://github.com/mlampros/IceSat2R/issues/7)
 * I fixed a bug in the *time_specific_orbits()* function, as there was a case where only 'RGT' and 'Date_time' was returned, so I had to include the other 2 columns ('DOY', 'Cycle') by using NA's
-* I added a test case for the *time_specific_orbits()* function to catch an error case related to [issue 9](https://github.com/mlampros/IceSat2R/issues/9)
+* I modified and added a test case for the *time_specific_orbits()* function to catch an error case related to [issue 9](https://github.com/mlampros/IceSat2R/issues/9)
 
 
 ## IceSat2R 1.0.1

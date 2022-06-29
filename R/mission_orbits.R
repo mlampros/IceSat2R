@@ -807,7 +807,20 @@ time_specific_orbits = function(date_from = NULL,
       }
 
       # class_obj = as.vector(unlist(lapply(inner_obj, function(x) class(sf::st_geometry(x))[1])))                      # I expect each sublist to be of type "sfc_POINT" and normally observations which are not (and can be for instance "sfc_LINESTRING") won't have a description column either. Therefore use the next line for removal
-      descr_not_idx = which(as.vector(unlist(lapply(inner_obj, function(x) is.na(x$description) | x$description == ""))))
+      descr_not_idx = which(as.vector(unlist(lapply(inner_obj, function(x) {
+        colnams = colnames(x)
+        if ('description' %in% colnams) {
+          verify_descr = (is.na(x$description) | x$description == "")
+        }
+        else if ('Description' %in% colnams) {
+          verify_descr = (is.na(x$Description) | x$Description == "")      # In Macintosh (osx) the "description" column appears with an upper case "D" as "Description", see the following issue: https://github.com/mlampros/IceSat2R/issues/9#issuecomment-1152020607
+        }
+        else {
+          stop("The 'D(d)escription' column must exist in every sublist!", call. = F)
+        }
+        verify_descr
+      }))))
+      
       LEN_exc = length(descr_not_idx)
       if (LEN_exc > 0) {
         if (verbose) message(glue::glue("{LEN_exc} output sublist did not have a valid 'description' and will be removed!"))
@@ -822,11 +835,28 @@ time_specific_orbits = function(date_from = NULL,
 
     if (verbose) cat("The 'description' column of the output data will be processed ...\n")
     # descr_proc = strsplit(x = sf_objs$description, split = '[ \n]')                           # split either by newline or by space  [ it's wrong because it splits the date and time too ]
-    descr_proc = strsplit(x = sf_objs$description, split = '\n')
+    
+    colnams_dtbl = colnames(sf_objs)
+    flag_upper_descr = FALSE
+    if ('description' %in% colnams_dtbl) {                                 # see previous exception regarding "D(d)escription" (here I assume that only "description" or "Description" cases exist)
+      sf_objs$description = as.character(sf_objs$description)
+      descr_proc = strsplit(x = sf_objs$description, split = '\n')
+    }
+    else {
+      sf_objs$Description = as.character(sf_objs$Description)
+      descr_proc = strsplit(x = sf_objs$Description, split = ' ')          # in case that I have a 'Description' column, split by empty space
+      chk_row_items = as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0)))     # check that I have an even number of columns (normally 8 but can be fewer too) then concatenate the columns by pairs of consecutive items
+      if (!all(chk_row_items)) stop("It seems that after splitting the observations by empty space the number of columns (per row) are not an even number!", call. = F)
+      descr_proc = lapply(descr_proc, function(x) {
+        seq_item = seq(from = 1, to = length(x), by = 2)
+        sapply(seq_item, function(y) paste(c(x[y], x[y+1]), collapse = ' '))
+      })
+      flag_upper_descr = TRUE
+    }
     descr_proc = data.table::data.table(do.call(rbind, descr_proc), stringsAsFactors = F)
 
     #............................................................................................................................................
-    # !! IMPORTANT !! There was a case where only 'RGT' and 'Date_time' was returned. I have to include the other 2 columns too by using NA's
+    # !! IMPORTANT !! There was a case where only 'RGT' and 'Date_time' were returned. I have to include the other 2 columns too by using NA's
     #                 I have to guess the column-names based on the 1st row of the "descr_proc" data
 
     samp_rownames = as.vector(unlist(descr_proc[1, , drop = T]))
@@ -858,7 +888,13 @@ time_specific_orbits = function(date_from = NULL,
     # colnames(descr_proc) = c('RGT', 'Date_time', 'DOY', 'cycle')   # this is the order that normally appears in the output data
     #............................................................................................................................................
 
-    sf_objs$description = NULL
+    if (flag_upper_descr) {
+      sf_objs$Description = NULL
+    }
+    else {
+      sf_objs$description = NULL
+    }
+    
     sf_objs$RGT = as.integer(gsub('RGT ', '', descr_proc$RGT))                                 # keep the integer from the character string which corresponds to the 'RGT'
     sf_objs$Date_time = descr_proc$Date_time
     sf_objs$day_of_year = as.integer(gsub('DOY ', '', descr_proc$DOY))                         # keep the integer from the character string which corresponds to the 'DOY'
@@ -1421,7 +1457,20 @@ vsi_time_specific_orbits_wkt = function(date_from,
       x = data.table::rbindlist(x)
       x = sf::st_as_sf(x, crs = 4326)              # by default use 'EPSG:4326'
 
-      descr_x = x$description
+      colnams_sf = colnames(x)
+      flag_upper_descr = FALSE
+      
+      if ('description' %in% colnams_sf) { 
+        descr_x = x$description
+      }
+      else if ('Description' %in% colnams_sf) { 
+        descr_x = x$Description
+        flag_upper_descr = TRUE
+      }
+      else {
+        stop("The 'D(d)escription' column must exist in the data!", call. = F)
+      }
+      
       descr_x_invalid = (any(descr_x == "") | any(is.na(descr_x)))
 
       if (descr_x_invalid) {
@@ -1442,7 +1491,13 @@ vsi_time_specific_orbits_wkt = function(date_from,
 
         dat_tim$date = as.character(glue::glue("{dat_tim$date} 00:00:00"))       # add time so that it matches the next "else" condition time-format
 
-        x$description = NULL
+        if (flag_upper_descr) {
+          x$Description = NULL
+        }
+        else {
+          x$description = NULL
+        }
+        
         x$RGT = as.integer(gsub('RGT ', '', x$Name))
         x$Date_time = dat_tim$date                                               # add the date
         x$day_of_year = lubridate::yday(x = yday)
@@ -1450,11 +1505,33 @@ vsi_time_specific_orbits_wkt = function(date_from,
       }
       else {
         if (verbose) cat("The 'description' column of the output data will be processed ...\n")
-        descr_proc = strsplit(x = x$description, split = '\n')
+        
+        colnams_dtbl = colnames(x)
+        if ('description' %in% colnams_dtbl) {                                 # see previous exception regarding "D(d)escription" (here I assume that only "description" or "Description" cases exist)
+          x$description = as.character(x$description)
+          descr_proc = strsplit(x = x$description, split = '\n')
+        }
+        else {
+          x$Description = as.character(x$Description)
+          descr_proc = strsplit(x = x$Description, split = ' ')          # in case that I have a 'Description' column, split by empty space
+          chk_row_items = as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0)))     # check that I have an even number of columns (normally 8 but can be fewer too) then concatenate the columns by pairs of consecutive items
+          if (!all(chk_row_items)) stop("It seems that after splitting the observations by empty space the number of columns (per row) are not an even number (vsi function)!", call. = F)
+          descr_proc = lapply(descr_proc, function(x) {
+            seq_item = seq(from = 1, to = length(x), by = 2)
+            sapply(seq_item, function(y) paste(c(x[y], x[y+1]), collapse = ' '))
+          })
+        }
+        
         descr_proc = data.table::data.table(do.call(rbind, descr_proc), stringsAsFactors = F)
         colnames(descr_proc) = c('RGT', 'Date_time', 'DOY', 'cycle')
 
-        x$description = NULL
+        if (flag_upper_descr) {
+          x$Description = NULL
+        }
+        else {
+          x$description = NULL
+        }
+        
         x$RGT = as.integer(gsub('RGT ', '', descr_proc$RGT))                           # keep the integer from the character string which corresponds to the 'RGT'
         x$Date_time = descr_proc$Date_time
         x$day_of_year = as.integer(gsub('DOY ', '', descr_proc$DOY))                   # keep the integer from the character string which corresponds to the 'DOY'

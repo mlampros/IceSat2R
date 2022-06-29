@@ -126,6 +126,27 @@
 <p>The usage of the <em>IceSat2R</em> package requires a geospatial setup as specified in the <a href="https://github.com/r-spatial/sf#installing" class="external-link">sf</a> or <a href="https://github.com/rspatial/terra#from-source-code" class="external-link">terra</a> README.md files.</p>
 <p><br></p>
 </div>
+<div class="section level4">
+<h4 id="how-the-icesat2r-package-can-be-used">
+<strong>How the IceSat2R package can be used?</strong><a class="anchor" aria-label="anchor" href="#how-the-icesat2r-package-can-be-used"></a>
+</h4>
+<p><br></p>
+<p>The <em>IceSat2R</em> package includes the code, documentation, and examples so that,</p>
+<ul>
+<li>A user can select an area of interest (AOI) either programmatically or interactively</li>
+<li>If the Reference Ground Track (RGT) is not known, the user has the option to utilize either<ul>
+<li>one of the “overall_mission_orbits()” or “time_specific_orbits()” to compute the RGT(s) for a pre-specified global area or for a time period, or</li>
+<li>one of the “vsi_nominal_orbits_wkt()” or “vsi_time_specific_orbits_wkt()” to compute the RGT(s) for a specific AOI</li>
+</ul>
+</li>
+<li>Once the RGT is computed it can be verified with the “getTracks()” function of the OpenAltimetry Web API</li>
+<li>Finally the user can utilize one of the “get_atlas_data()” or “get_level3a_data()” functions to retrieve the data for specific product(s), Date(s) and Beam(s)</li>
+</ul>
+<p>This work-flow is illustrated also in the following diagram,</p>
+<p><br></p>
+<p><img src="reference/figures/icesat_2_diagram.png"></p>
+<p><br></p>
+</div>
 <div class="section level3">
 <h3 id="shiny-application-to-select-an-area-of-interest-aoi-from-a-1--or-5-degree-global-grid">Shiny application to select an area of interest (AOI) from a 1- or 5-degree global grid<a class="anchor" aria-label="anchor" href="#shiny-application-to-select-an-area-of-interest-aoi-from-a-1--or-5-degree-global-grid"></a>
 </h3>
@@ -232,8 +253,23 @@
 <span><span class="va">temp_pkg_file</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">'.zip'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">temp_pkg_file</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">url_pkg</span>, destfile <span class="op">=</span> <span class="va">temp_pkg_file</span>, method <span class="op">=</span> <span class="st">'wget'</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html" class="external-link">unzip</a></span><span class="op">(</span>zipfile <span class="op">=</span> <span class="va">temp_pkg_file</span>, exdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="va">temp_pkg_file</span><span class="op">)</span>, junkpaths <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">url_pkg</span>, destfile <span class="op">=</span> <span class="va">temp_pkg_file</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dir_pkg_save</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="va">temp_pkg_file</span><span class="op">)</span></span>
+<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html" class="external-link">unzip</a></span><span class="op">(</span>zipfile <span class="op">=</span> <span class="va">temp_pkg_file</span>, exdir <span class="op">=</span> <span class="va">dir_pkg_save</span>, junkpaths <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># build and install the latest version of the package</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidyverse/glue" class="external-link">glue</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">dir_pkg_save</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span><span class="st">'R CMD build --compact-vignettes="gs+qpdf" --resave-data IceSat2R-master'</span><span class="op">)</span></span>
+<span><span class="va">gz_file</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gregexpr</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"^IceSat2R+_+[0-9]+.+[0-9]+.+[0-9]+.tar.gz"</span>, text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">!=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span><span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"R CMD INSTALL {list.files()[gz_file]}"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># load the package</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlampros/IceSat2R" class="external-link">IceSat2R</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># run all tests</span></span>
 <span></span>

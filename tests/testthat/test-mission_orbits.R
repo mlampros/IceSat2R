@@ -194,7 +194,7 @@ testthat::test_that("the function 'vsi_time_specific_orbits_wkt()' returns the e
 })
 
 
-testthat::test_that("the function 'time_specific_orbits()' returns the expected output for an input WKT!", {
+testthat::test_that("the function 'time_specific_orbits()' returns the expected output for an input date range!", {
 
   testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
 

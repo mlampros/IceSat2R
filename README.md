@@ -110,8 +110,8 @@ The user of the **IceSat2R** R package can reproduce the examples of the documen
 
 * up to [maximum 100 concurrent users](https://mybinder.readthedocs.io/en/latest/about/user-guidelines.html#maximum-concurrent-users-for-a-repository)
 * [1 CPU](https://discourse.jupyter.org/t/mybinder-and-multiprocessing/3238/2)
-* [1 to 2 GB of memory](https://mybinder.readthedocs.io/en/latest/about/about.html#how-much-memory-am-i-given-when-using-binder)
-* [up to six hours of session time per user session](https://mybinder.readthedocs.io/en/latest/about/about.html#how-long-will-my-binder-session-last), or up to one cpu-hour for more computationally intensive sessions
+* [1 to 2 GB of memory](https://mybinder.readthedocs.io/en/latest/about/user-guidelines.html#how-much-memory-am-i-given-when-using-binder)
+* [up to six hours of session time per user session](https://mybinder.readthedocs.io/en/latest/about/user-guidelines.html#how-long-will-my-binder-session-last), or up to one cpu-hour for more computationally intensive sessions
 
 <br>
 
@@ -329,7 +329,7 @@ If you use the code of this repository in your paper or research please cite bot
 
 This project received financial [support](https://www.r-consortium.org/projects) from the
 
-<a href="https://www.r-consortium.org/projects/awarded-projects">
+<a href="https://www.r-consortium.org/all-projects/awarded-projects">
 <img src="https://www.r-consortium.org/wp-content/uploads/sites/13/2016/09/RConsortium_Horizontal_Pantone.png" width="300">
 </a>
 

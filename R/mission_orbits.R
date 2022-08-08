@@ -18,6 +18,7 @@ utils::globalVariables(c('i',                        # for the foreach for-loop
 #'
 #' @importFrom rvest read_html html_elements
 #' @importFrom data.table data.table
+#' @importFrom lubridate ymd
 #' @import magrittr
 #'
 #' @export

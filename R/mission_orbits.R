@@ -69,45 +69,30 @@ latest_orbits = function(technical_specs_url = "https://icesat-2.gsfc.nasa.gov/s
   df_out = do.call(rbind, df_out)
 
   if (verbose) cat("Process the nominal and time specific orbits separately ...\n")
-  idx_time_spec = which(gregexpr(pattern = "^RGTs", text = df_out[, 2]) != -1)
+  idx_time_spec = which(gregexpr(pattern = "^Cycle", text = df_out[, 2]) != -1)
   nominal_orbits = df_out[-idx_time_spec, ]
   time_specific = df_out[idx_time_spec, ]
 
   if (verbose) cat("Adjust the Dates of the time specific orbits ...\n")
-  dates_spec = as.vector(unlist(lapply(strsplit(x = time_specific[, 2], split = "for"), function(x) trimws(x[2], which = 'both'))))
-  dates_spec = strsplit(x = dates_spec, split = '-')
-  dates_spec = lapply(dates_spec, function(x) {
-    x = trimws(x = x, which = 'both')
-    x = gsub(pattern = "[(]", replacement = ",", x = x)
-    x = gsub(pattern = "[)]", replacement = "", x = x)
-    x = strsplit(x = x, split = ',')
+  dates_spec = as.vector(unlist(lapply(strsplit(x = time_specific[, 2], split = ":"), function(x) trimws(x[2], which = 'both'))))
+  cycles_spec = as.vector(unlist(lapply(strsplit(x = time_specific[, 2], split = ":"), function(x) trimws(x[1], which = 'both'))))
+  cycles_spec = gsub(pattern = ' ', replacement = '_', x = cycles_spec)
 
-    x_out = rep(x = NA_character_, 2)
-
-    for (i in seq_along(x)) {
-      y = trimws(x = x[[i]], which = 'both')
-      if (length(y) == 1) {
-        y = c(y, trimws(x = x[[i+1]][2], which = 'both'))
+  dates_spec = gsub("[(),]", "", dates_spec) %>%
+    strsplit(split = '-') %>%
+    lapply(function(x) trimws(x, which = 'both')) %>%
+    lapply(function(x) {
+      y = strsplit(x, split = ' ')
+      y1 = y[[1]]
+      y2 = y[[2]]
+      if (length(y2) != 3) stop("The second sublist must consist of 3 items!", call. = F)
+      if (length(y1) == 2) {
+        y1 = c(y1, y2[3])
       }
-      x_out[i] = paste(y, collapse = ' ')
-    }
-    x_out
-  })
-
-  #.................................................. conversion to a date requires to take into account system locale (see: https://github.com/mlampros/IceSat2R/issues/3)
-  # dates_spec = lapply(dates_spec, function(x) {
-  #   as.character(as.Date(x, format = "%b %d %Y"))
-  # })
-  #.................................................. therefore convert from different date format using simple character string processing
-
-  dates_spec = lapply(dates_spec, function(x) {
-    as.vector(sapply(x, function(y) {
-      as.vector(unlist(lapply(strsplit(y, ' '), function(z) {
-        day_item = ifelse(nchar(z[2]) == 1, paste0('0', z[2]), z[2])
-        as.character(glue::glue("{z[3]}-{switch_full(z[1])}-{day_item}"))
-      })))
-    }))
-  })
+      y1 = paste(c(y1[3], y1[1], y1[2]), collapse = '-')
+      y2 = paste(c(y2[3], y2[1], y2[2]), collapse = '-')
+      c(as.character(lubridate::ymd(y1)), as.character(lubridate::ymd(y2)))
+    })
 
   any_nas = as.vector(unlist(lapply(dates_spec, function(x) any(is.na(x)))))
   if (any(any_nas)) stop("The conversion to dates returned missing values!", call. = F)
@@ -135,7 +120,6 @@ latest_orbits = function(technical_specs_url = "https://icesat-2.gsfc.nasa.gov/s
 
   return(res_both)
 }
-
 
 
 #' Nominal mission orbits
@@ -820,7 +804,7 @@ time_specific_orbits = function(date_from = NULL,
         }
         verify_descr
       }))))
-      
+
       LEN_exc = length(descr_not_idx)
       if (LEN_exc > 0) {
         if (verbose) message(glue::glue("{LEN_exc} output sublist did not have a valid 'description' and will be removed!"))
@@ -835,7 +819,7 @@ time_specific_orbits = function(date_from = NULL,
 
     if (verbose) cat("The 'description' column of the output data will be processed ...\n")
     # descr_proc = strsplit(x = sf_objs$description, split = '[ \n]')                           # split either by newline or by space  [ it's wrong because it splits the date and time too ]
-    
+
     colnams_dtbl = colnames(sf_objs)
     flag_upper_descr = FALSE
     if ('description' %in% colnams_dtbl) {                                 # see previous exception regarding "D(d)escription" (here I assume that only "description" or "Description" cases exist)
@@ -894,7 +878,7 @@ time_specific_orbits = function(date_from = NULL,
     else {
       sf_objs$description = NULL
     }
-    
+
     sf_objs$RGT = as.integer(gsub('RGT ', '', descr_proc$RGT))                                 # keep the integer from the character string which corresponds to the 'RGT'
     sf_objs$Date_time = descr_proc$Date_time
     sf_objs$day_of_year = as.integer(gsub('DOY ', '', descr_proc$DOY))                         # keep the integer from the character string which corresponds to the 'DOY'
@@ -1459,18 +1443,18 @@ vsi_time_specific_orbits_wkt = function(date_from,
 
       colnams_sf = colnames(x)
       flag_upper_descr = FALSE
-      
-      if ('description' %in% colnams_sf) { 
+
+      if ('description' %in% colnams_sf) {
         descr_x = x$description
       }
-      else if ('Description' %in% colnams_sf) { 
+      else if ('Description' %in% colnams_sf) {
         descr_x = x$Description
         flag_upper_descr = TRUE
       }
       else {
         stop("The 'D(d)escription' column must exist in the data!", call. = F)
       }
-      
+
       descr_x_invalid = (any(descr_x == "") | any(is.na(descr_x)))
 
       if (descr_x_invalid) {
@@ -1497,7 +1481,7 @@ vsi_time_specific_orbits_wkt = function(date_from,
         else {
           x$description = NULL
         }
-        
+
         x$RGT = as.integer(gsub('RGT ', '', x$Name))
         x$Date_time = dat_tim$date                                               # add the date
         x$day_of_year = lubridate::yday(x = yday)
@@ -1505,7 +1489,7 @@ vsi_time_specific_orbits_wkt = function(date_from,
       }
       else {
         if (verbose) cat("The 'description' column of the output data will be processed ...\n")
-        
+
         colnams_dtbl = colnames(x)
         if ('description' %in% colnams_dtbl) {                                 # see previous exception regarding "D(d)escription" (here I assume that only "description" or "Description" cases exist)
           x$description = as.character(x$description)
@@ -1521,7 +1505,7 @@ vsi_time_specific_orbits_wkt = function(date_from,
             sapply(seq_item, function(y) paste(c(x[y], x[y+1]), collapse = ' '))
           })
         }
-        
+
         descr_proc = data.table::data.table(do.call(rbind, descr_proc), stringsAsFactors = F)
         colnames(descr_proc) = c('RGT', 'Date_time', 'DOY', 'cycle')
 
@@ -1531,7 +1515,7 @@ vsi_time_specific_orbits_wkt = function(date_from,
         else {
           x$description = NULL
         }
-        
+
         x$RGT = as.integer(gsub('RGT ', '', descr_proc$RGT))                           # keep the integer from the character string which corresponds to the 'RGT'
         x$Date_time = descr_proc$Date_time
         x$day_of_year = as.integer(gsub('DOY ', '', descr_proc$DOY))                   # keep the integer from the character string which corresponds to the 'DOY'

@@ -313,7 +313,7 @@ If you use the code of this repository in your paper or research please cite bot
   title = {{IceSat2R}: ICESat-2 Altimeter Data using R},
   author = {Lampros Mouselimis},
   year = {2022},
-  note = {R package version 1.0.2},
+  note = {R package version 1.0.3},
   url = {https://CRAN.R-project.org/package=IceSat2R},
 }
 ```

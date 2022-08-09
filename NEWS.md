@@ -1,4 +1,9 @@
 
+## IceSat2R 1.0.4
+
+* I fixed a typo error in the documentation of the *get_level3a_data()* function
+
+
 ## IceSat2R 1.0.3
 
 * I fixed an error related to the *latest_orbits()* function

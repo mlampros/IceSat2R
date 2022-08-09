@@ -38,7 +38,7 @@ get_level3a_data(
 
 \item{beamName}{either NULL (data for all 6 beams will be returned) or a character string specifying the Beam Name, It can be one of the 'gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l' or 'gt3r'}
 
-\item{product}{a character string specifying the input data product (default value is 'atl03'). It can be one of 'atl03', 'atl06', 'atl07', 'atl08', 'atl10', 'atl12' or 'atl13'}
+\item{product}{a character string specifying the input data product (default value is 'atl08'). It can be one of 'atl06', 'atl07', 'atl08', 'atl10', 'atl12' or 'atl13'}
 
 \item{client}{a character string specifying the 'Referring client'. Can be one of 'portal' or 'jupyter' (default is 'portal')}
 

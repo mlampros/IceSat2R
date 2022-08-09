@@ -297,7 +297,7 @@ get_atlas_data = function(minx,
 #' @param endDate a character string specifying the Data collection of the \emph{end} Date in the format 'yyyy-MM-dd' (such as '2020-01-01')
 #' @param trackId an integer specifying the 'Reference ground track ID' (see the examples section on how to come to the 'trackId' and to a bounding box of 1 or 5 degrees globally)
 #' @param beamName either NULL (data for all 6 beams will be returned) or a character string specifying the Beam Name, It can be one of the 'gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l' or 'gt3r'
-#' @param product a character string specifying the input data product (default value is 'atl03'). It can be one of 'atl03', 'atl06', 'atl07', 'atl08', 'atl10', 'atl12' or 'atl13'
+#' @param product a character string specifying the input data product (default value is 'atl08'). It can be one of 'atl06', 'atl07', 'atl08', 'atl10', 'atl12' or 'atl13'
 #' @param client a character string specifying the 'Referring client'. Can be one of 'portal' or 'jupyter' (default is 'portal')
 #' @param outputFormat a character string specifying the output format of the downloaded data. One of 'csv', 'json' or 'zip'
 #' @param file_path_zip either NULL or a character string specifying a valid path to the output .zip file. This parameter will normally be a valid path if the 'outputFormat' parameter is set to 'zip'. If it's NULL and the 'outputFormat' parameter is 'zip' then the downloaded '.zip' file will be converted and returned as a data.table object

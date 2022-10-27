@@ -9,6 +9,7 @@ vsi_time_specific_orbits_wkt(
   date_to,
   RGTs,
   wkt_filter = NULL,
+  download_zip = FALSE,
   verbose = FALSE
 )
 }
@@ -20,6 +21,8 @@ vsi_time_specific_orbits_wkt(
 \item{RGTs}{a character vector (consisting of one or more) Reference Ground Track (RGT). See the Examples section on how to come to these RGTs based on the "vsi_nominal_orbits_wkt()" function}
 
 \item{wkt_filter}{either NULL, or a Well Known Text (WKT) character string to allow a user to restrict to an area of interest rather than processing all data. It is possible that the WKT won't intersect with any of the available time specific orbits due to the sparsity of the coordinates (the output in that case will be an empty list)}
+
+\item{download_zip}{a boolean. If TRUE the .zip file will be first downloaded and then the .kml files will be returned, otherwise the 'gdalinfo' function will be used as input to the R 'system2()' function to read the .kml files without downloading the .zip file. The 'gdalinfo' command requires that the user has configured GDAL properly. Set the parameter 'download_zip' to TRUE if GDAL is not (properly) installed.}
 
 \item{verbose}{a boolean. If TRUE then information will be printed out in the console}
 }

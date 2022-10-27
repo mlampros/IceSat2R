@@ -126,17 +126,17 @@ https://github.com/r-spatial/mapedit/blob/master/experiments/gadget_draw2.R
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{select_aoi_global_grid$new()}}
-\item \href{#method-draw_edit_internal}{\code{select_aoi_global_grid$draw_edit_internal()}}
-\item \href{#method-draw_edit_aoi}{\code{select_aoi_global_grid$draw_edit_aoi()}}
-\item \href{#method-selected_areas_global_grid}{\code{select_aoi_global_grid$selected_areas_global_grid()}}
-\item \href{#method-selected_aoi_sf}{\code{select_aoi_global_grid$selected_aoi_sf()}}
-\item \href{#method-clone}{\code{select_aoi_global_grid$clone()}}
+\item \href{#method-select_aoi_global_grid-new}{\code{select_aoi_global_grid$new()}}
+\item \href{#method-select_aoi_global_grid-draw_edit_internal}{\code{select_aoi_global_grid$draw_edit_internal()}}
+\item \href{#method-select_aoi_global_grid-draw_edit_aoi}{\code{select_aoi_global_grid$draw_edit_aoi()}}
+\item \href{#method-select_aoi_global_grid-selected_areas_global_grid}{\code{select_aoi_global_grid$selected_areas_global_grid()}}
+\item \href{#method-select_aoi_global_grid-selected_aoi_sf}{\code{select_aoi_global_grid$selected_aoi_sf()}}
+\item \href{#method-select_aoi_global_grid-clone}{\code{select_aoi_global_grid$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-select_aoi_global_grid-new"></a>}}
+\if{latex}{\out{\hypertarget{method-select_aoi_global_grid-new}{}}}
 \subsection{Method \code{new()}}{
 Initialization method for the 'select_aoi_global_grid' R6 class
 \subsection{Usage}{
@@ -169,8 +169,8 @@ Initialization method for the 'select_aoi_global_grid' R6 class
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-draw_edit_internal"></a>}}
-\if{latex}{\out{\hypertarget{method-draw_edit_internal}{}}}
+\if{html}{\out{<a id="method-select_aoi_global_grid-draw_edit_internal"></a>}}
+\if{latex}{\out{\hypertarget{method-select_aoi_global_grid-draw_edit_internal}{}}}
 \subsection{Method \code{draw_edit_internal()}}{
 Internal Shiny application to visualize the selected area
 \subsection{Usage}{
@@ -186,8 +186,8 @@ Internal Shiny application to visualize the selected area
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-draw_edit_aoi"></a>}}
-\if{latex}{\out{\hypertarget{method-draw_edit_aoi}{}}}
+\if{html}{\out{<a id="method-select_aoi_global_grid-draw_edit_aoi"></a>}}
+\if{latex}{\out{\hypertarget{method-select_aoi_global_grid-draw_edit_aoi}{}}}
 \subsection{Method \code{draw_edit_aoi()}}{
 Allows to view the Global Grid on the map including a popup that shows the Area of each grid rectangle (or hexagon). The user can then select an Area of Interest (AOI)
 \subsection{Usage}{
@@ -205,8 +205,8 @@ Allows to view the Global Grid on the map including a popup that shows the Area 
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-selected_areas_global_grid"></a>}}
-\if{latex}{\out{\hypertarget{method-selected_areas_global_grid}{}}}
+\if{html}{\out{<a id="method-select_aoi_global_grid-selected_areas_global_grid"></a>}}
+\if{latex}{\out{\hypertarget{method-select_aoi_global_grid-selected_areas_global_grid}{}}}
 \subsection{Method \code{selected_areas_global_grid()}}{
 Takes the selected Area(s) of Interest (AOI) from the draw_edit_aoi() method and returns a simple features object with the corresponding n-degree grid cells
 \subsection{Usage}{
@@ -225,8 +225,8 @@ either an 'sfc' object (if the initial 'area_of_interest' parameter is NULL) or 
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-selected_aoi_sf"></a>}}
-\if{latex}{\out{\hypertarget{method-selected_aoi_sf}{}}}
+\if{html}{\out{<a id="method-select_aoi_global_grid-selected_aoi_sf"></a>}}
+\if{latex}{\out{\hypertarget{method-select_aoi_global_grid-selected_aoi_sf}{}}}
 \subsection{Method \code{selected_aoi_sf()}}{
 Returns the selected area of interest (AOI) by the user in form of an 'sfc' object
 \subsection{Usage}{
@@ -238,8 +238,8 @@ an 'sfc' object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-select_aoi_global_grid-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-select_aoi_global_grid-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

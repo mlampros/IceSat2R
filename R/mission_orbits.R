@@ -1001,8 +1001,10 @@ vsi_kml_from_zip = function(icesat_rgt_url,
     info_url = sf::gdal_utils(util = 'info',
                               source = url_pth,
                               quiet = T)
-    if (info_url == "") {
-      if (verbose) message("The 'sf' gdalinfo returned an empty character string! Attempt to read the url using the OS configured 'gdalinfo' function ...")
+
+    if (any(c(info_url == "", length(info_url) == 0))) {
+
+      warning("The 'sf' gdalinfo returned an empty character string (or vector)! Attempt to read the url using the OS configured 'gdalinfo' function!  (As an alternative you can set the parameter 'download_zip' to TRUE and re-run the function)")
 
       info_url = suppressWarnings(tryCatch(system2(command = 'gdalinfo', args = url_pth, stdout = TRUE, stderr = FALSE), error = function(e) e))
 
@@ -1219,6 +1221,7 @@ vsi_nominal_orbits_wkt = function(orbit_area,
 #' @param date_to a character string specifying the 'end' date in the format 'yyyy-MM-dd' (such as '2020-01-01')
 #' @param RGTs a character vector (consisting of one or more) Reference Ground Track (RGT). See the Examples section on how to come to these RGTs based on the "vsi_nominal_orbits_wkt()" function
 #' @param wkt_filter either NULL, or a Well Known Text (WKT) character string to allow a user to restrict to an area of interest rather than processing all data. It is possible that the WKT won't intersect with any of the available time specific orbits due to the sparsity of the coordinates (the output in that case will be an empty list)
+#' @param download_zip a boolean. If TRUE the .zip file will be first downloaded and then the .kml files will be returned, otherwise the 'gdalinfo' function will be used as input to the R 'system2()' function to read the .kml files without downloading the .zip file. The 'gdalinfo' command requires that the user has configured GDAL properly. Set the parameter 'download_zip' to TRUE if GDAL is not (properly) installed.
 #' @param verbose a boolean. If TRUE then information will be printed out in the console
 #'
 #' @return a list of 'sf' objects where each sublist will represent a different RGT cycle
@@ -1312,6 +1315,7 @@ vsi_time_specific_orbits_wkt = function(date_from,
                                         date_to,
                                         RGTs,
                                         wkt_filter = NULL,
+                                        download_zip = FALSE,
                                         verbose = FALSE) {
   if (verbose) t_start = proc.time()
 
@@ -1356,13 +1360,13 @@ vsi_time_specific_orbits_wkt = function(date_from,
 
       iter_url = zip_subs[item_cy]
       zip_dat = vsi_kml_from_zip(icesat_rgt_url = iter_url,
-                                 download_zip = FALSE,
+                                 download_zip = download_zip,
                                  download_method = 'curl',
                                  verbose = verbose)
       if (nrow(zip_dat) > 0) {
 
         greg_expr = as.character(glue::glue("IS2_RGT_{RGTs}"))
-        rows_inters = as.vector(sapply(greg_expr, function(x) which(gregexpr(pattern = x, text = zip_dat$file) != -1)))
+        rows_inters = as.vector(unlist(sapply(greg_expr, function(x) which(gregexpr(pattern = x, text = zip_dat$file) != -1))))
         if (length(rows_inters)) {
           zip_dat_subs = zip_dat[rows_inters, , drop = F]
           NROW = nrow(zip_dat_subs)

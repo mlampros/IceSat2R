@@ -1,11 +1,11 @@
 
-
 ## IceSat2R 1.0.4
 
 * I fixed a typo error in the documentation of the *get_level3a_data()* function
-* I've included the boolean parameter *'download_zip'* to the *'vsi_time_specific_orbits_wkt()'* function. It might be useful if the previous default parameter ( *'download_zip = FALSE'* ) gives an error.
-* I've modified an exception in the *'vsi_kml_from_zip()'* function in case the *'sf::gdal_utils(util = 'info')'* function returns an empty character vector ( besides the existing one *'(info_url == "")'* ). I also converted a message to a warning
+* I've included the boolean parameter *'download_zip'* to the *'vsi_time_specific_orbits_wkt()'* function. It might be useful if the previous default parameter ( *'download_zip = FALSE'* ) gives a warning or error.
+* I've modified an exception in the *'vsi_kml_from_zip()'* function in case the *'sf::gdal_utils(util = 'info')'* function returns an empty character vector ( besides the existing one *'(info_url == "")'* ). I also converted a message to a warning.
 * I've modified the *'vsi_time_specific_orbits_wkt()'* function because it gave an error for 'RGT_cycle_4'
+* I've updated the documentation of the *'vsi_time_specific_orbits_wkt'* function
 
 
 ## IceSat2R 1.0.3

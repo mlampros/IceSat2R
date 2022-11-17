@@ -994,7 +994,7 @@ vsi_kml_from_zip = function(icesat_rgt_url,
     utils::download.file(url = icesat_rgt_url, destfile = tmp_url_file, method = download_method, quiet = !verbose)
     info_url = utils::unzip(zipfile = tmp_url_file, list = TRUE, junkpaths = T)
     info_url = info_url$Name
-    if (length(info_url) == 0) stop(glue::glue("The 'unzip -l' command didn't returned the required .kml url paths for the input url: {url_pth}!"), call. = F)
+    if (length(info_url) == 0) stop(glue::glue("The 'unzip -l' command didn't returned the required .kml url paths for the input url: {icesat_rgt_url}!"), call. = F)
   }
   else {
 
@@ -1226,6 +1226,12 @@ vsi_nominal_orbits_wkt = function(orbit_area,
 #'
 #' @return a list of 'sf' objects where each sublist will represent a different RGT cycle
 #'
+#' @details
+#'
+#' In case that this function does not return any results (empty list object) for a specified 'wkt_filter' parameter, then use a bigger Well Known Text (WKT) area. This is required because the 'time specific orbits' (points) are quite sparse.
+#'
+#' Moreover, set the parameter 'download_zip' to TRUE if the 'gdalinfo' function returns internally an empty character string. In that case also a warning will be shown in the R session.
+#'
 #' @references
 #'
 #' https://icesat-2.gsfc.nasa.gov/science/specs
@@ -1389,6 +1395,7 @@ vsi_time_specific_orbits_wkt = function(date_from,
               wkt_inp = character(0)
               if (!is.null(wkt_filter)) wkt_inp = wkt_filter
               lr_dat = sf::st_read(dsn = zip_dat_subs$file[idx_row], wkt_filter = wkt_inp, layer = LAYER, quiet = TRUE)
+              # lr_dat = sf::st_read(dsn = zip_dat_subs$file[idx_row], layer = LAYER, quiet = TRUE)                           # keep this line for debugging in case that the 'wkt_filter' does not work
               lr_dat
             })
 

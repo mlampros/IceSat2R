@@ -32,6 +32,11 @@ a list of 'sf' objects where each sublist will represent a different RGT cycle
 \description{
 Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access the 'time specific orbits'
 }
+\details{
+In case that this function does not return any results (empty list object) for a specified 'wkt_filter' parameter, then use a bigger Well Known Text (WKT) area. This is required because the 'time specific orbits' (points) are quite sparse.
+
+Moreover, set the parameter 'download_zip' to TRUE if the 'gdalinfo' function returns internally an empty character string. In that case also a warning will be shown in the R session.
+}
 \examples{
 
 \dontrun{

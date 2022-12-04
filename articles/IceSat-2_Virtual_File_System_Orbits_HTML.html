@@ -81,7 +81,7 @@
 
       
 
-      </header><script src="IceSat-2_Virtual_File_System_Orbits_HTML_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>ICESat-2 Virtual File System Orbits</h1>
@@ -95,8 +95,17 @@
     
     
 <p><br></p>
-<p>In this <em>third</em> vignette I’ll make use of the <a href="https://gdal.org/user/virtual_file_systems.html" class="external-link">GDAL Virtual File Systems</a> to download <em>nominal</em> and <em>time specific</em> orbit data (from the <a href="https://icesat-2.gsfc.nasa.gov/science/specs" class="external-link">ICESat-2 Technical Specs website</a>) for an Area of Interest (AOI). This will allow me to reduce the download and computation time once I make the requests to the <a href="https://openaltimetry.org/data/swagger-ui/" class="external-link">OpenAltimetry API</a>.</p>
-<p>The area of interest is the <strong>Himalayas mountain range</strong> which has some of the <em>highest peaks</em> in the world, including <em>mount Everest</em>. The following map shows the bounding box area that I’ll use in this vignette,</p>
+<p>In this <em>third</em> vignette I’ll make use of the <a href="https://gdal.org/user/virtual_file_systems.html" class="external-link">GDAL Virtual File
+Systems</a> to download <em>nominal</em> and <em>time specific</em>
+orbit data (from the <a href="https://icesat-2.gsfc.nasa.gov/science/specs" class="external-link">ICESat-2 Technical
+Specs website</a>) for an Area of Interest (AOI). This will allow me to
+reduce the download and computation time once I make the requests to the
+<a href="https://openaltimetry.org/data/swagger-ui/" class="external-link">OpenAltimetry
+API</a>.</p>
+<p>The area of interest is the <strong>Himalayas mountain range</strong>
+which has some of the <em>highest peaks</em> in the world, including
+<em>mount Everest</em>. The following map shows the bounding box area
+that I’ll use in this vignette,</p>
 <p><br></p>
 <div class="figure" style="text-align: center">
 <img src="himalayas_aoi.png" alt="Display the area of interest in Himalayas" width="105%" height="100%"><p class="caption">
@@ -123,7 +132,12 @@ Area of Interest
 <span><span class="co"># 1     small POLYGON ((86.36902 27.66164...</span></span>
 <span><span class="co"># 2       big POLYGON ((86.35254 26.95635...</span></span></code></pre></div>
 <p><br></p>
-<p>Since the <em>Himalayas mountain range</em> is located in the <em>Eastern Hemisphere</em> we’ll pick this as an area to use as input to the <em>IceSat2R::vsi_nominal_orbits_wkt()</em> function. Moreover, we’ll iterate over all <em>8 available repeats</em> for the <em>Eastern Hemisphere</em> to retrieve the <em>Reference Ground Tracks (RGTs)</em> of the AOI based on the <em>nominal orbits</em>,</p>
+<p>Since the <em>Himalayas mountain range</em> is located in the
+<em>Eastern Hemisphere</em> we’ll pick this as an area to use as input
+to the <em>IceSat2R::vsi_nominal_orbits_wkt()</em> function. Moreover,
+we’ll iterate over all <em>8 available repeats</em> for the <em>Eastern
+Hemisphere</em> to retrieve the <em>Reference Ground Tracks (RGTs)</em>
+of the AOI based on the <em>nominal orbits</em>,</p>
 <p><br></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sf_wkt</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">geoms_himal</span>, <span class="va">area_size</span> <span class="op">==</span> <span class="st">'big'</span><span class="op">)</span><span class="op">)</span></span>
@@ -174,11 +188,16 @@ Area of Interest
 <span> <span class="co"># [1] "96"   "157"  "363"  "538"  "599"  "805"  "866"  "1041" "1308" "1247"</span></span></code></pre></div>
 <p><br></p>
 <p><br></p>
-<p>For this specific use case we are interested in ICESat-2 data for a specific time period,</p>
+<p>For this specific use case we are interested in ICESat-2 data for a
+specific time period,</p>
 <ul>
-<li>from <em>‘2020-01-01’</em> to <em>‘2021-01-01’</em> (1-year’s data)</li>
+<li>from <em>‘2020-01-01’</em> to <em>‘2021-01-01’</em> (1-year’s
+data)</li>
 </ul>
-<p>Therefore, we’ll make use of the <em>IceSat2R::vsi_time_specific_orbits_wkt()</em> function which queries all <em>15 ICESat-2 RGTs cycles</em> (as of March 2022) to come to the RGTs intersection for the specified 1-year time interval,</p>
+<p>Therefore, we’ll make use of the
+<em>IceSat2R::vsi_time_specific_orbits_wkt()</em> function which queries
+all <em>15 ICESat-2 RGTs cycles</em> (as of March 2022) to come to the
+RGTs intersection for the specified 1-year time interval,</p>
 <p><br></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">date_start</span> <span class="op">=</span> <span class="st">'2020-01-01'</span></span>
@@ -243,7 +262,8 @@ Area of Interest
 <span><span class="co"># The 'description' column of the output data will be processed ...</span></span>
 <span><span class="co"># Total Elapsed time: 0 hours and 2 minutes and 37 seconds. </span></span></code></pre></div>
 <p><br></p>
-<p>The query returns 18 different Date-Time matches for our defined 1-year time period,</p>
+<p>The query returns 18 different Date-Time matches for our defined
+1-year time period,</p>
 <p><br></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">orb_cyc_multi</span></span>
@@ -266,7 +286,8 @@ Area of Interest
 <span><span class="co"># 9  ....        NA &lt;NA&gt;  538 2020-07-30 14:32:58         212     8 POINT (87.26075 27.08963)</span></span>
 <span><span class="co"># 10 ....        NA &lt;NA&gt;  599 2020-08-03 14:24:38         216     8 POINT (86.48426 27.10947)</span></span></code></pre></div>
 <p><br></p>
-<p>We’ll use the <em>mapview</em> R package to visualize our AOI bounding box with the intersected time-specific RGTs,</p>
+<p>We’ll use the <em>mapview</em> R package to visualize our AOI
+bounding box with the intersected time-specific RGTs,</p>
 <p><br></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">orbit_cy</span> <span class="op">=</span> <span class="fu">mapview</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span>, legend <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
@@ -284,7 +305,8 @@ Intersected RGTs
 </p>
 </div>
 <p><br></p>
-<p>The output of <em>‘vsi_time_specific_orbits_wkt()’</em> can be verified with the <em>OpenAltimetry’s ‘getTracks()’</em> function,</p>
+<p>The output of <em>‘vsi_time_specific_orbits_wkt()’</em> can be
+verified with the <em>OpenAltimetry’s ‘getTracks()’</em> function,</p>
 <p><br></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bbx_aoi</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">sf_wkt</span><span class="op">)</span></span>

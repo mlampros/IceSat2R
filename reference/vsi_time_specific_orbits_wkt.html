@@ -74,6 +74,7 @@
 <span>  <span class="va">date_to</span>,</span>
 <span>  <span class="va">RGTs</span>,</span>
 <span>  wkt_filter <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  download_zip <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -96,6 +97,10 @@
 <dd><p>either NULL, or a Well Known Text (WKT) character string to allow a user to restrict to an area of interest rather than processing all data. It is possible that the WKT won't intersect with any of the available time specific orbits due to the sparsity of the coordinates (the output in that case will be an empty list)</p></dd>
 
 
+<dt>download_zip</dt>
+<dd><p>a boolean. If TRUE the .zip file will be first downloaded and then the .kml files will be returned, otherwise the 'gdalinfo' function will be used as input to the R 'system2()' function to read the .kml files without downloading the .zip file. The 'gdalinfo' command requires that the user has configured GDAL properly. Set the parameter 'download_zip' to TRUE if GDAL is not (properly) installed.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>a boolean. If TRUE then information will be printed out in the console</p></dd>
 
@@ -105,6 +110,11 @@
     
 
 <p>a list of 'sf' objects where each sublist will represent a different RGT cycle</p>
+    </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>In case that this function does not return any results (empty list object) for a specified 'wkt_filter' parameter, then use a bigger Well Known Text (WKT) area. This is required because the 'time specific orbits' (points) are quite sparse.</p>
+<p>Moreover, set the parameter 'download_zip' to TRUE if the 'gdalinfo' function returns internally an empty character string. In that case also a warning will be shown in the R session.</p>
     </div>
     <div id="references">
     <h2>References</h2>

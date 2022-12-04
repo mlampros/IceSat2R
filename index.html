@@ -134,7 +134,8 @@
 <p>The <em>IceSat2R</em> package includes the code, documentation, and examples so that,</p>
 <ul>
 <li>A user can select an area of interest (AOI) either programmatically or interactively</li>
-<li>If the Reference Ground Track (RGT) is not known, the user has the option to utilize either<ul>
+<li>If the Reference Ground Track (RGT) is not known, the user has the option to utilize either
+<ul>
 <li>one of the “overall_mission_orbits()” or “time_specific_orbits()” to compute the RGT(s) for a pre-specified global area or for a time period, or</li>
 <li>one of the “vsi_nominal_orbits_wkt()” or “vsi_time_specific_orbits_wkt()” to compute the RGT(s) for a specific AOI</li>
 </ul>
@@ -200,28 +201,28 @@
 <p><br></p>
 <p><strong>Docker images</strong> of the <em>IceSat2R</em> package are available to download from my <a href="https://hub.docker.com/r/mlampros/icesat2r" class="external-link">dockerhub</a> account. The images come with <em>Rstudio</em> and the <em>R-development</em> version (latest) installed. The whole process was tested on Ubuntu 18.04. To <strong>pull</strong> &amp; <strong>run</strong> the image do the following,</p>
 <p><br></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a></span>
-<span id="cb1-2"><a href="#cb1-2"></a>docker pull mlampros<span class="op">/</span>icesat2r<span class="op">:</span>rstudiodev</span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>docker run <span class="op">-</span>d <span class="op">--</span>name rstudio_dev <span class="op">-</span>e USER=rstudio <span class="op">-</span>e PASSWORD=give_here_your_password <span class="op">--</span>rm <span class="op">-</span>p <span class="dv">8787</span><span class="op">:</span><span class="dv">8787</span> mlampros<span class="op">/</span>icesat2r<span class="op">:</span>rstudiodev</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>docker pull mlampros<span class="sc">/</span>icesat2r<span class="sc">:</span>rstudiodev</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>docker run <span class="sc">-</span>d <span class="sc">--</span>name rstudio_dev <span class="sc">-</span>e USER<span class="ot">=</span>rstudio <span class="sc">-</span>e PASSWORD<span class="ot">=</span>give_here_your_password <span class="sc">--</span>rm <span class="sc">-</span>p <span class="dv">8787</span><span class="sc">:</span><span class="dv">8787</span> mlampros<span class="sc">/</span>icesat2r<span class="sc">:</span>rstudiodev</span></code></pre></div>
 <p><br></p>
 <p>The user can also <strong>bind</strong> a home directory / folder to the image to use its files by specifying the <strong>-v</strong> command,</p>
 <p><br></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a></span>
-<span id="cb2-2"><a href="#cb2-2"></a>docker run <span class="op">-</span>d <span class="op">--</span>name rstudio_dev <span class="op">-</span>e USER=rstudio <span class="op">-</span>e PASSWORD=give_here_your_password <span class="op">--</span>rm <span class="op">-</span>p <span class="dv">8787</span><span class="op">:</span><span class="dv">8787</span> <span class="op">-</span>v <span class="op">/</span>home<span class="op">/</span>YOUR_DIR<span class="op">:</span><span class="er">/</span>home<span class="op">/</span>rstudio<span class="op">/</span>YOUR_DIR mlampros<span class="op">/</span>icesat2r<span class="op">:</span>rstudiodev</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>docker run <span class="sc">-</span>d <span class="sc">--</span>name rstudio_dev <span class="sc">-</span>e USER<span class="ot">=</span>rstudio <span class="sc">-</span>e PASSWORD<span class="ot">=</span>give_here_your_password <span class="sc">--</span>rm <span class="sc">-</span>p <span class="dv">8787</span><span class="sc">:</span><span class="dv">8787</span> <span class="sc">-</span>v <span class="sc">/</span>home<span class="sc">/</span>YOUR_DIR<span class="sc">:</span><span class="er">/</span>home<span class="sc">/</span>rstudio<span class="sc">/</span>YOUR_DIR mlampros<span class="sc">/</span>icesat2r<span class="sc">:</span>rstudiodev</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
 <p><br></p>
-<p>The <strong>USER</strong> defaults to <em>rstudio</em> but you have to give your <strong>PASSWORD</strong> of preference (see <a href="https://www.rocker-project.org/" class="external-link">www.rocker-project.org</a> for more information).</p>
+<p>The <strong>USER</strong> defaults to <em>rstudio</em> but you have to give your <strong>PASSWORD</strong> of preference (see <a href="https://rocker-project.org/" class="external-link">https://rocker-project.org/</a> for more information).</p>
 <p><br></p>
 <p>Open your web-browser and depending where the docker image was <em>build / run</em> give,</p>
 <p><br></p>
 <p><strong>1st. Option</strong> on your personal computer,</p>
 <p><br></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>http<span class="op">:</span><span class="er">//</span><span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">0.0</span><span class="op">:</span><span class="dv">8787</span> </span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>http<span class="sc">:</span><span class="er">//</span><span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">0.0</span><span class="sc">:</span><span class="dv">8787</span> </span></code></pre></div>
 <p><br></p>
 <p><strong>2nd. Option</strong> on a cloud instance,</p>
 <p><br></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>http<span class="op">:</span><span class="er">//</span>Public DNS<span class="op">:</span><span class="dv">8787</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>http<span class="sc">:</span><span class="er">//</span>Public DNS<span class="sc">:</span><span class="dv">8787</span></span></code></pre></div>
 <p><br></p>
 <p>to access the Rstudio console in order to give your username and password.</p>
 <p><br></p>
@@ -301,8 +302,17 @@
 <p><br></p>
 <p>Using a table to map the <strong>strong</strong> and <strong>weak</strong> beams (Reference: <a href="http://icesat2sliderule.org/rtd/user_guide/Background.html#icesat-2" class="external-link">sliderule-python documentation</a>)</p>
 <p><br></p>
-<center><div class="page-header"><h1>ATLAS oriented forward (+x)</h1></div></center>
+<center>
+<div class="page-header"><h1>
+ATLAS oriented forward (+x)
+</h1></div>
+</center>
 <table class="table">
+<colgroup>
+<col width="32%">
+<col width="40%">
+<col width="27%">
+</colgroup>
 <thead><tr class="header">
 <th align="center">ATLAS Spot Number</th>
 <th align="center">Ground track Designation</th>
@@ -342,8 +352,17 @@
 </tbody>
 </table>
 <p><br></p>
-<center><h1>ATLAS oriented backwards (-x)</h1></center>
+<center>
+<h1>
+ATLAS oriented backwards (-x)
+</h1>
+</center>
 <table class="table">
+<colgroup>
+<col width="32%">
+<col width="40%">
+<col width="27%">
+</colgroup>
 <thead><tr class="header">
 <th align="center">ATLAS Spot Number</th>
 <th align="center">Ground track Designation</th>
@@ -390,13 +409,13 @@
 <p><br></p>
 <p>If you use the code of this repository in your paper or research please cite both <strong>IceSat2R</strong> and the <strong>original articles</strong> (see CITATION) <code>https://CRAN.R-project.org/package=IceSat2R</code>:</p>
 <p><br></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">@</span>Manual{,</span>
-<span id="cb8-2"><a href="#cb8-2"></a>  title =<span class="st"> </span>{{IceSat2R}<span class="op">:</span><span class="st"> </span>ICESat<span class="dv">-2</span> Altimeter Data using R},</span>
-<span id="cb8-3"><a href="#cb8-3"></a>  author =<span class="st"> </span>{Lampros Mouselimis},</span>
-<span id="cb8-4"><a href="#cb8-4"></a>  year =<span class="st"> </span>{<span class="dv">2022</span>},</span>
-<span id="cb8-5"><a href="#cb8-5"></a>  note =<span class="st"> </span>{R package version <span class="dv">1</span>.<span class="fl">0.3</span>},</span>
-<span id="cb8-6"><a href="#cb8-6"></a>  url =<span class="st"> </span>{https<span class="op">:</span><span class="er">//</span>CRAN.R<span class="op">-</span>project.org<span class="op">/</span>package=IceSat2R},</span>
-<span id="cb8-7"><a href="#cb8-7"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">@</span>Manual{,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  title <span class="ot">=</span> {{IceSat2R}<span class="sc">:</span> ICESat<span class="dv">-2</span> Altimeter Data using R},</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  author <span class="ot">=</span> {Lampros Mouselimis},</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">=</span> {<span class="dv">2022</span>},</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  note <span class="ot">=</span> {R package version <span class="dv">1</span>.<span class="fl">0.4</span>},</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>IceSat2R},</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><br></p>
 </div>
 </div>

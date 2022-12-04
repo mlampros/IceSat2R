@@ -110,13 +110,13 @@
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>select_aoi_global_grid$new()</code></a></p></li>
-<li><p><a href="#method-draw_edit_internal"><code>select_aoi_global_grid$draw_edit_internal()</code></a></p></li>
-<li><p><a href="#method-draw_edit_aoi"><code>select_aoi_global_grid$draw_edit_aoi()</code></a></p></li>
-<li><p><a href="#method-selected_areas_global_grid"><code>select_aoi_global_grid$selected_areas_global_grid()</code></a></p></li>
-<li><p><a href="#method-selected_aoi_sf"><code>select_aoi_global_grid$selected_aoi_sf()</code></a></p></li>
-<li><p><a href="#method-clone"><code>select_aoi_global_grid$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-select_aoi_global_grid-new"><code>select_aoi_global_grid$new()</code></a></p></li>
+<li><p><a href="#method-select_aoi_global_grid-draw_edit_internal"><code>select_aoi_global_grid$draw_edit_internal()</code></a></p></li>
+<li><p><a href="#method-select_aoi_global_grid-draw_edit_aoi"><code>select_aoi_global_grid$draw_edit_aoi()</code></a></p></li>
+<li><p><a href="#method-select_aoi_global_grid-selected_areas_global_grid"><code>select_aoi_global_grid$selected_areas_global_grid()</code></a></p></li>
+<li><p><a href="#method-select_aoi_global_grid-selected_aoi_sf"><code>select_aoi_global_grid$selected_aoi_sf()</code></a></p></li>
+<li><p><a href="#method-select_aoi_global_grid-clone"><code>select_aoi_global_grid$clone()</code></a></p></li>
+</ul></div><p></p><hr><a id="method-select_aoi_global_grid-new"></a><div class="section">
 <h3 id="method-new-">Method <code><a href="https://rdrr.io/r/methods/new.html" class="external-link">new()</a></code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Initialization method for the 'select_aoi_global_grid' R6 class</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
@@ -159,7 +159,7 @@
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-draw_edit_internal"></a><div class="section">
+</div><p></p><hr><a id="method-select_aoi_global_grid-draw_edit_internal"></a><div class="section">
 <h3 id="method-draw-edit-internal-">Method <code>draw_edit_internal()</code><a class="anchor" aria-label="anchor" href="#method-draw-edit-internal-"></a></h3>
 <p>Internal Shiny application to visualize the selected area</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
@@ -175,7 +175,7 @@
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-draw_edit_aoi"></a><div class="section">
+</div><p></p><hr><a id="method-select_aoi_global_grid-draw_edit_aoi"></a><div class="section">
 <h3 id="method-draw-edit-aoi-">Method <code>draw_edit_aoi()</code><a class="anchor" aria-label="anchor" href="#method-draw-edit-aoi-"></a></h3>
 <p>Allows to view the Global Grid on the map including a popup that shows the Area of each grid rectangle (or hexagon). The user can then select an Area of Interest (AOI)</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
@@ -195,7 +195,7 @@
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-selected_areas_global_grid"></a><div class="section">
+</div><p></p><hr><a id="method-select_aoi_global_grid-selected_areas_global_grid"></a><div class="section">
 <h3 id="method-selected-areas-global-grid-">Method <code>selected_areas_global_grid()</code><a class="anchor" aria-label="anchor" href="#method-selected-areas-global-grid-"></a></h3>
 <p>Takes the selected Area(s) of Interest (AOI) from the draw_edit_aoi() method and returns a simple features object with the corresponding n-degree grid cells</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
@@ -215,7 +215,7 @@
 <p>either an 'sfc' object (if the initial 'area_of_interest' parameter is NULL) or an 'sf' object consisting of the n-degree grid cells</p>
 </div>
 
-</div><p></p><hr><a id="method-selected_aoi_sf"></a><div class="section">
+</div><p></p><hr><a id="method-select_aoi_global_grid-selected_aoi_sf"></a><div class="section">
 <h3 id="method-selected-aoi-sf-">Method <code>selected_aoi_sf()</code><a class="anchor" aria-label="anchor" href="#method-selected-aoi-sf-"></a></h3>
 <p>Returns the selected area of interest (AOI) by the user in form of an 'sfc' object</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
@@ -227,7 +227,7 @@
 <p>an 'sfc' object</p>
 </div>
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-select_aoi_global_grid-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>

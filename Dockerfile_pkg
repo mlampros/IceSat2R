@@ -1,4 +1,4 @@
-FROM rocker/binder:latest
+FROM rocker/binder:4.2.0
 
 #.............................................................
 # Adds binder abilities on top of the rocker/geospatial images

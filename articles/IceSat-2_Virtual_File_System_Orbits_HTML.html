@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">IceSat2R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5</span>
       </span>
     </div>
 
@@ -290,14 +290,20 @@ RGTs intersection for the specified 1-year time interval,</p>
 bounding box with the intersected time-specific RGTs,</p>
 <p><br></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">orbit_cy</span> <span class="op">=</span> <span class="fu">mapview</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span>, legend <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># make the sf-objects valid</span></span>
+<span><span class="va">orb_cyc_multi</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_make_valid</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span><span class="op">)</span></span>
+<span><span class="va">sf_wkt</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_make_valid</a></span><span class="op">(</span><span class="va">sf_wkt</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot the sf-objects</span></span>
+<span><span class="va">orbit_cy</span> <span class="op">=</span> <span class="fu">mapview</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">orb_cyc_multi</span>, legend <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
 <span><span class="va">AOI_wkt</span> <span class="op">=</span> <span class="fu">mapview</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mapview/man/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">sf_wkt</span>, legend <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">lft</span> <span class="op">=</span> <span class="va">orbit_cy</span> <span class="op">+</span> <span class="va">AOI_wkt</span></span>
 <span></span>
-<span><span class="va">lft</span><span class="op">@</span><span class="va">map</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">leaflet</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-methods.html" class="external-link">setView</a></span><span class="op">(</span>lng <span class="op">=</span> <span class="va">centr_wkt</span><span class="op">[</span>, <span class="st">'X'</span><span class="op">]</span>,</span>
-<span>                             lat <span class="op">=</span> <span class="va">centr_wkt</span><span class="op">[</span>, <span class="st">'Y'</span><span class="op">]</span>,</span>
-<span>                             zoom <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">lft</span> <span class="op">=</span> <span class="va">lft</span><span class="op">@</span><span class="va">map</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">leaflet</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-methods.html" class="external-link">setView</a></span><span class="op">(</span>lng <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">centr_wkt</span><span class="op">[</span>, <span class="st">'X'</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>                                   lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">centr_wkt</span><span class="op">[</span>, <span class="st">'Y'</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>                                   zoom <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="va">lft</span></span></code></pre></div>
 <p><br></p>
 <div class="figure" style="text-align: center">
 <img src="himalayas_rgts.png" alt="Intersected Reference Ground Tracks" width="80%" height="80%"><p class="caption">

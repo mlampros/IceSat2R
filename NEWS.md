@@ -1,4 +1,9 @@
 
+## IceSat2R 1.0.5
+
+* I adjusted the "IceSat-2_Virtual_File_System_Orbits_PDF.Rmd" and "IceSat-2_Virtual_File_System_Orbits_HTML.Rmd" vignettes to fix the "Error in CPL_write_ogr(obj, dsn, layer, driver, as.character(dataset_options),: Feature creation failed." error
+
+
 ## IceSat2R 1.0.4
 
 * I fixed a typo error in the documentation of the *get_level3a_data()* function

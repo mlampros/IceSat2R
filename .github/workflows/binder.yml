@@ -1,6 +1,7 @@
 
 #.....................................................................................................
 # Binder using 'repo2docker' [ it seems that direct pull from existing docker image is not supported ]
+# It uses the 'Dockerfile' of the root directory
 #
 # https://discourse.jupyter.org/t/use-published-docker-image-for-binder/10333/3
 # https://github.com/jupyterhub/mybinder.org-deploy/issues/1474#issuecomment-649769488

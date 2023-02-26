@@ -133,6 +133,14 @@ unq_rgts
 ```{r reference-plt-1, echo = F}
 #......................................................... mapview visualization
 
+# make the sf-objects valid
+nams = names(lst_out)
+lst_out = lapply(lst_out, function(x) sf::st_make_valid(x))
+names(lst_out) <- nams
+
+sf_wkt = sf::st_make_valid(sf_wkt)
+
+# Plot the two sf-objects
 RGTs = mapview::mapview(lst_out, legend = F)
 AOI_wkt = mapview::mapview(sf_wkt, legend = F)
 
@@ -140,9 +148,10 @@ lft = RGTs + AOI_wkt
 
 require(magrittr)
 
-lft@map %>% leaflet::setView(lng = centr_wkt[, 'X'],
-                             lat = centr_wkt[, 'Y'],
-                             zoom = 7)
+lft = lft@map %>% leaflet::setView(lng = as.numeric(centr_wkt[, 'X']),
+                                   lat = as.numeric(centr_wkt[, 'Y']),
+                                   zoom = 7)
+lft
 #.......................................................
 
 ```
@@ -262,14 +271,20 @@ We'll use the *mapview* R package to visualize our AOI bounding box with the int
 
 ```{r}
 
+# make the sf-objects valid
+orb_cyc_multi = sf::st_make_valid(orb_cyc_multi)
+sf_wkt = sf::st_make_valid(sf_wkt)
+
+# plot the sf-objects
 orbit_cy = mapview::mapview(orb_cyc_multi, legend = F)
 AOI_wkt = mapview::mapview(sf_wkt, legend = F)
 
 lft = orbit_cy + AOI_wkt
 
-lft@map %>% leaflet::setView(lng = centr_wkt[, 'X'],
-                             lat = centr_wkt[, 'Y'],
-                             zoom = 7)
+lft = lft@map %>% leaflet::setView(lng = as.numeric(centr_wkt[, 'X']),
+                                   lat = as.numeric(centr_wkt[, 'Y']),
+                                   zoom = 7)
+lft
 
 ```
 

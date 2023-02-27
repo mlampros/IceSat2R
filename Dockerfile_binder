@@ -21,7 +21,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 USER root
 
 RUN apt-get -y update && \
- apt-get install unzip && \
+ apt-get install -y unzip && \
+ apt-get install -y awscli && \
  R -e "install.packages('devtools', dependencies = TRUE, repos = 'https://cloud.r-project.org/')" && \
  R -e "install.packages(c( 'glue', 'sf', 'lwgeom', 'units', 'data.table', 'httr', 'utils', 'foreach', 'tools', 'doParallel', 'magrittr', 'leaflet', 'leafgl', 'leaflet.extras', 'leafsync', 'miniUI', 'shiny', 'rnaturalearth', 'rmarkdown', 'knitr', 'lubridate', 'rvest', 'DT', 'mapview', 'grDevices', 'stargazer', 'reshape2', 'plotly', 'geodist', 'CopernicusDEM', 'terra', 'testthat', 'remotes' ), repos =  'https://cloud.r-project.org/' )"
 

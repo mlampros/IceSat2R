@@ -1,5 +1,12 @@
 
-#...............................................................................................................................
+#...............................................................................................................................  the workflow using the 3 dockerfiles
+# regarding the separate jobs (docker & binder image) in the same workflow see: https://stackoverflow.com/a/65698892/8302386
+#
+# WORKFLOW:
+#
+#  "build" (Dockerfile_pkg) >> "notify-create-binder-image" (Dockerfile_binder) >> "notify-create-binder-session" (Dockerfile)
+#
+#...............................................................................................................................   for "build" which builds the "mlampros/icesat2r:rstudiodev" docker image (incl. tag)
 # build, push and cache the docker image. I have to adjust the following in case of a different repository:
 #        - I have to add the 'BUILD_DATE' arg in the Dockerfile
 #        - I have to create a DOCKER_PASSWORD (use the docker token) in the 'Settings' tab of the repository
@@ -12,6 +19,23 @@
 #     - https://github.com/moby/moby/issues/1996#issuecomment-40334047
 #     - https://github.com/moby/moby/issues/1996#issuecomment-51292997
 #     - https://github.com/orgs/community/discussions/25768#discussioncomment-3249184
+#...............................................................................................................................   for the Binder docker image that requires the "Dockerfile" of the root dirrectory and the "mlampros/icesat2r:rstudiodev"
+#
+# Binder using 'repo2docker' [ it seems that direct pull from existing docker image is not supported ]
+# It uses the 'Dockerfile' of the root directory
+#
+# This .yml file runs once the most recent version of "mlampros/icesat2r:rstudiodev" has been built
+#
+# https://discourse.jupyter.org/t/use-published-docker-image-for-binder/10333/3
+# https://github.com/jupyterhub/mybinder.org-deploy/issues/1474#issuecomment-649769488
+# https://github.com/jupyterhub/binderhub/issues/1298#issuecomment-841547588
+# https://github.com/jupyterhub/repo2docker
+# https://github.com/jupyterhub/repo2docker-action
+# https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html
+# https://repo2docker.readthedocs.io/en/latest/config_files.html
+# discourse.jupyter.org/t/how-to-reduce-mybinder-org-repository-startup-time/4956/60
+# https://github.com/pangeo-data/pangeo-docker-images/blob/master/.github/workflows/Binder.yml
+# https://github.com/sylvaticus/BetaML.jl/blob/master/.github/workflows/binder.yaml
 #...............................................................................................................................
 
 on:
@@ -55,3 +79,48 @@ jobs:
           tags: ${{ github.repository_owner }}/${{ steps.string.outputs.lowercase }}:rstudiodev
           cache-from: type=registry,ref=${{ github.repository_owner }}/${{ steps.string.outputs.lowercase }}:buildcache
           cache-to: type=registry,ref=${{ github.repository_owner }}/${{ steps.string.outputs.lowercase }}:buildcache,mode=max
+
+  notify-create-binder-image:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: string
+        uses: ASzc/change-string-case-action@v1
+        with:
+          string: ${{ github.event.repository.name }}
+
+      - name: Check Out Repo
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          build-args: BUILD_DATE="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          file: ./Dockerfile_binder
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ github.repository_owner }}/${{ steps.string.outputs.lowercase }}:binder
+          cache-from: type=registry,ref=${{ github.repository_owner }}/${{ steps.string.outputs.lowercase }}:buildcache
+          cache-to: type=registry,ref=${{ github.repository_owner }}/${{ steps.string.outputs.lowercase }}:buildcache,mode=max
+
+  notify-create-binder-session:
+    needs: notify-create-binder-image
+    runs-on: ubuntu-latest
+    steps:
+    - name: cache binder build on mybinder.org
+      uses: jupyterhub/repo2docker-action@master
+      with:
+        NO_PUSH: true
+        MYBINDERORG_TAG: ${{ github.event.ref }}        # This builds the container on mybinder.org with the branch that was pushed on.
+        IMAGE_NAME: mlampros/icesat2rbinder

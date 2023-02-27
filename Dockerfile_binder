@@ -1,8 +1,26 @@
-FROM rocker/geospatial:latest
+FROM rocker/binder:latest
+
+#....................................................................................
+# this Dockerfile calls the "rocker/binder:latest" which uses the "rocker/geospatial"
+# see: https://hub.docker.com/r/rocker/binder
+#....................................................................................
+
+#.............................................................
+# Adds binder abilities on top of the rocker/geospatial images
+# see: https://hub.docker.com/r/rocker/binder
+#.............................................................
 
 LABEL maintainer='Lampros Mouselimis'
 
-RUN export DEBIAN_FRONTEND=noninteractive; apt-get -y update && \
+#.....................................................................................
+# Due to the 'binder' image I have to install dependencies as root
+# see: https://github.com/SeleniumHQ/docker-selenium/issues/725#issuecomment-381734966
+#.....................................................................................
+
+ENV DEBIAN_FRONTEND=noninteractive
+USER root
+
+RUN apt-get -y update && \
  apt-get install unzip && \
  R -e "install.packages('devtools', dependencies = TRUE, repos = 'https://cloud.r-project.org/')" && \
  R -e "install.packages(c( 'glue', 'sf', 'lwgeom', 'units', 'data.table', 'httr', 'utils', 'foreach', 'tools', 'doParallel', 'magrittr', 'leaflet', 'leafgl', 'leaflet.extras', 'leafsync', 'miniUI', 'shiny', 'rnaturalearth', 'rmarkdown', 'knitr', 'lubridate', 'rvest', 'DT', 'mapview', 'grDevices', 'stargazer', 'reshape2', 'plotly', 'geodist', 'CopernicusDEM', 'terra', 'testthat', 'remotes' ), repos =  'https://cloud.r-project.org/' )"

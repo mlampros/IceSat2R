@@ -1,4 +1,4 @@
-FROM mlampros/icesat2r:rstudiodev
+FROM mlampros/icesat2r:binder
 
 #......................................................................................
 # References: https://hub.docker.com/r/rocker/binder

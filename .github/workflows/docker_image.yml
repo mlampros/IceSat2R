@@ -111,6 +111,8 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ github.repository_owner }}/${{ steps.string.outputs.lowercase }}:binder
+          cache-from: type=registry,ref=${{ github.repository_owner }}/${{ steps.string.outputs.lowercase }}:buildcache
+          cache-to: type=registry,ref=${{ github.repository_owner }}/${{ steps.string.outputs.lowercase }}:buildcache,mode=max
 
   notify-create-binder-session:
     needs: notify-create-binder-image
@@ -121,4 +123,4 @@ jobs:
       with:
         NO_PUSH: true
         MYBINDERORG_TAG: ${{ github.event.ref }}        # This builds the container on mybinder.org with the branch that was pushed on.
-        IMAGE_NAME: mlampros/icesat2rbinder
+        #IMAGE_NAME: mlampros/icesat2r

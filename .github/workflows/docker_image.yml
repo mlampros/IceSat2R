@@ -22,7 +22,8 @@
 #...............................................................................................................................   for the Binder docker image that requires the "Dockerfile" of the root dirrectory and the "mlampros/icesat2r:rstudiodev"
 #
 # Binder using 'repo2docker' [ it seems that direct pull from existing docker image is not supported ]
-# It uses the 'Dockerfile' of the root directory
+# It uses the 'Dockerfile' of the root directory AND push the image to Dockerhub, see:
+# https://github.com/jupyterhub/repo2docker-action#use-github-actions-to-cache-the-build-for-binderhub
 #
 # This .yml file runs once the most recent version of "mlampros/icesat2r:rstudiodev" has been built
 #
@@ -117,10 +118,17 @@ jobs:
   notify-create-binder-session:
     needs: notify-create-binder-image
     runs-on: ubuntu-latest
-    steps:
-    - name: cache binder build on mybinder.org
-      uses: jupyterhub/repo2docker-action@master
-      with:
-        NO_PUSH: true
-        MYBINDERORG_TAG: ${{ github.event.ref }}        # This builds the container on mybinder.org with the branch that was pushed on.
-        #IMAGE_NAME: mlampros/icesat2r
+        steps:
+        - name: Checkout Code
+          uses: actions/checkout@v2
+          with:
+            ref: ${{ github.event.pull_request.head.sha }}
+
+        - name: update jupyter dependencies with repo2docker
+          uses: jupyterhub/repo2docker-action@master
+          with:
+            DOCKER_USERNAME: ${{ github.repository_owner }}
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+            BINDER_CACHE: true
+            PUBLIC_REGISTRY_CHECK: true
+            IMAGE_NAME: mlampros/icesat2rbinder

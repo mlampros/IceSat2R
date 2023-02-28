@@ -1,5 +1,5 @@
 
-[![Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mlampros/icesat2r/HEAD?urlpath=rstudio)
+[![Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mlampros/icesat2rbinder/HEAD?urlpath=rstudio)
 [![tic](https://github.com/mlampros/IceSat2R/workflows/tic/badge.svg?branch=master)](https://github.com/mlampros/IceSat2R/actions)
 [![docs: passing](https://img.shields.io/badge/docs-passing-success.svg)](https://mlampros.github.io/IceSat2R/reference/index.html)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/IceSat2R)](http://cran.r-project.org/package=IceSat2R)

@@ -260,14 +260,14 @@ get_atlas_data = function(minx,
   if (!outputFormat %in% c('csv', 'json', 'zip')) stop("The 'outputFormat' parameter must be one of 'csv', 'json' or 'zip'!", call. = F)
 
   if (product == 'atl03') {
-    URL = glue::glue("https://openaltimetry.org/data/api/icesat2/{product}?minx={minx}&miny={miny}&maxx={maxx}&maxy={maxy}&trackId={trackId}&beamName={beamName}&outputFormat={outputFormat}&date={date}&client={client}&sampling={tolower(sampling)}")
+    URL = glue::glue("https://openaltimetry.earthdatacloud.nasa.gov/data/api/icesat2/{product}?minx={minx}&miny={miny}&maxx={maxx}&maxy={maxy}&trackId={trackId}&beamName={beamName}&outputFormat={outputFormat}&date={date}&client={client}&sampling={tolower(sampling)}")
     if (!is.null(photonConfidence)) {
       if (!photonConfidence %in% c('noise', 'buffer', 'low', 'medium', 'high')) stop("The 'photonConfidence' parameter must be one of 'noise', 'buffer', 'low', 'medium' or 'high'!", call. = F)
       URL = glue::glue("{URL}&photonConfidence={photonConfidence}")
     }
   }
   else {     # the remaining 'data sets' use the same parameters
-    URL = glue::glue("https://openaltimetry.org/data/api/icesat2/{product}?minx={minx}&miny={miny}&maxx={maxx}&maxy={maxy}&trackId={trackId}&outputFormat={outputFormat}&date={date}&client={client}")
+    URL = glue::glue("https://openaltimetry.earthdatacloud.nasa.gov/data/api/icesat2/{product}?minx={minx}&miny={miny}&maxx={maxx}&maxy={maxy}&trackId={trackId}&outputFormat={outputFormat}&date={date}&client={client}")
     if (!is.null(beamName)) {
       URL = glue::glue("{URL}&beamName={beamName}")
     }
@@ -423,7 +423,7 @@ get_level3a_data = function(minx,
     if (!beamName %in% c('gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l', 'gt3r')) stop("The 'beamName' parameter must be one of 'gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l' or 'gt3r'!", call. = F)
   }
 
-  URL = glue::glue("https://openaltimetry.org/data/api/icesat2/level3a?product={product}&minx={minx}&miny={miny}&maxx={maxx}&maxy={maxy}&trackId={trackId}&outputFormat={outputFormat}&startDate={startDate}&endDate={endDate}&client={client}")
+  URL = glue::glue("https://openaltimetry.earthdatacloud.nasa.gov/data/api/icesat2/level3a?product={product}&minx={minx}&miny={miny}&maxx={maxx}&maxy={maxy}&trackId={trackId}&outputFormat={outputFormat}&startDate={startDate}&endDate={endDate}&client={client}")
   if (!is.null(beamName)) {
     URL = glue::glue("{URL}&beamName={beamName}")
   }

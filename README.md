@@ -15,7 +15,7 @@
 
 <br>
 
-Programmatic connection to the [OpenAltimetry API](https://openaltimetry.org/data/swagger-ui/) to download and process the following *ICESat-2 Altimeter Data*,
+Programmatic connection to the [OpenAltimetry EARTHDATA API](https://openaltimetry.earthdatacloud.nasa.gov/data/) to download and process the following *ICESat-2 Altimeter Data*,
 
 * *'ATL03'* (Global Geolocated Photon Data)
 * *'ATL06'* (Land Ice Height)
@@ -57,7 +57,7 @@ The *IceSat2R* package includes the code, documentation, and examples so that,
 * If the Reference Ground Track (RGT) is not known, the user has the option to utilize either
   + one of the "overall_mission_orbits()" or "time_specific_orbits()" to compute the RGT(s) for a pre-specified global area or for a time period, or
   + one of the "vsi_nominal_orbits_wkt()" or "vsi_time_specific_orbits_wkt()" to compute the RGT(s) for a specific AOI
-* Once the RGT is computed it can be verified with the "getTracks()" function of the OpenAltimetry Web API
+* Once the RGT is computed it can be verified with the "getTracks()" function of the OpenAltimetry EARTHDATA Web API
 * Finally the user can utilize one of the "get_atlas_data()" or "get_level3a_data()" functions to retrieve the data for specific product(s), Date(s) and Beam(s)
 
 This work-flow is illustrated also in the following diagram,
@@ -72,7 +72,7 @@ This work-flow is illustrated also in the following diagram,
 
 <br>
 
-The [OpenAltimetry API](https://openaltimetry.org/data/swagger-ui/) restricts the requests to a *1x1* or *5x5* degree spatial bounding box, unless the *"sampling"* parameter is set to *TRUE*. The shiny application of the *IceSat2R* package allows the user to create a spatial grid of an AOI, preferably a 1- or 5-degree grid so that the selection can be within limits. An alternative would be to create a grid of smaller grid cells than required (for instance a 4-degree grid) and then to select multiple grid cells,
+The [OpenAltimetry EARTHDATA API](https://openaltimetry.earthdatacloud.nasa.gov/data/) restricts the requests to a *1x1* or *5x5* degree spatial bounding box, unless the *"sampling"* parameter is set to *TRUE*. The shiny application of the *IceSat2R* package allows the user to create a spatial grid of an AOI, preferably a 1- or 5-degree grid so that the selection can be within limits. An alternative would be to create a grid of smaller grid cells than required (for instance a 4-degree grid) and then to select multiple grid cells,
 
 <br>
 

@@ -15,7 +15,7 @@
 #'       \item one of the "overall_mission_orbits()" or "time_specific_orbits()" to compute the RGT(s) for a pre-specified global area or for a time period, or
 #'       \item one of the "vsi_nominal_orbits_wkt()" or "vsi_time_specific_orbits_wkt()" to compute the RGT(s) for a specific AOI
 #'     }
-#'   \item Once the RGT is computed it can be verified with the "getTracks()" function of the "OpenAltimetry Web API" (https://openaltimetry.org/data/swagger-ui/)
+#'   \item Once the RGT is computed it can be verified with the "getTracks()" function of the "OpenAltimetry Web API" (https://openaltimetry.earthdatacloud.nasa.gov)
 #'   \item Finally the user can utilize one of the "get_atlas_data()" or "get_level3a_data()" functions to retrieve the data for specific product(s), Date(s) and Beam(s)
 #' }
 #'

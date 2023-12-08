@@ -35,9 +35,7 @@
 #'
 #' @references
 #'
-#' https://openaltimetry.org/datainfo.html
-#'
-#' https://openaltimetry.org/data/swagger-ui/
+#' https://openaltimetry.earthdatacloud.nasa.gov
 #'
 #' https://nsidc.org/data/icesat-2
 #'
@@ -321,9 +319,7 @@ get_atlas_data = function(minx,
 #'
 #' @references
 #'
-#' https://openaltimetry.org/datainfo.html
-#'
-#' https://openaltimetry.org/data/swagger-ui/
+#' https://openaltimetry.earthdatacloud.nasa.gov
 #'
 #' https://nsidc.org/data/icesat-2
 #'

@@ -17,7 +17,7 @@
 #'
 #' @references
 #'
-#' https://openaltimetry.org/data/swagger-ui/
+#' https://openaltimetry.earthdatacloud.nasa.gov
 #'
 #' https://nsidc.org/data/icesat-2
 #'
@@ -144,7 +144,7 @@ getTracks = function(minx,
                      verbose = FALSE) {
 
   if (!outputFormat %in% c('csv', 'json')) stop("The 'outputFormat' parameter must be one of 'csv' or 'json'!", call. = F)
-  URL = glue::glue("https://openaltimetry.org/data/api/icesat2/getTracks?date={date}&minx={minx}&miny={miny}&maxx={maxx}&maxy={maxy}&outputFormat={outputFormat}")
+  URL = glue::glue("https://openaltimetry.earthdatacloud.nasa.gov/data/api/icesat2/getTracks?date={date}&minx={minx}&miny={miny}&maxx={maxx}&maxy={maxy}&outputFormat={outputFormat}")
 
   res_out = get_URL_data(URL = URL,
                          outputFormat = outputFormat,

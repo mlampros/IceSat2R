@@ -3,6 +3,8 @@
 
 * I adjusted the "IceSat-2_Virtual_File_System_Orbits_PDF.Rmd" and "IceSat-2_Virtual_File_System_Orbits_HTML.Rmd" vignettes to fix the "Error in CPL_write_ogr(obj, dsn, layer, driver, as.character(dataset_options),: Feature creation failed." error
 * I renamed the Dockerfiles and I added a separate Dockerfile for the IceSatR package because the docker image didn't work due to the similar naming of the binder image. I also added (in the Dockerfiles) the "awscli" installation which is required for the vignettes. The ".github/workflows/docker_image.yml" file was adjusted as well.
+* I updated the documentation to account for the migration of OpenAltimetry to EARTHDATA (https://openaltimetry.earthdatacloud.nasa.gov/)
+* I updated the *getTracks()* function
 
 
 ## IceSat2R 1.0.4

@@ -1134,8 +1134,8 @@ vsi_kml_from_zip = function(icesat_rgt_url,
 #' AOI_wkt = mapview::mapview(wkt_sf, legend = F)
 #'
 #' lft = RGTs + AOI_wkt
-#' lft@map %>% leaflet::setView(lng = centr_wkt[, 'X'],
-#'                              lat = centr_wkt[, 'Y'],
+#' lft@map %>% leaflet::setView(lng = as.numeric(centr_wkt[, 'X']),
+#'                              lat = as.numeric(centr_wkt[, 'Y']),
 #'                              zoom = 7)
 #' }
 

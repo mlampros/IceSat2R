@@ -148,7 +148,7 @@ for (item in 1:nrow(rgt_subs)) {
 }
 }
 \references{
-https://openaltimetry.org/data/swagger-ui/
+https://openaltimetry.earthdatacloud.nasa.gov
 
 https://nsidc.org/data/icesat-2
 }

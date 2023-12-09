@@ -1,0 +1,29 @@
+
+#...............................................
+# check every day if the "LEVEL3A" is functional   [ once it becomes functional remove this cron-job ]
+#...............................................
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  push:
+    branches: master
+
+jobs:
+ container:
+   runs-on: ubuntu-latest
+   timeout-minutes: 30
+   container:
+     image: mlampros/icesat2r:rstudiodev
+     credentials:
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+   steps:
+     - name: Check Out Repo
+       uses: actions/checkout@v3
+
+     - name: Run the LEVEL3A httr-get
+       working-directory: ${{ github.workspace }}
+       run: |
+          Rscript -e 'if (httr::GET(url = "https://openaltimetry.earthdatacloud.nasa.gov/data/api/icesat2/level3a?product=atl06&minx=140&miny=-6.641235&maxx=145&maxy=-1.641235&trackId=619&outputFormat=csv&startDate=2021-02-02&endDate=2021-02-02&client=portal")$status_code != 200) stop("level3a_data is not functional!")'
+       shell: bash

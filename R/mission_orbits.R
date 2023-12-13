@@ -1395,7 +1395,7 @@ vsi_time_specific_orbits_wkt = function(date_from,
               wkt_inp = character(0)
               if (!is.null(wkt_filter)) wkt_inp = wkt_filter
               lr_dat = sf::st_read(dsn = zip_dat_subs$file[idx_row], wkt_filter = wkt_inp, layer = LAYER, quiet = TRUE)
-              # lr_dat = sf::st_read(dsn = zip_dat_subs$file[idx_row], layer = LAYER, quiet = TRUE)                           # keep this line for debugging in case that the 'wkt_filter' does not work
+              # lr_dat = sf::st_read(dsn = zip_dat_subs$file[idx_row], layer = LAYER, quiet = TRUE)                           # keep this line for debugging in case the 'wkt_filter' does not work
               lr_dat
             })
 
@@ -1403,9 +1403,13 @@ vsi_time_specific_orbits_wkt = function(date_from,
             idx_relev = which(n_rows > 0)
 
             if (length(idx_relev) > 0) {
-              dat_all = dat_all[idx_relev]
-
-              dat_all = data.table::rbindlist(dat_all)
+              
+              if (length(idx_relev) == 1) {
+                dat_all = dat_all[[idx_relev]]
+              } else {
+                dat_all = dat_all[idx_relev]                    # the sublists 'dat_all' can return POINT, LINESTRING (cast all to POINT)
+                dat_all = data.table::rbindlist(dat_all)
+              }
 
               if (nrow(dat_all) > 0) {
                 dat_all

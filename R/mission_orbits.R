@@ -1404,12 +1404,30 @@ vsi_time_specific_orbits_wkt = function(date_from,
 
             if (length(idx_relev) > 0) {
               
-              if (length(idx_relev) == 1) {
-                dat_all = dat_all[[idx_relev]]
-              } else {
-                dat_all = dat_all[idx_relev]                    # the sublists 'dat_all' can return POINT, LINESTRING (cast all to POINT)
-                dat_all = data.table::rbindlist(dat_all)
+              dat_all = dat_all[idx_relev]
+
+              # I expect each sublist to be of type "sfc_POINT" and normally observations which are not (and can be for instance "sfc_LINESTRING") won't have a description column either. Therefore use the next line for removal
+              descr_not_idx = which(as.vector(unlist(lapply(dat_all, function(x) {
+                colnams = colnames(x)
+                if ('description' %in% colnams) {
+                  verify_descr = (is.na(x$description) | x$description == "")
+                }
+                else if ('Description' %in% colnams) {
+                  verify_descr = (is.na(x$Description) | x$Description == "")      # In Macintosh (osx) the "description" column appears with an upper case "D" as "Description", see the following issue: https://github.com/mlampros/IceSat2R/issues/9#issuecomment-1152020607
+                }
+                else {
+                  stop("The 'D(d)escription' column must exist in every sublist!", call. = F)
+                }
+                verify_descr
+              }))))
+              
+              LEN_exc = length(descr_not_idx)
+              if (LEN_exc > 0) {
+                if (verbose) message(glue::glue("{LEN_exc} output sublist did not have a valid 'description' and will be removed!"))
+                dat_all = dat_all[-descr_not_idx]
               }
+
+              dat_all = data.table::rbindlist(dat_all)
 
               if (nrow(dat_all) > 0) {
                 dat_all

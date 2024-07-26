@@ -2,6 +2,61 @@
 utils::globalVariables(c('..re_order_cols'))                        # used in the "verify_RGTs()" function
 
 
+#' Customized function to download files
+#' 
+#' @param url a character string specifying a valid url
+#' @param destfile a character string specifying a valid path where the output file will be saved
+#' @param download_method a character string specifying the download method to use. Can be one of 'internal', 'wininet' (Windows only), 'libcurl', 'wget', 'curl' or 'auto'. For more information see the documentation of the 'utils::download.file()' function
+#' @param verbose a boolean. If TRUE then information will appear in the console
+#' 
+#' @importFrom withr with_options
+#' @importFrom utils download.file
+#' 
+#' @export
+#' 
+#' @references 
+#' 
+#' https://github.com/mlverse/torchdatasets/blob/master/R/utils.R#L20
+#' 
+#' @examples
+#' 
+#' \dontrun{
+#'
+#' require(IceSat2R)
+#' 
+#' # the default timeout is 60 and we set it to 600
+#' options(timeout = 600)
+#' 
+#' # we specify a URL and a temporary file
+#' default_url = "https://icesat-2.gsfc.nasa.gov/sites/default/"
+#' url_downl = glue::glue('{default_url}files/page_files/IS2RGTscycle12datetime.zip')
+#' tmp_f = tempfile(fileext = '.zip')
+#'
+#' # then we download the file
+#' downl_f = download_file(url = url_downl,
+#'                         destfile = tmp_f, 
+#'                         download_method = 'curl',
+#'                         verbose = TRUE)
+#' }
+
+download_file = function(url, 
+                         destfile, 
+                         download_method,
+                         verbose = FALSE) {
+  
+  withr::with_options(new = list(timeout = max(120, getOption("timeout"))), {
+    
+    utils::download.file(url = url,
+                         destfile = destfile,
+                         method = download_method, 
+                         quiet = !verbose)
+  })
+  
+  return(destfile)
+}
+
+
+
 #' Get the data based on the API URL
 #'
 #' @param URL a character string specifying the API command
@@ -64,8 +119,11 @@ get_URL_data = function(URL,
       if (ext_zip != 'zip') stop("The extension of the 'file_path_zip' parameter must be '.zip'!", call. = F)
     }
 
-    utils::download.file(url = URL, destfile = file_path_zip, method = download_method, quiet = !verbose)
-
+    downl_u = download_file(url = URL,
+                            destfile = file_path_zip,
+                            download_method = download_method,
+                            verbose = verbose)
+    
     if (obj_out_flag) {
       data_out = data.table::fread(cmd = glue::glue('unzip -p {file_path_zip} *.csv'), stringsAsFactors = F, header = T, verbose = F, showProgress = verbose)
       if (file.exists(file_path_zip)) file.remove(file_path_zip)
@@ -223,7 +281,7 @@ verify_RGTs = function(nsidc_rgts, bbx_aoi, verbose = FALSE, ...) {
     tracks_dates_RGT[[char_date]] = op_tra
   }
 
-  tracks_dates_RGT = data.table::rbindlist(tracks_dates_RGT)
+  tracks_dates_RGT = data.table::rbindlist(tracks_dates_RGT, use.names = TRUE)
   re_order_cols = c('Date_time', 'RGT_OpenAlt', 'RGT_NSIDC')
   tracks_dates_RGT = tracks_dates_RGT[, ..re_order_cols]
   if (verbose) compute_elapsed_time(time_start = t_start)

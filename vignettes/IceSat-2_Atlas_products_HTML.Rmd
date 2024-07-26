@@ -586,7 +586,7 @@ Since the *winter* and *summer* intersected spatial data are identical,
 ```{r}
 
 identical(subs_join_w, subs_join_s)
-# [1] TRUE
+# [1] TRUE   (small rounding differences in the coordinate values might give FALSE)
 
 ```
 
@@ -1332,9 +1332,11 @@ EXT_dem = as.character(EXT_dem)
 
 pth_gtx = file.path(dem_dir, 'egm08_25.gtx')
 
-download.file(url = 'http://download.osgeo.org/proj/vdatum/egm08_25/egm08_25.gtx', 
-              destfile = pth_gtx, 
-              method = 'curl')
+options(timeout = 600)
+downl_f = IceSat2R::download_file(url = 'http://download.osgeo.org/proj/vdatum/egm08_25/egm08_25.gtx',
+                                  destfile = pth_gtx,
+                                  download_method = 'curl',
+                                  verbose = TRUE)
 
 pth_dem_transformed = file.path(dem_dir, 'copernicus_dem_egm2008_transformed.tif')
 

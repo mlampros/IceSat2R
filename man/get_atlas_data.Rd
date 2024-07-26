@@ -41,7 +41,7 @@ get_atlas_data(
 
 \item{client}{a character string specifying the 'Referring client'. Can be one of 'portal' or 'jupyter' (default is 'portal')}
 
-\item{photonConfidence}{either NULL or a character string specifying the 'Confidence level of the photons'. If NULL (default) all photon data will be returned}
+\item{photonConfidence}{either NULL or a character vector specifying the 'Confidence levels of the photons (can be one or more). If NULL (default) all photon data will be returned. The available options are 'na', 'noise', 'buffer', 'low', 'medium', 'high'}
 
 \item{sampling}{a boolean. If TRUE a sampling rate of 1/1000 will be used, otherwise all data will be returned (default is FALSE)}
 
@@ -241,7 +241,7 @@ dtbl_logs
 #.............................................
 
 unique(dtbl_logs$Product)
-# c('atl08', 'atl13')
+# c("atl06" "atl08" "atl13" "atl12")
 
 #................
 # RGT's with data
@@ -256,6 +256,216 @@ unique(dtbl_logs$RGT)
 
 unique(dtbl_logs$Date)
 # c("2021-02-03", "2021-02-11", "2021-02-07", "2021-02-02", "2021-02-15")
+
+
+#============
+# ATL03 Data
+#============
+
+................................................
+# the default timeout is 60 and we set it to 600
+#...............................................
+
+options(timeout = 600)
+print(getOption('timeout'))
+
+
+# we skip the interactive selection of the 1 degree grid
+plg = "POLYGON ((142 -34.64124, 143 -34.64124, 143 -33.64124, 142 -33.64124, 142 -34.64124))"
+sf_obj_atl03 = sf::st_as_sfc(plg, crs = 4326)
+
+# we update the bounding box based on the AOI
+bbx_aoi = sf::st_bbox(obj = sf_obj_atl03)
+# c(xmin = 142, ymin = -34.64124, xmax = 143, ymax = -33.64124)
+
+sf_obj_bbx = sf::st_as_sfc(bbx_aoi)
+
+res_inters = sf::st_intersects(x = sf_obj_bbx,
+                               y = sf::st_geometry(res_rgt_many),
+                               sparse = TRUE)
+
+df_inters = data.frame(res_inters)
+
+if (nrow(df_inters) == 0) {
+  stop("There is no intersection between the specified AOI and the RGTs!")
+}
+
+
+rgt_subs = res_rgt_many[df_inters$col.id, , drop = FALSE]
+rgt_subs
+
+dtbl_rgts = verify_RGTs(nsidc_rgts = rgt_subs,
+                        bbx_aoi = bbx_aoi,
+                        verbose = TRUE)
+
+comp_cas = complete.cases(dtbl_rgts)
+dtbl_rgts = dtbl_rgts[comp_cas, , drop = F]
+
+
+dates_iters = unique(dtbl_rgts$Date_time)
+RGTs_iters = unique(dtbl_rgts$RGT_NSIDC)
+prods_1_degrs = c('atl03')
+
+#...........................
+# use all beams with 'atl03'
+#...........................
+
+dat_out = logs_out = list()
+
+for (idx in seq_along(dates_iters)) {
+  
+  date_i = dates_iters[idx]
+  rgt_i = RGTs_iters[idx]
+  
+  name_iter = glue::glue("{date_i}_{rgt_i}")
+  cat(glue::glue("Date: '{date_i}'  RGT: '{rgt_i}'"), '\n')
+  
+  iter_dat = get_atlas_data(minx = as.numeric(bbx_aoi['xmin']),
+                            miny = as.numeric(bbx_aoi['ymin']),
+                            maxx = as.numeric(bbx_aoi['xmax']),
+                            maxy = as.numeric(bbx_aoi['ymax']),
+                            date = date_i,
+                            beamName = NULL,
+                            trackId = rgt_i,
+                            product = prods_1_degrs,
+                            client = 'portal',
+                            outputFormat = 'csv',
+                            verbose = FALSE)
+  
+  iter_logs = list(Date = date_i,
+                   RGT = rgt_i,
+                   Product = prods_1_degrs,
+                   N_rows = nrow(iter_dat))
+  
+  logs_out[[name_iter]] = data.table::setDT(iter_logs)
+  dat_out[[name_iter]] = iter_dat
+}
+
+dat_out
+unique(dtbl_logs$Product)
+unique(dat_out[[1]]$beam)
+unique(dat_out[[1]]$`confidence code`)
+
+#..................................................
+# use 2 beams with 'atl03' (a vector of characters) 
+#..................................................
+
+dat_out = logs_out = list()
+
+for (idx in seq_along(dates_iters)) {
+  
+  date_i = dates_iters[idx]
+  rgt_i = RGTs_iters[idx]
+  
+  name_iter = glue::glue("{date_i}_{rgt_i}")
+  cat(glue::glue("Date: '{date_i}'  RGT: '{rgt_i}'"), '\n')
+  
+  iter_dat = get_atlas_data(minx = as.numeric(bbx_aoi['xmin']),
+                            miny = as.numeric(bbx_aoi['ymin']),
+                            maxx = as.numeric(bbx_aoi['xmax']),
+                            maxy = as.numeric(bbx_aoi['ymax']),
+                            date = date_i,
+                            beamName = c("gt1l", "gt1r"),
+                            trackId = rgt_i,
+                            product = prods_1_degrs,
+                            client = 'portal',
+                            outputFormat = 'csv',
+                            verbose = FALSE)
+  
+  iter_logs = list(Date = date_i,
+                   RGT = rgt_i,
+                   Product = prods_1_degrs,
+                   N_rows = nrow(iter_dat))
+  
+  logs_out[[name_iter]] = data.table::setDT(iter_logs)
+  dat_out[[name_iter]] = iter_dat
+}
+
+dat_out
+unique(dtbl_logs$Product)
+unique(dat_out[[1]]$beam)
+
+
+#.............................................
+# use 1 beam with 'atl03' (a character string) 
+#.............................................
+
+dat_out = logs_out = list()
+
+for (idx in seq_along(dates_iters)) {
+  
+  date_i = dates_iters[idx]
+  rgt_i = RGTs_iters[idx]
+  
+  name_iter = glue::glue("{date_i}_{rgt_i}")
+  cat(glue::glue("Date: '{date_i}'  RGT: '{rgt_i}'"), '\n')
+  
+  iter_dat = get_atlas_data(minx = as.numeric(bbx_aoi['xmin']),
+                            miny = as.numeric(bbx_aoi['ymin']),
+                            maxx = as.numeric(bbx_aoi['xmax']),
+                            maxy = as.numeric(bbx_aoi['ymax']),
+                            date = date_i,
+                            beamName = "gt1l",
+                            trackId = rgt_i,
+                            product = prods_1_degrs,
+                            client = 'portal',
+                            outputFormat = 'csv',
+                            verbose = FALSE)
+  
+  iter_logs = list(Date = date_i,
+                   RGT = rgt_i,
+                   Product = prods_1_degrs,
+                   N_rows = nrow(iter_dat))
+  
+  logs_out[[name_iter]] = data.table::setDT(iter_logs)
+  dat_out[[name_iter]] = iter_dat
+}
+
+dat_out
+unique(dtbl_logs$Product)
+unique(dat_out[[1]]$beam)
+
+
+#..............................................
+# use all beams with 'atl03' & photonConfidence
+#..............................................
+
+dat_out = logs_out = list()
+
+for (idx in seq_along(dates_iters)) {
+  
+  date_i = dates_iters[idx]
+  rgt_i = RGTs_iters[idx]
+  
+  name_iter = glue::glue("{date_i}_{rgt_i}")
+  cat(glue::glue("Date: '{date_i}'  RGT: '{rgt_i}'"), '\n')
+  
+  iter_dat = get_atlas_data(minx = as.numeric(bbx_aoi['xmin']),
+                            miny = as.numeric(bbx_aoi['ymin']),
+                            maxx = as.numeric(bbx_aoi['xmax']),
+                            maxy = as.numeric(bbx_aoi['ymax']),
+                            date = date_i,
+                            beamName = NULL,
+                            photonConfidence = c('buffer', 'low'),
+                            trackId = rgt_i,
+                            product = prods_1_degrs,
+                            client = 'portal',
+                            outputFormat = 'csv',
+                            verbose = FALSE)
+  
+  iter_logs = list(Date = date_i,
+                   RGT = rgt_i,
+                   Product = prods_1_degrs,
+                   N_rows = nrow(iter_dat))
+  
+  logs_out[[name_iter]] = data.table::setDT(iter_logs)
+  dat_out[[name_iter]] = iter_dat
+}
+
+dat_out
+unique(dtbl_logs$Product)
+unique(dat_out[[1]]$beam)
+unique(dat_out[[1]]$`confidence code`)
 
 }
 }

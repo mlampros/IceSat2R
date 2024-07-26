@@ -12,7 +12,7 @@
 #' @param beamName either NULL (if the 'product' parameter is not equal to 'atl03' which means data for all 6 beams will be returned) or a character string specifying the Beam Name, which can be one of the 'gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l' or 'gt3r'
 #' @param product a character string specifying the input data product (default value is 'atl03'). It can be one of 'atl03', 'atl06', 'atl07', 'atl08', 'atl10', 'atl12' or 'atl13'
 #' @param client a character string specifying the 'Referring client'. Can be one of 'portal' or 'jupyter' (default is 'portal')
-#' @param photonConfidence either NULL or a character string specifying the 'Confidence level of the photons'. If NULL (default) all photon data will be returned
+#' @param photonConfidence either NULL or a character vector specifying the 'Confidence levels of the photons (can be one or more). If NULL (default) all photon data will be returned. The available options are 'na', 'noise', 'buffer', 'low', 'medium', 'high'
 #' @param sampling a boolean. If TRUE a sampling rate of 1/1000 will be used, otherwise all data will be returned (default is FALSE)
 #' @param outputFormat a character string specifying the output format of the downloaded data. One of 'csv', 'json' or 'zip'
 #' @param file_path_zip either NULL or a character string specifying a valid path to the output .zip file. This parameter will normally be a valid path if the 'outputFormat' parameter is set to 'zip'. If it's NULL and the 'outputFormat' parameter is 'zip' then the downloaded '.zip' file will be converted and returned as a data.table object
@@ -214,7 +214,7 @@
 #' #.............................................
 #'
 #' unique(dtbl_logs$Product)
-#' # c('atl08', 'atl13')
+#' # c("atl06" "atl08" "atl13" "atl12")
 #'
 #' #................
 #' # RGT's with data
@@ -230,6 +230,216 @@
 #' unique(dtbl_logs$Date)
 #' # c("2021-02-03", "2021-02-11", "2021-02-07", "2021-02-02", "2021-02-15")
 #'
+#'
+#' #============
+#' # ATL03 Data
+#' #============
+#'
+#' ................................................
+#' # the default timeout is 60 and we set it to 600
+#' #...............................................
+#' 
+#' options(timeout = 600)
+#' print(getOption('timeout'))
+#' 
+#' 
+#' # we skip the interactive selection of the 1 degree grid
+#' plg = "POLYGON ((142 -34.64124, 143 -34.64124, 143 -33.64124, 142 -33.64124, 142 -34.64124))"
+#' sf_obj_atl03 = sf::st_as_sfc(plg, crs = 4326)
+#' 
+#' # we update the bounding box based on the AOI
+#' bbx_aoi = sf::st_bbox(obj = sf_obj_atl03)
+#' # c(xmin = 142, ymin = -34.64124, xmax = 143, ymax = -33.64124)
+#' 
+#' sf_obj_bbx = sf::st_as_sfc(bbx_aoi)
+#' 
+#' res_inters = sf::st_intersects(x = sf_obj_bbx,
+#'                                y = sf::st_geometry(res_rgt_many),
+#'                                sparse = TRUE)
+#' 
+#' df_inters = data.frame(res_inters)
+#' 
+#' if (nrow(df_inters) == 0) {
+#'   stop("There is no intersection between the specified AOI and the RGTs!")
+#' }
+#' 
+#' 
+#' rgt_subs = res_rgt_many[df_inters$col.id, , drop = FALSE]
+#' rgt_subs
+#' 
+#' dtbl_rgts = verify_RGTs(nsidc_rgts = rgt_subs,
+#'                         bbx_aoi = bbx_aoi,
+#'                         verbose = TRUE)
+#' 
+#' comp_cas = complete.cases(dtbl_rgts)
+#' dtbl_rgts = dtbl_rgts[comp_cas, , drop = F]
+#' 
+#' 
+#' dates_iters = unique(dtbl_rgts$Date_time)
+#' RGTs_iters = unique(dtbl_rgts$RGT_NSIDC)
+#' prods_1_degrs = c('atl03')
+#' 
+#' #...........................
+#' # use all beams with 'atl03'
+#' #...........................
+#' 
+#' dat_out = logs_out = list()
+#' 
+#' for (idx in seq_along(dates_iters)) {
+#'   
+#'   date_i = dates_iters[idx]
+#'   rgt_i = RGTs_iters[idx]
+#'   
+#'   name_iter = glue::glue("{date_i}_{rgt_i}")
+#'   cat(glue::glue("Date: '{date_i}'  RGT: '{rgt_i}'"), '\n')
+#'   
+#'   iter_dat = get_atlas_data(minx = as.numeric(bbx_aoi['xmin']),
+#'                             miny = as.numeric(bbx_aoi['ymin']),
+#'                             maxx = as.numeric(bbx_aoi['xmax']),
+#'                             maxy = as.numeric(bbx_aoi['ymax']),
+#'                             date = date_i,
+#'                             beamName = NULL,
+#'                             trackId = rgt_i,
+#'                             product = prods_1_degrs,
+#'                             client = 'portal',
+#'                             outputFormat = 'csv',
+#'                             verbose = FALSE)
+#'   
+#'   iter_logs = list(Date = date_i,
+#'                    RGT = rgt_i,
+#'                    Product = prods_1_degrs,
+#'                    N_rows = nrow(iter_dat))
+#'   
+#'   logs_out[[name_iter]] = data.table::setDT(iter_logs)
+#'   dat_out[[name_iter]] = iter_dat
+#' }
+#' 
+#' dat_out
+#' unique(dtbl_logs$Product)
+#' unique(dat_out[[1]]$beam)
+#' unique(dat_out[[1]]$`confidence code`)
+#' 
+#' #..................................................
+#' # use 2 beams with 'atl03' (a vector of characters) 
+#' #..................................................
+#' 
+#' dat_out = logs_out = list()
+#' 
+#' for (idx in seq_along(dates_iters)) {
+#'   
+#'   date_i = dates_iters[idx]
+#'   rgt_i = RGTs_iters[idx]
+#'   
+#'   name_iter = glue::glue("{date_i}_{rgt_i}")
+#'   cat(glue::glue("Date: '{date_i}'  RGT: '{rgt_i}'"), '\n')
+#'   
+#'   iter_dat = get_atlas_data(minx = as.numeric(bbx_aoi['xmin']),
+#'                             miny = as.numeric(bbx_aoi['ymin']),
+#'                             maxx = as.numeric(bbx_aoi['xmax']),
+#'                             maxy = as.numeric(bbx_aoi['ymax']),
+#'                             date = date_i,
+#'                             beamName = c("gt1l", "gt1r"),
+#'                             trackId = rgt_i,
+#'                             product = prods_1_degrs,
+#'                             client = 'portal',
+#'                             outputFormat = 'csv',
+#'                             verbose = FALSE)
+#'   
+#'   iter_logs = list(Date = date_i,
+#'                    RGT = rgt_i,
+#'                    Product = prods_1_degrs,
+#'                    N_rows = nrow(iter_dat))
+#'   
+#'   logs_out[[name_iter]] = data.table::setDT(iter_logs)
+#'   dat_out[[name_iter]] = iter_dat
+#' }
+#' 
+#' dat_out
+#' unique(dtbl_logs$Product)
+#' unique(dat_out[[1]]$beam)
+#' 
+#' 
+#' #.............................................
+#' # use 1 beam with 'atl03' (a character string) 
+#' #.............................................
+#' 
+#' dat_out = logs_out = list()
+#' 
+#' for (idx in seq_along(dates_iters)) {
+#'   
+#'   date_i = dates_iters[idx]
+#'   rgt_i = RGTs_iters[idx]
+#'   
+#'   name_iter = glue::glue("{date_i}_{rgt_i}")
+#'   cat(glue::glue("Date: '{date_i}'  RGT: '{rgt_i}'"), '\n')
+#'   
+#'   iter_dat = get_atlas_data(minx = as.numeric(bbx_aoi['xmin']),
+#'                             miny = as.numeric(bbx_aoi['ymin']),
+#'                             maxx = as.numeric(bbx_aoi['xmax']),
+#'                             maxy = as.numeric(bbx_aoi['ymax']),
+#'                             date = date_i,
+#'                             beamName = "gt1l",
+#'                             trackId = rgt_i,
+#'                             product = prods_1_degrs,
+#'                             client = 'portal',
+#'                             outputFormat = 'csv',
+#'                             verbose = FALSE)
+#'   
+#'   iter_logs = list(Date = date_i,
+#'                    RGT = rgt_i,
+#'                    Product = prods_1_degrs,
+#'                    N_rows = nrow(iter_dat))
+#'   
+#'   logs_out[[name_iter]] = data.table::setDT(iter_logs)
+#'   dat_out[[name_iter]] = iter_dat
+#' }
+#' 
+#' dat_out
+#' unique(dtbl_logs$Product)
+#' unique(dat_out[[1]]$beam)
+#' 
+#' 
+#' #..............................................
+#' # use all beams with 'atl03' & photonConfidence
+#' #..............................................
+#' 
+#' dat_out = logs_out = list()
+#' 
+#' for (idx in seq_along(dates_iters)) {
+#'   
+#'   date_i = dates_iters[idx]
+#'   rgt_i = RGTs_iters[idx]
+#'   
+#'   name_iter = glue::glue("{date_i}_{rgt_i}")
+#'   cat(glue::glue("Date: '{date_i}'  RGT: '{rgt_i}'"), '\n')
+#'   
+#'   iter_dat = get_atlas_data(minx = as.numeric(bbx_aoi['xmin']),
+#'                             miny = as.numeric(bbx_aoi['ymin']),
+#'                             maxx = as.numeric(bbx_aoi['xmax']),
+#'                             maxy = as.numeric(bbx_aoi['ymax']),
+#'                             date = date_i,
+#'                             beamName = NULL,
+#'                             photonConfidence = c('buffer', 'low'),
+#'                             trackId = rgt_i,
+#'                             product = prods_1_degrs,
+#'                             client = 'portal',
+#'                             outputFormat = 'csv',
+#'                             verbose = FALSE)
+#'   
+#'   iter_logs = list(Date = date_i,
+#'                    RGT = rgt_i,
+#'                    Product = prods_1_degrs,
+#'                    N_rows = nrow(iter_dat))
+#'   
+#'   logs_out[[name_iter]] = data.table::setDT(iter_logs)
+#'   dat_out[[name_iter]] = iter_dat
+#' }
+#' 
+#' dat_out
+#' unique(dtbl_logs$Product)
+#' unique(dat_out[[1]]$beam)
+#' unique(dat_out[[1]]$`confidence code`)
+#' 
 #' }
 
 
@@ -249,28 +459,48 @@ get_atlas_data = function(minx,
                           download_method = 'curl',
                           verbose = FALSE) {
 
-  if (is.null(beamName)) {
-    if (product == 'atl03') stop("For the 'atl03' product the 'beamName' is required!", call. = F)
-  }
-  else {
-    if (!beamName %in% c('gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l', 'gt3r')) stop("The 'beamName' parameter must be one of 'gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l' or 'gt3r'!", call. = F)
-  }
   if (!product %in% c('atl03', 'atl06', 'atl07', 'atl08', 'atl10', 'atl12', 'atl13')) stop("The 'product' parameter must be one of 'atl03', 'atl06', 'atl07', 'atl08', 'atl10', 'atl12' or 'atl13'!", call. = F)
   if (!client %in% c('portal', 'jupyter')) stop("The 'client' parameter must be one of 'portal' or 'jupyter'!", call. = F)
   if (!outputFormat %in% c('csv', 'json', 'zip')) stop("The 'outputFormat' parameter must be one of 'csv', 'json' or 'zip'!", call. = F)
 
+  # The following is the default URL used in all products
+  URL = glue::glue("https://openaltimetry.earthdatacloud.nasa.gov/data/api/icesat2/{product}?minx={minx}&miny={miny}&maxx={maxx}&maxy={maxy}&trackId={trackId}&outputFormat={outputFormat}&date={date}&client={client}")
+  
   if (product == 'atl03') {
-    URL = glue::glue("https://openaltimetry.earthdatacloud.nasa.gov/data/api/icesat2/{product}?minx={minx}&miny={miny}&maxx={maxx}&maxy={maxy}&trackId={trackId}&beamName={beamName}&outputFormat={outputFormat}&date={date}&client={client}&sampling={tolower(sampling)}")
+    
+    URL = glue::glue("{URL}&sampling={tolower(sampling)}")
+    
+    # for 'atl03' we can also include the 'photonConfidence'
     if (!is.null(photonConfidence)) {
-      if (!photonConfidence %in% c('noise', 'buffer', 'low', 'medium', 'high')) stop("The 'photonConfidence' parameter must be one of 'noise', 'buffer', 'low', 'medium' or 'high'!", call. = F)
-      URL = glue::glue("{URL}&photonConfidence={photonConfidence}")
+      
+      make_url_ph = ''
+      
+      for (ph_i in photonConfidence) {                                                    # verify that the Beams are valid
+        if (!ph_i %in% c('na', 'noise', 'buffer', 'low', 'medium', 'high')) {
+          stop(glue::glue("The specified photonConfidence '{ph_i}' is not one of the available ones, i.e. 'na', 'noise', 'buffer', 'low', 'medium' or 'high'!"), call. = F)
+        }
+        
+        make_url_ph = glue::glue("{make_url_ph}&photonConfidence={ph_i}")
+      }
+      
+      URL = glue::glue("{URL}{make_url_ph}")
     }
   }
-  else {     # the remaining 'data sets' use the same parameters
-    URL = glue::glue("https://openaltimetry.earthdatacloud.nasa.gov/data/api/icesat2/{product}?minx={minx}&miny={miny}&maxx={maxx}&maxy={maxy}&trackId={trackId}&outputFormat={outputFormat}&date={date}&client={client}")
-    if (!is.null(beamName)) {
-      URL = glue::glue("{URL}&beamName={beamName}")
+  
+  # the 'beamName' applies to all 'products'
+  if (!is.null(beamName)) {
+    
+    make_url = ''
+    
+    for (beam_i in beamName) {                                                    # verify that the Beams are valid
+      if (!beam_i %in% c('gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l', 'gt3r')) {
+        stop(glue::glue("The specified beamName '{beam_i}' is not one of the available ones, i.e. 'gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l' or 'gt3r'!"), call. = F)
+      }
+      
+      make_url = glue::glue("{make_url}&beamNames={beam_i}")
     }
+    
+    URL = glue::glue("{URL}{make_url}")
   }
 
   res_out = get_URL_data(URL = URL,
@@ -294,7 +524,7 @@ get_atlas_data = function(minx,
 #' @param startDate a character string specifying the Data collection of the \emph{start} Date in the format 'yyyy-MM-dd' (such as '2020-01-01')
 #' @param endDate a character string specifying the Data collection of the \emph{end} Date in the format 'yyyy-MM-dd' (such as '2020-01-01')
 #' @param trackId an integer specifying the 'Reference ground track ID' (see the examples section on how to come to the 'trackId' and to a bounding box of 1 or 5 degrees globally)
-#' @param beamName either NULL (data for all 6 beams will be returned) or a character string specifying the Beam Name, It can be one of the 'gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l' or 'gt3r'
+#' @param beamName either NULL (data for all 6 beams will be returned) or a character vector specifying the Beam Name(s), It can be one or more of the 'gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l' or 'gt3r'
 #' @param product a character string specifying the input data product (default value is 'atl08'). It can be one of 'atl06', 'atl07', 'atl08', 'atl10', 'atl12' or 'atl13'
 #' @param client a character string specifying the 'Referring client'. Can be one of 'portal' or 'jupyter' (default is 'portal')
 #' @param outputFormat a character string specifying the output format of the downloaded data. One of 'csv', 'json' or 'zip'
@@ -419,13 +649,22 @@ get_level3a_data = function(minx,
   if (!client %in% c('portal', 'jupyter')) stop("The 'client' parameter must be one of 'portal' or 'jupyter'!", call. = F)
   if (!outputFormat %in% c('csv', 'json', 'zip')) stop("The 'outputFormat' parameter must be one of 'csv', 'json' or 'zip'!", call. = F)
   if (as.Date(startDate) > as.Date(endDate)) stop(glue::glue("The start Date '{startDate}' has to be equal or smaller to the end Date '{endDate}'!"), call. = F)
-  if (!is.null(beamName)) {
-    if (!beamName %in% c('gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l', 'gt3r')) stop("The 'beamName' parameter must be one of 'gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l' or 'gt3r'!", call. = F)
-  }
-
+  
   URL = glue::glue("https://openaltimetry.earthdatacloud.nasa.gov/data/api/icesat2/level3a?product={product}&minx={minx}&miny={miny}&maxx={maxx}&maxy={maxy}&trackId={trackId}&outputFormat={outputFormat}&startDate={startDate}&endDate={endDate}&client={client}")
+  
   if (!is.null(beamName)) {
-    URL = glue::glue("{URL}&beamName={beamName}")
+    
+    make_url = ''
+    
+    for (beam_i in beamName) {                                                    # verify that the Beams are valid
+      if (!beam_i %in% c('gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l', 'gt3r')) {
+        stop(glue::glue("The specified beamName '{beam_i}' is not one of the available ones, i.e. 'gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l' or 'gt3r'!"), call. = F)
+      }
+      
+      make_url = glue::glue("{make_url}&beamNames={beam_i}")
+    }
+
+    URL = glue::glue("{URL}{make_url}")
   }
 
   res_out = get_URL_data(URL = URL,

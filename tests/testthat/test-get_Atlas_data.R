@@ -72,7 +72,7 @@ testthat::test_that("the function 'get_atlas_data()' gives an error if the 'outp
 })
 
 
-testthat::test_that("the function 'get_atlas_data()' gives an error if the 'product' parameter is 'atl03' and the 'photonConfidence' is other than NULL, 'noise', 'buffer', 'low', 'medium' or 'high'!", {
+testthat::test_that("the function 'get_atlas_data()' gives an error if the 'product' parameter is 'atl03' and the 'photonConfidence' is other than NULL, 'na', 'noise', 'buffer', 'low', 'medium' or 'high'!", {
 
   testthat::expect_error(get_atlas_data(minx = -144.67439,
                                         miny = 59.22850,

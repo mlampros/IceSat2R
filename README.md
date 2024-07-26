@@ -1,4 +1,3 @@
-
 [![Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mlampros/icesat2r/HEAD?urlpath=rstudio)
 [![tic](https://github.com/mlampros/IceSat2R/workflows/tic/badge.svg?branch=master)](https://github.com/mlampros/IceSat2R/actions)
 [![docs: passing](https://img.shields.io/badge/docs-passing-success.svg)](https://mlampros.github.io/IceSat2R/reference/index.html)
@@ -10,6 +9,7 @@
 
 
 <img align="right" width="200" src="man/figures/hex_sticker.png"></img>
+
 
 ## IceSat2R
 
@@ -215,7 +215,11 @@ url_pkg = 'https://github.com/mlampros/IceSat2R/archive/refs/heads/master.zip'
 temp_pkg_file = tempfile(fileext = '.zip')
 print(temp_pkg_file)
 
-download.file(url = url_pkg, destfile = temp_pkg_file, quiet = TRUE)
+options(timeout = 600)
+downl_f = IceSat2R::download_file(url = url_pkg,
+                                  destfile = temp_pkg_file,
+                                  download_method = 'curl',
+                                  verbose = TRUE)
 
 dir_pkg_save = dirname(temp_pkg_file)
 utils::unzip(zipfile = temp_pkg_file, exdir = dir_pkg_save, junkpaths = FALSE)
@@ -269,7 +273,7 @@ The ATLAS beam pattern on the ground changes depending on the orientation of the
 
 <br>
 
-Using a table to map the **strong** and **weak** beams (Reference: [sliderule-python documentation](http://icesat2sliderule.org/rtd/user_guide/Background.html#icesat-2))
+Using a table to map the **strong** and **weak** beams (Reference: [sliderule-python documentation](https://slideruleearth.io/web/rtd/user_guide/Background.html#background))
 
 <br>
 
@@ -312,8 +316,8 @@ If you use the code of this repository in your paper or research please cite bot
 @Manual{,
   title = {{IceSat2R}: ICESat-2 Altimeter Data using R},
   author = {Lampros Mouselimis},
-  year = {2022},
-  note = {R package version 1.0.4},
+  year = {2024},
+  note = {R package version 1.0.5},
   url = {https://CRAN.R-project.org/package=IceSat2R},
 }
 ```

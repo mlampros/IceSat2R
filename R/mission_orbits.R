@@ -255,7 +255,12 @@ overall_mission_orbits = function(orbit_area,
 
   tmp_orbit_file = tempfile(fileext = '.zip')
   if (verbose) cat(glue::glue("The orbits of '{orbit_area}' will be downloaded (temporarily) in the '{tmp_orbit_file}' file ..."), '\n')
-  utils::download.file(url = orbits[[orbit_area]], destfile = tmp_orbit_file, method = download_method, quiet = !verbose)
+  
+  downl_u = download_file(url = orbits[[orbit_area]],
+                          destfile = tmp_orbit_file,
+                          download_method = download_method,
+                          verbose = verbose)
+  
   tmp_orbits_dir = file.path(tempdir(), glue::glue('orbits_{orbit_area}'))                                # create a second directory inside the temporary directory to extract the .zip file
   if (!dir.exists(tmp_orbits_dir)) dir.create(tmp_orbits_dir)
 
@@ -697,7 +702,12 @@ time_specific_orbits = function(date_from = NULL,
     URL_zip = orbit_files[[CYCLE]]
 
     tmp_orbit_file = tempfile(fileext = '.zip')
-    utils::download.file(url = URL_zip, destfile = tmp_orbit_file, method = download_method, quiet = !verbose)
+
+    downl_u = download_file(url = URL_zip,
+                            destfile = tmp_orbit_file,
+                            download_method = download_method,
+                            verbose = verbose)
+    
     tmp_orbits_dir = file.path(tempdir(), CYCLE)                                                  # create a second directory inside the temporary directory to extract the .zip file
     if (!dir.exists(tmp_orbits_dir)) dir.create(tmp_orbits_dir)
 
@@ -991,7 +1001,12 @@ vsi_kml_from_zip = function(icesat_rgt_url,
     tmp_url_file = tempfile(fileext = as.character(glue::glue('.{EXT_url}')))
 
     if (verbose) cat(glue::glue("The '{icesat_rgt_url}' file will be downloaded (temporarily) in the '{tmp_url_file}' file ..."), '\n')
-    utils::download.file(url = icesat_rgt_url, destfile = tmp_url_file, method = download_method, quiet = !verbose)
+    
+    downl_u = download_file(url = icesat_rgt_url,
+                            destfile = tmp_url_file,
+                            download_method = download_method,
+                            verbose = verbose)
+
     info_url = utils::unzip(zipfile = tmp_url_file, list = TRUE, junkpaths = T)
     info_url = info_url$Name
     if (length(info_url) == 0) stop(glue::glue("The 'unzip -l' command didn't returned the required .kml url paths for the input url: {icesat_rgt_url}!"), call. = F)

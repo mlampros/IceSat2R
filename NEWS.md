@@ -2,10 +2,13 @@
 ## IceSat2R 1.0.5
 
 * I adjusted the "IceSat-2_Virtual_File_System_Orbits_PDF.Rmd" and "IceSat-2_Virtual_File_System_Orbits_HTML.Rmd" vignettes to fix the "Error in CPL_write_ogr(obj, dsn, layer, driver, as.character(dataset_options),: Feature creation failed." error
-* I renamed the Dockerfiles and I added a separate Dockerfile for the IceSatR package because the docker image didn't work due to the similar naming of the binder image. I also added (in the Dockerfiles) the "awscli" installation which is required for the vignettes. The ".github/workflows/docker_image.yml" file was adjusted as well.
-* I updated the documentation to account for the migration of OpenAltimetry to EARTHDATA (https://openaltimetry.earthdatacloud.nasa.gov/)
+* I renamed the Dockerfiles and I added a separate Dockerfile for the IceSatR package because the docker image didn't work due to similar naming with the binder image. I also added (in the Dockerfiles) the "awscli" installation which is required for the vignettes. The ".github/workflows/docker_image.yml" file was adjusted as well.
+* I updated the documentation to account for the migration of OpenAltimetry to EarthData (https://openaltimetry.earthdatacloud.nasa.gov/). The new OpenAltimetry API Endpoints are available in the following weblink: https://openaltimetry.earthdatacloud.nasa.gov/data/openapi/swagger-ui/index.html
 * I updated the *getTracks()* function
 * I fixed a bug in the *vsi_time_specific_orbits_wkt()* function
+* I modified the "beamName" argument in both the "get_level3a_data()" and "get_atlas_data()" functions to get as input either NULL (data will be returned for all beams) or a character vector of one or more beams. The previous version of the function could take either NULL or a single beam name.
+* I updated the  "photonConfidence" which now can take a character vector as input. The available options are 'na', 'noise', 'buffer', 'low', 'medium', 'high'
+* I added the *download_file()" function so that the user can adjust the "timeout" parameter using the "options()" settings. The default is now 120 compared to 60 initially.
 
 
 ## IceSat2R 1.0.4

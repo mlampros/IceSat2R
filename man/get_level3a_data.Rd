@@ -36,7 +36,7 @@ get_level3a_data(
 
 \item{trackId}{an integer specifying the 'Reference ground track ID' (see the examples section on how to come to the 'trackId' and to a bounding box of 1 or 5 degrees globally)}
 
-\item{beamName}{either NULL (data for all 6 beams will be returned) or a character string specifying the Beam Name, It can be one of the 'gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l' or 'gt3r'}
+\item{beamName}{either NULL (data for all 6 beams will be returned) or a character vector specifying the Beam Name(s), It can be one or more of the 'gt1l', 'gt1r', 'gt2l', 'gt2r', 'gt3l' or 'gt3r'}
 
 \item{product}{a character string specifying the input data product (default value is 'atl08'). It can be one of 'atl06', 'atl07', 'atl08', 'atl10', 'atl12' or 'atl13'}
 

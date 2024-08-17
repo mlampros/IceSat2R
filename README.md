@@ -317,7 +317,8 @@ If you use the code of this repository in your paper or research please cite bot
   title = {{IceSat2R}: ICESat-2 Altimeter Data using R},
   author = {Lampros Mouselimis},
   year = {2024},
-  note = {R package version 1.0.5},
+  doi = 10.32614/CRAN.package.IceSat2R,
+  note = {R package version 1.0.6},
   url = {https://CRAN.R-project.org/package=IceSat2R},
 }
 ```
@@ -326,7 +327,7 @@ If you use the code of this repository in your paper or research please cite bot
 
 ## Code of Conduct
   
-  Please note that the IceSat2R project is released with a [Contributor Code of Conduct](https://github.com/mlampros/IceSat2R/blob/master/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the IceSat2R project is released with a [Contributor Code of Conduct](https://github.com/mlampros/IceSat2R/blob/master/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 
 ## Acknowledgment

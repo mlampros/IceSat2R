@@ -17,12 +17,13 @@ LABEL maintainer='Lampros Mouselimis'
 # see: https://github.com/SeleniumHQ/docker-selenium/issues/725#issuecomment-381734966
 #.....................................................................................
 
+# apt-get install -y awscli  # 'awscli' is no longer required as it is pre-installed on ubuntu, see: https://github.com/aws/aws-cli/issues/8978#issuecomment-2418086718
+
 ENV DEBIAN_FRONTEND=noninteractive
 USER root
 
 RUN apt-get -y update && \
  apt-get install -y unzip && \
- apt-get install -y awscli && \
  R -e "install.packages('devtools', dependencies = TRUE, repos = 'https://cloud.r-project.org/')" && \
  R -e "install.packages(c( 'glue', 'sf', 'lwgeom', 'units', 'data.table', 'httr', 'utils', 'foreach', 'tools', 'doParallel', 'magrittr', 'leaflet', 'leafgl', 'leaflet.extras', 'leafsync', 'miniUI', 'shiny', 'rnaturalearth', 'rmarkdown', 'knitr', 'lubridate', 'rvest', 'DT', 'mapview', 'grDevices', 'stargazer', 'reshape2', 'plotly', 'geodist', 'CopernicusDEM', 'terra', 'testthat', 'remotes' ), repos =  'https://cloud.r-project.org/' )"
 

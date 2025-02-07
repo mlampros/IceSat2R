@@ -2,9 +2,10 @@ FROM rocker/geospatial:latest
 
 LABEL maintainer='Lampros Mouselimis'
 
+# apt-get install -y awscli  # awscli no longer needs an installation as it is pre-installed on ubuntu, see: https://github.com/aws/aws-cli/issues/8978#issuecomment-2418086718
+
 RUN export DEBIAN_FRONTEND=noninteractive; apt-get -y update && \
- apt-get install -y unzip && \
- apt-get install -y awscli && \
+ apt-get install -y unzip && \ 
  R -e "install.packages('devtools', dependencies = TRUE, repos = 'https://cloud.r-project.org/')" && \
  R -e "install.packages(c( 'glue', 'sf', 'lwgeom', 'units', 'data.table', 'httr', 'utils', 'foreach', 'tools', 'doParallel', 'magrittr', 'leaflet', 'leafgl', 'leaflet.extras', 'leafsync', 'miniUI', 'shiny', 'rnaturalearth', 'rmarkdown', 'knitr', 'lubridate', 'rvest', 'DT', 'mapview', 'grDevices', 'stargazer', 'reshape2', 'plotly', 'geodist', 'CopernicusDEM', 'terra', 'testthat', 'remotes' ), repos =  'https://cloud.r-project.org/' )"
 

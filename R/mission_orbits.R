@@ -840,8 +840,40 @@ time_specific_orbits = function(date_from = NULL,
     else {
       sf_objs$Description = as.character(sf_objs$Description)
       descr_proc = strsplit(x = sf_objs$Description, split = ' ')          # in case that I have a 'Description' column, split by empty space
+      #........................................................................... "start" error case with missing 'time' for midnight on Windows 
+      len_desc = lapply(descr_proc, function(x) length(x)) |>
+        unlist() |>
+        table() 
+      len_desc = as.integer(names(len_desc)[which.max(len_desc)])
+      
       chk_row_items = as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0)))     # check that I have an even number of columns (normally 8 but can be fewer too) then concatenate the columns by pairs of consecutive items
-      if (!all(chk_row_items)) stop("It seems that after splitting the observations by empty space the number of columns (per row) are not an even number!", call. = F)
+      
+      if (!all(chk_row_items)) {
+        idx_not = which(!chk_row_items)
+        
+        for (idx_i in idx_not) {
+          item_i = descr_proc[[idx_i]]
+          if (length(item_i) == (len_desc - 1)) {                          # we expect that only the time is missing
+            
+            # This is the current exception:
+            # RGT 1264 15-Dec-2020 DOY 350 Cycle 9                         # midnight time is missing, i.e. "00:00:00" (time)
+            # RGT 1264 16-Dec-2020 00:01:00 DOY 351 Cycle 9                # after midnight case (as expected)
+            
+            item_i = append(x = item_i, values = "00:00:00", after = 3)    # add the time after the date
+            descr_proc[[idx_i]] = item_i
+          } else {                                                         # throw an error in any other case
+            len_dif = len_desc - length(item_i)
+            stop(glue::glue("We expect a difference of maximum one and received a difference of length {len_dif}, which means {len_dif} attributes are missing from the character string!"))
+          }
+        }
+      }
+      
+      chk_row_items = as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0)))
+      if (!all(chk_row_items)) {
+        stop("We expect after the code adjustments to receive equal length of vector (split) character strings!")
+      }
+      #........................................................................... "end" error case with missing 'time' for midnight on Windows 
+      
       descr_proc = lapply(descr_proc, function(x) {
         seq_item = seq(from = 1, to = length(x), by = 2)
         sapply(seq_item, function(y) paste(c(x[y], x[y+1]), collapse = ' '))

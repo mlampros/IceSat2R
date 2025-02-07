@@ -1,4 +1,9 @@
 
+## IceSat2R 1.0.7
+
+* I fixed an error case on Windows OS related to `time_specific_orbits()` function (midnight time was missing, i.e. "00:00:00" from one of the observations)
+
+
 ## IceSat2R 1.0.6
 
 * I updated the vignettes of the "IceSat2R" package due to errors in the "r-oldrel-macos" CRAN versions

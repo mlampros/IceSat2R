@@ -64,9 +64,17 @@ testthat::test_that("the function 'available_nominal_orbits()' returns the expec
 testthat::test_that("the function 'overall_mission_orbits()' returns the expected output!", {
 
   testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
+  
+  if (Sys.info()["sysname"] == 'Darwin') {
+    downl_method = 'auto'
+  } else if (.Platform$OS.type == "windows") {
+    downl_method = 'wininet'
+  } else {
+    downl_method = 'curl'
+  }
 
   res_orb  = overall_mission_orbits(orbit_area = 'eastern_hemisphere',
-                                    download_method = 'curl',
+                                    download_method = downl_method,
                                     threads = 1,
                                     verbose = FALSE)
 

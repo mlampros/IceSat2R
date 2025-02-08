@@ -119,7 +119,6 @@ jobs:
           # conflicts with gfortran from r-lib/actions when linking gcc
           # rm '/usr/local/bin/gfortran'
           brew install pkg-config gdal proj geos
-          brew update && brew reinstall gdal
 
       - name: "[Stage] Install"
         if: matrix.config.os != 'macOS-latest' || matrix.config.r != 'devel'

@@ -65,20 +65,15 @@ testthat::test_that("the function 'overall_mission_orbits()' returns the expecte
 
   testthat::skip_on_cran()         # skip on CRAN due to time limits and might fail
   
-  if (Sys.info()["sysname"] == 'Darwin') {
-    downl_method = 'auto'
-  } else if (.Platform$OS.type == "windows") {
-    downl_method = 'wininet'
-  } else {
-    downl_method = 'curl'
+  if (Sys.info()["sysname"] == 'Linux') {         # skip for Windows, Mac OSX because it seems that the gdal version can not read .kmz files and throws an error
+    
+    res_orb  = overall_mission_orbits(orbit_area = 'eastern_hemisphere',
+                                      download_method = 'curl',
+                                      threads = 1,
+                                      verbose = FALSE)
+    
+    testthat::expect_true(inherits(res_orb, c("sf", "data.table", "data.frame")) & nrow(res_orb) > 1 & any(c("Description", "description") %in% colnames(res_orb)))
   }
-
-  res_orb  = overall_mission_orbits(orbit_area = 'eastern_hemisphere',
-                                    download_method = downl_method,
-                                    threads = 1,
-                                    verbose = FALSE)
-
-  testthat::expect_true(inherits(res_orb, c("sf", "data.table", "data.frame")) & nrow(res_orb) > 1 & any(c("Description", "description") %in% colnames(res_orb)))
 })
 # #.................................................................................................
 

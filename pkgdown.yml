@@ -1,9 +1,8 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   IceSat-2_Atlas_products_HTML: IceSat-2_Atlas_products_HTML.html
   IceSat-2_Mission_Orbits_HTML: IceSat-2_Mission_Orbits_HTML.html
   IceSat-2_Virtual_File_System_Orbits_HTML: IceSat-2_Virtual_File_System_Orbits_HTML.html
-last_built: 2023-05-27T04:54Z
-
+last_built: 2025-02-08T13:12Z

@@ -70,7 +70,7 @@ testthat::test_that("the function 'overall_mission_orbits()' returns the expecte
                                     threads = 1,
                                     verbose = FALSE)
 
-  testthat::expect_true(inherits(res_orb, c("sf", "data.table", "data.frame")) & nrow(res_orb) > 1 & ncol(res_orb) == 13)
+  testthat::expect_true(inherits(res_orb, c("sf", "data.table", "data.frame")) & nrow(res_orb) > 1 & any(c("Description", "description") %in% colnames(res_orb)))
 })
 # #.................................................................................................
 

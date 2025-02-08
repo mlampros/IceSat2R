@@ -2,6 +2,7 @@
 ## IceSat2R 1.0.7
 
 * I fixed an error case on Windows OS related to `time_specific_orbits()` function (midnight time was missing, i.e. "00:00:00" from one of the observations)
+* I updated the test that failed in the Github Action
 
 
 ## IceSat2R 1.0.6

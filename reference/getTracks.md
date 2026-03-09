@@ -1,0 +1,179 @@
+# Get the ICESAT-2 Tracks
+
+Get a list of ICESat-2 tracks using a bounding box as input
+
+## Usage
+
+``` r
+getTracks(
+  minx,
+  miny,
+  maxx,
+  maxy,
+  date,
+  outputFormat = "csv",
+  download_method = "curl",
+  verbose = FALSE
+)
+```
+
+## Arguments
+
+- minx:
+
+  the 'minx' parameter of the bounding box
+
+- miny:
+
+  the 'miny' parameter of the bounding box
+
+- maxx:
+
+  the 'maxx' parameter of the bounding box
+
+- maxy:
+
+  the 'maxy' parameter of the bounding box
+
+- date:
+
+  a character string specifying the Data collection date in the format
+  'yyyy-MM-dd' (such as '2020-01-01')
+
+- outputFormat:
+
+  a character string specifying the output format of the downloaded
+  data. One of 'csv' or 'json'
+
+- download_method:
+
+  a character string specifying the download method to use. Can be one
+  of 'internal', 'wininet' (Windows only), 'libcurl', 'wget', 'curl' or
+  'auto'. For more information see the documentation of the
+  'utils::download.file()' function
+
+- verbose:
+
+  a boolean. If TRUE then information will be printed out in the console
+
+## Value
+
+either a data.table (if outputFormat is 'csv') or a nested list (if
+outputFormat is 'json')
+
+## References
+
+https://openaltimetry.earthdatacloud.nasa.gov
+
+https://nsidc.org/data/icesat-2
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+require(IceSat2R)
+require(magrittr)
+require(sf)
+
+sf::sf_use_s2(use_s2 = FALSE)
+
+#..........................................................
+# In case we are interested to find the ICESat-2 tracks for
+#     - a specific area (or bounding box)
+#     - a specific time interval (close to September 2021)
+#..........................................................
+
+#...............
+# Ice sheet area
+#...............
+
+data(ne_10m_glaciated_areas)
+
+ice_sheet = 'Kluane Ice Cap'
+
+ice_sheet_geom = ne_10m_glaciated_areas %>%
+  subset(!is.na(name)) %>%
+  subset(name == ice_sheet)
+
+ice_sheet_geom
+
+#..............
+# time interval
+#..............
+
+approx_date_start = "2021-09-05"
+approx_date_end = "2021-09-20"
+
+res_rgt_many = time_specific_orbits(date_from = approx_date_start,
+                                    date_to = approx_date_end,
+                                    RGT_cycle = NULL,
+                                    download_method = 'curl',
+                                    threads = parallel::detectCores(),
+                                    verbose = TRUE)
+
+res_rgt_many
+
+# table(as.Date(res_rgt_many$Date_time))
+
+#..............................................
+# create the bounding box of the ice
+# sheet so that I use the same area in the
+# 'st_intersects()' and 'getTracks()' functions
+# ('getTracks()' takes a bounding box as input)
+#..............................................
+
+bbx_ice_sheet = sf::st_bbox(obj = ice_sheet_geom)
+sf_obj_ice_sheet = sf::st_as_sfc(bbx_ice_sheet)
+
+#.........................................
+# intersection of the Ice Sheet with
+# the tracks for the specified time period
+#.........................................
+
+res_inters = sf::st_intersects(x = sf::st_geometry(sf_obj_ice_sheet),
+                               y = sf::st_geometry(res_rgt_many),
+                               sparse = TRUE)
+
+#...........................................
+# one or more intersected RGT's for the area
+#...........................................
+
+df_inters = data.frame(res_inters)
+rgt_subs = res_rgt_many[df_inters$col.id, , drop = FALSE]
+
+
+#.......................................................
+# Keep the Date and the bounding box to
+# verify with the 'getTracks()' function
+# an alternative is to use the "verify_RGTs()" function
+#.......................................................
+
+for (item in 1:nrow(rgt_subs)) {
+
+  dat_item = rgt_subs[item, , drop = F]
+  Date = as.Date(dat_item$Date_time)
+
+  op_tra = getTracks(minx = as.numeric(bbx_ice_sheet['xmin']),
+                               miny = as.numeric(bbx_ice_sheet['ymin']),
+                               maxx = as.numeric(bbx_ice_sheet['xmax']),
+                               maxy = as.numeric(bbx_ice_sheet['ymax']),
+                               date = as.character(Date),
+                               outputFormat = 'csv',
+                               download_method = 'curl',
+                               verbose = FALSE)
+
+  date_obj = dat_item$Date_time
+  tim_rgt = glue::glue("Date: {date_obj} Time specific RGT: '{dat_item$RGT}'")
+
+  if (nrow(op_tra) > 0) {
+    iter_op_trac = paste(op_tra$track, collapse = ', ')
+    cat(glue::glue("{tim_rgt}  OpenAltimetry: '{iter_op_trac}'"), '\n')
+  }
+  else {
+    cat(glue::glue("{tim_rgt} without an OpenAltimetry match!"), '\n')
+  }
+}
+
+} # }
+```

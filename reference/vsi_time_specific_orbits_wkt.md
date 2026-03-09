@@ -1,0 +1,150 @@
+# Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access the 'time specific orbits'
+
+Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access
+the 'time specific orbits'
+
+## Usage
+
+``` r
+vsi_time_specific_orbits_wkt(
+  date_from,
+  date_to,
+  RGTs,
+  wkt_filter = NULL,
+  download_zip = FALSE,
+  verbose = FALSE
+)
+```
+
+## Arguments
+
+- date_from:
+
+  a character string specifying the 'start' date in the format
+  'yyyy-MM-dd' (such as '2020-01-01')
+
+- date_to:
+
+  a character string specifying the 'end' date in the format
+  'yyyy-MM-dd' (such as '2020-01-01')
+
+- RGTs:
+
+  a character vector (consisting of one or more) Reference Ground Track
+  (RGT). See the Examples section on how to come to these RGTs based on
+  the "vsi_nominal_orbits_wkt()" function
+
+- wkt_filter:
+
+  either NULL, or a Well Known Text (WKT) character string to allow a
+  user to restrict to an area of interest rather than processing all
+  data. It is possible that the WKT won't intersect with any of the
+  available time specific orbits due to the sparsity of the coordinates
+  (the output in that case will be an empty list)
+
+- download_zip:
+
+  a boolean. If TRUE the .zip file will be first downloaded and then the
+  .kml files will be returned, otherwise the 'gdalinfo' function will be
+  used as input to the R 'system2()' function to read the .kml files
+  without downloading the .zip file. The 'gdalinfo' command requires
+  that the user has configured GDAL properly. Set the parameter
+  'download_zip' to TRUE if GDAL is not (properly) installed.
+
+- verbose:
+
+  a boolean. If TRUE then information will be printed out in the console
+
+## Value
+
+a list of 'sf' objects where each sublist will represent a different RGT
+cycle
+
+## Details
+
+In case that this function does not return any results (empty list
+object) for a specified 'wkt_filter' parameter, then use a bigger Well
+Known Text (WKT) area. This is required because the 'time specific
+orbits' (points) are quite sparse.
+
+Moreover, set the parameter 'download_zip' to TRUE if the 'gdalinfo'
+function returns internally an empty character string. In that case also
+a warning will be shown in the R session.
+
+## References
+
+https://icesat-2.gsfc.nasa.gov/science/specs
+
+https://gdal.org/user/virtual_file_systems.html
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+require(IceSat2R)
+require(magrittr)
+
+#...........................................
+# extracting nominal orbits only for the WKT
+#...........................................
+
+WKT = 'POLYGON ((-14.765 18.979, -11.25 18.979, -11.25 21.943, -14.765 21.943, -14.765 18.979))'
+
+dat_rgt = vsi_nominal_orbits_wkt(orbit_area = 'western_hemisphere',
+                                 track = 'GT3R',
+                                 rgt_repeat = 8,
+                                 wkt_filter = WKT,
+                                 download_method = 'curl',
+                                 download_zip = FALSE,
+                                 verbose = TRUE)
+str(dat_rgt)
+
+out_rgt = dat_rgt[[1]]$RGT
+
+#.........................................
+# time specific RGTs (for a time interval)
+# request using a single RGT cycle
+#.........................................
+
+date_start = '2020-01-01'
+date_end = '2020-02-01'
+
+orb_cyc_single = vsi_time_specific_orbits_wkt(date_from = date_start,
+                                              date_to = date_end,
+                                              RGTs = out_rgt,
+                                              wkt_filter = WKT,
+                                              verbose = TRUE)
+str(orb_cyc_single)
+
+#.........................................
+# time specific RGTs (for a time interval)
+# request using more than one RGT cycles
+#.........................................
+
+date_start = '2019-11-01'
+date_end = '2020-01-01'
+
+orb_cyc_multi = vsi_time_specific_orbits_wkt(date_from = date_start,
+                                             date_to = date_end,
+                                             RGTs = out_rgt,
+                                             wkt_filter = WKT,
+                                             verbose = TRUE)
+str(orb_cyc_multi)
+table(orb_cyc_multi$cycle)
+
+
+#.......................................................
+# visualization of the output cycles (including the WKT)
+#.......................................................
+
+orb_cyc_multi$cycle = as.factor(orb_cyc_multi$cycle)
+mp_orb = mapview::mapview(orb_cyc_multi, legend = TRUE, zcol = 'cycle')
+
+sf_aoi = sf::st_as_sfc(WKT, crs = 4326)
+mp_aoi = mapview::mapview(sf_aoi, alpha.regions = 0.3, legend = F)
+
+mp_orb + mp_aoi
+
+} # }
+```

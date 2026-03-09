@@ -1,0 +1,131 @@
+# Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access the 'nominal orbits'
+
+Utilizing Virtual File Systems (vsi) and Well Known Text (WKT) to access
+the 'nominal orbits'
+
+## Usage
+
+``` r
+vsi_nominal_orbits_wkt(
+  orbit_area,
+  track = "GT7",
+  rgt_repeat = 1,
+  wkt_filter = NULL,
+  download_method = "curl",
+  download_zip = FALSE,
+  verbose = FALSE
+)
+```
+
+## Arguments
+
+- orbit_area:
+
+  a character string specifying the earth partition to use, it can be
+  one of 'antarctic', 'arctic', 'western_hemisphere' and
+  'eastern_hemisphere'
+
+- track:
+
+  a character string specifying the orbit track. Can be one of
+  'GT1L','GT1R','GT2L','GT2R','GT3L','GT3R' or 'GT7'
+
+- rgt_repeat:
+
+  an integer specifying the orbit repeat. This parameter defaults to 1
+  and it is relevant if a user chooses one of the 'western_hemisphere'
+  or 'eastern_hemisphere' where there are 8 orbit repeats, whereas for
+  the 'antarctic' and 'arctic' there is only 1 repeat
+
+- wkt_filter:
+
+  either NULL, or a Well Known Text (WKT) character string to allow a
+  user to restrict to an area of interest rather than processing all
+  data (this parameter will be used as input to the 'sf::st_read()'
+  function)
+
+- download_method:
+
+  a character string specifying the download method. Corresponds to the
+  'method' parameter of the 'utils::download.file()' function. Can be
+  one of 'internal', 'wininet' (Windows only), 'libcurl', 'wget', 'curl'
+  or 'auto'
+
+- download_zip:
+
+  a boolean. If TRUE the .zip file will be first downloaded and then the
+  .kml files will be returned, otherwise the 'gdalinfo' function will be
+  used as input to the R 'system2()' function to read the .kml files
+  without downloading the .zip file. The 'gdalinfo' command requires
+  that the user has configured GDAL properly. Set the parameter
+  'download_zip' to TRUE if GDAL is not (properly) installed.
+
+- verbose:
+
+  a boolean. If TRUE then information will be printed out in the console
+
+## Value
+
+an 'sf' object
+
+## References
+
+https://icesat-2.gsfc.nasa.gov/science/specs
+
+https://gdal.org/user/virtual_file_systems.html
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+require(IceSat2R)
+require(magrittr)
+
+#......................................
+# processing all data of the orbit area
+#......................................
+
+dat_rgt = vsi_nominal_orbits_wkt(orbit_area = 'eastern_hemisphere',
+                                 track = 'GT7',
+                                 rgt_repeat = 1,
+                                 wkt_filter = NULL,
+                                 download_method = 'curl',
+                                 download_zip = FALSE,
+                                 verbose = TRUE)
+str(dat_rgt)
+
+
+#...........................................
+# extracting nominal orbits only for the WKT
+#...........................................
+
+WKT = 'POLYGON ((-14.765 18.979, -11.25 18.979, -11.25 21.943, -14.765 21.943, -14.765 18.979))'
+
+dat_rgt = vsi_nominal_orbits_wkt(orbit_area = 'western_hemisphere',
+                                 track = 'GT3R',
+                                 rgt_repeat = 8,
+                                 wkt_filter = WKT,
+                                 download_method = 'curl',
+                                 download_zip = FALSE,
+                                 verbose = TRUE)
+str(dat_rgt)
+dat_rgt[[1]]$RGT                 # Reference Ground Tracks of input WKT
+
+#.............................
+# Visualize the results
+# (first compute the centroid)
+#.............................
+
+wkt_sf = sf::st_as_sfc(WKT, crs = 4326)
+centr_wkt = sf::st_coordinates(sf::st_centroid(wkt_sf))
+
+RGTs = mapview::mapview(dat_rgt, legend = F)
+AOI_wkt = mapview::mapview(wkt_sf, legend = F)
+
+lft = RGTs + AOI_wkt
+lft@map %>% leaflet::setView(lng = as.numeric(centr_wkt[, 'X']),
+                             lat = as.numeric(centr_wkt[, 'Y']),
+                             zoom = 7)
+} # }
+```

@@ -1,0 +1,5 @@
+url: https://mlampros.github.io/IceSat2R/
+
+template:
+  bootstrap: 5
+  bootswatch: cerulean

@@ -1,11 +1,11 @@
+
+[![R-CMD-check](https://github.com/mlampros/IceSat2R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mlampros/IceSat2R/actions/workflows/R-CMD-check.yaml)
 [![Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mlampros/icesat2r/HEAD?urlpath=rstudio)
-[![tic](https://github.com/mlampros/IceSat2R/workflows/tic/badge.svg?branch=master)](https://github.com/mlampros/IceSat2R/actions)
 [![docs: passing](https://img.shields.io/badge/docs-passing-success.svg)](https://mlampros.github.io/IceSat2R/reference/index.html)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/IceSat2R)](http://cran.r-project.org/package=IceSat2R)
 [![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/IceSat2R?color=blue)](http://www.r-pkg.org/pkg/IceSat2R)
 [![](https://img.shields.io/docker/automated/mlampros/icesat2r.svg)](https://hub.docker.com/r/mlampros/icesat2r)
-[![Dependencies](https://tinyverse.netlify.com/badge/IceSat2R)](https://cran.r-project.org/package=IceSat2R)
-[![codecov.io](https://codecov.io/github/mlampros/IceSat2R/coverage.svg?branch=master)](https://codecov.io/github/mlampros/IceSat2R?branch=master)
+[![status](https://tinyverse.netlify.app/badge/IceSat2R)](https://CRAN.R-project.org/package=IceSat2R)
 
 
 <img align="right" width="200" src="man/figures/hex_sticker.png"></img>
@@ -273,7 +273,7 @@ The ATLAS beam pattern on the ground changes depending on the orientation of the
 
 <br>
 
-Using a table to map the **strong** and **weak** beams (Reference: [sliderule-python documentation](https://slideruleearth.io/web/rtd/user_guide/Background.html#background))
+Using a table to map the **strong** and **weak** beams (Reference: [sliderule-python documentation](https://docs.slideruleearth.io/background/ICESat-2.html)
 
 <br>
 
@@ -316,9 +316,9 @@ If you use the code of this repository in your paper or research please cite bot
 @Manual{,
   title = {{IceSat2R}: ICESat-2 Altimeter Data using R},
   author = {Lampros Mouselimis},
-  year = {2025},
+  year = {2026},
   doi = 10.32614/CRAN.package.IceSat2R,
-  note = {R package version 1.0.7},
+  note = {R package version 1.0.9},
   url = {https://CRAN.R-project.org/package=IceSat2R},
 }
 ```
@@ -332,10 +332,10 @@ Please note that the IceSat2R project is released with a [Contributor Code of Co
 
 ## Acknowledgment
 
-This project received financial [support](https://www.r-consortium.org/projects) from the
+This project received financial [support](https://r-consortium.org/all-projects/) from the
 
-<a href="https://www.r-consortium.org/all-projects/awarded-projects">
-<img src="https://www.r-consortium.org/wp-content/uploads/sites/13/2016/09/RConsortium_Horizontal_Pantone.png" width="300">
+<a href="https://r-consortium.org/all-projects/">
+<img src="https://r-consortium.org/images/RConsortium_Horizontal_Pantone.webp" width="300">
 </a>
 
 <br>

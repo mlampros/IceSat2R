@@ -22,7 +22,7 @@ knitr::opts_chunk$set(fig.width = 4,
 
 <br>
 
-In this *third* vignette I'll make use of the [GDAL Virtual File Systems](https://gdal.org/user/virtual_file_systems.html) to download *nominal* and *time specific* orbit data (from the [ICESat-2 Technical Specs website](https://icesat-2.gsfc.nasa.gov/science/specs)) for an Area of Interest (AOI). This will allow me to reduce the download and computation time once I make the requests to the [OpenAltimetry API](https://openaltimetry.org/data/swagger-ui/). 
+In this *third* vignette I'll make use of the [GDAL Virtual File Systems](https://gdal.org/en/stable/user/virtual_file_systems.html) to download *nominal* and *time specific* orbit data (from the [ICESat-2 Technical Specs website](https://icesat-2.gsfc.nasa.gov/science/specs)) for an Area of Interest (AOI). This will allow me to reduce the download and computation time once I make the requests to the OpenAltimetry API. 
 
 The area of interest is the **Himalayas mountain range** which has some of the *highest peaks* in the world, including *mount Everest*. The following map shows the bounding box area that I'll use in this vignette,
 

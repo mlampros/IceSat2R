@@ -83,7 +83,6 @@ leaflet_base_map = function(sf_obj = NULL,
 #' @description
 #' The 'select_aoi_global_grid' class allows the user to select an Area of Interest (AOI) (see the examples section for all available options)
 #'
-#' @importFrom leaflet.extras addDrawToolbar editToolbarOptions
 #' @importFrom sf st_as_sfc st_intersects sf_use_s2 st_bbox st_crs
 #' @importFrom miniUI miniPage miniContentPanel gadgetTitleBar miniTitleBarButton
 #' @importFrom shiny observeEvent stopApp runGadget dialogViewer isTruthy
@@ -391,13 +390,13 @@ select_aoi_global_grid <- R6::R6Class("select_aoi_global_grid",
                                                                 popup = NULL)                                                         # !! don't use a pop-up because I have to select an area on the map and this will also open the pop-up window
 
                                          if (self$verbose) cat("Add the draw toolbar ...\n")
-                                         lft = leaflet.extras::addDrawToolbar(map = lft,
+                                         lft = addDrawToolbar(map = lft,
                                                                               position = 'topleft',
                                                                               polylineOptions = FALSE,                                # disable everything except for the Polygons
                                                                               circleOptions = FALSE,
                                                                               markerOptions = FALSE,
                                                                               circleMarkerOptions = FALSE,
-                                                                              editOptions = leaflet.extras::editToolbarOptions())
+                                                                              editOptions = editToolbarOptions())
 
                                          if (self$verbose) cat("The draw & edit toolbar will be opened ...\n")
                                          private$draw_obj = list()

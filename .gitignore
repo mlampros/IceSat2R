@@ -5,3 +5,4 @@ vignettes/IceSat-2_Virtual_File_System_Orbits_PDF.Rmd
 vignettes/3d_plotly.png
 .Rbuildignore
 .Rhistory
+docs

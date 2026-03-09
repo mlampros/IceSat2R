@@ -1,4 +1,17 @@
 
+## IceSat2R 1.0.9
+
+* I updated the vignettes due to CRAN errors (Error in loadNamespace(): there is no package called 'mapview'). In the vignettes I set `requireNamespace(..., quietly = TRUE)` which allows to test for the `noSuggests` type of checks. For `noSuggests` I had to use `Sys.setenv("_R_CHECK_DEPENDS_ONLY_" = "true")` before I use `R CMD check --as-cran`
+
+
+## IceSat2R 1.0.8
+
+* I copied the 'htmlwidgets' directory from the archived (at 2026-02-19) 'leaflet.extras' R package which includes the 'bindings' and 'build' directories for 'draw' and 'draw-drag' which are required for the IceSat2R package
+* I copied the following .R files from the archived 'leaflet.extras' R package to the R folder of the IceSat2R package and modified the code so that it doesn't give any issues during CRAN checking: `draw_leaflet_extras.R`, `drawOptions_leaflet_extras.R`, `html_dependencies_leaflet_extras.R`, `jsFunctions_leaflet_extras.R`, `leafletDependencies_leaflet_extras.R`
+* I removed the `SystemRequirements` from the DESCRIPTION file
+* I fixed broken weblinks in the README.md file
+
+
 ## IceSat2R 1.0.7
 
 * I fixed an error case on Windows OS related to `time_specific_orbits()` function (midnight time was missing, i.e. "00:00:00" from one of the observations)

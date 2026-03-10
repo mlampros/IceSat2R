@@ -38,8 +38,7 @@ if (FALSE) { # \dontrun{
 
 require(IceSat2R)
 
-orbs = latest_orbits(verbose = TRUE)
+orbs <- latest_orbits(verbose = TRUE)
 orbs
-
 } # }
 ```

@@ -60,10 +60,12 @@ if (FALSE) { # \dontrun{
 
 require(IceSat2R)
 
-res_orb  = overall_mission_orbits(orbit_area = 'antarctic',
-                                  download_method = 'curl',
-                                  threads = 1,
-                                  verbose = TRUE)
+res_orb <- overall_mission_orbits(
+  orbit_area = "antarctic",
+  download_method = "curl",
+  threads = 1,
+  verbose = TRUE
+)
 str(res_orb)
 } # }
 ```

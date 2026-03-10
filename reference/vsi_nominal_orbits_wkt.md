@@ -82,50 +82,56 @@ if (FALSE) { # \dontrun{
 require(IceSat2R)
 require(magrittr)
 
-#......................................
+# ......................................
 # processing all data of the orbit area
-#......................................
+# ......................................
 
-dat_rgt = vsi_nominal_orbits_wkt(orbit_area = 'eastern_hemisphere',
-                                 track = 'GT7',
-                                 rgt_repeat = 1,
-                                 wkt_filter = NULL,
-                                 download_method = 'curl',
-                                 download_zip = FALSE,
-                                 verbose = TRUE)
+dat_rgt <- vsi_nominal_orbits_wkt(
+  orbit_area = "eastern_hemisphere",
+  track = "GT7",
+  rgt_repeat = 1,
+  wkt_filter = NULL,
+  download_method = "curl",
+  download_zip = FALSE,
+  verbose = TRUE
+)
 str(dat_rgt)
 
 
-#...........................................
+# ...........................................
 # extracting nominal orbits only for the WKT
-#...........................................
+# ...........................................
 
-WKT = 'POLYGON ((-14.765 18.979, -11.25 18.979, -11.25 21.943, -14.765 21.943, -14.765 18.979))'
+WKT <- "POLYGON ((-14.765 18.979, -11.25 18.979, -11.25 21.943, -14.765 21.943, -14.765 18.979))"
 
-dat_rgt = vsi_nominal_orbits_wkt(orbit_area = 'western_hemisphere',
-                                 track = 'GT3R',
-                                 rgt_repeat = 8,
-                                 wkt_filter = WKT,
-                                 download_method = 'curl',
-                                 download_zip = FALSE,
-                                 verbose = TRUE)
+dat_rgt <- vsi_nominal_orbits_wkt(
+  orbit_area = "western_hemisphere",
+  track = "GT3R",
+  rgt_repeat = 8,
+  wkt_filter = WKT,
+  download_method = "curl",
+  download_zip = FALSE,
+  verbose = TRUE
+)
 str(dat_rgt)
-dat_rgt[[1]]$RGT                 # Reference Ground Tracks of input WKT
+dat_rgt[[1]]$RGT # Reference Ground Tracks of input WKT
 
-#.............................
+# .............................
 # Visualize the results
 # (first compute the centroid)
-#.............................
+# .............................
 
-wkt_sf = sf::st_as_sfc(WKT, crs = 4326)
-centr_wkt = sf::st_coordinates(sf::st_centroid(wkt_sf))
+wkt_sf <- sf::st_as_sfc(WKT, crs = 4326)
+centr_wkt <- sf::st_coordinates(sf::st_centroid(wkt_sf))
 
-RGTs = mapview::mapview(dat_rgt, legend = F)
-AOI_wkt = mapview::mapview(wkt_sf, legend = F)
+RGTs <- mapview::mapview(dat_rgt, legend = F)
+AOI_wkt <- mapview::mapview(wkt_sf, legend = F)
 
-lft = RGTs + AOI_wkt
-lft@map %>% leaflet::setView(lng = as.numeric(centr_wkt[, 'X']),
-                             lat = as.numeric(centr_wkt[, 'Y']),
-                             zoom = 7)
+lft <- RGTs + AOI_wkt
+lft@map %>% leaflet::setView(
+  lng = as.numeric(centr_wkt[, "X"]),
+  lat = as.numeric(centr_wkt[, "Y"]),
+  zoom = 7
+)
 } # }
 ```

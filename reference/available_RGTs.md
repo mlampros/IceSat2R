@@ -45,21 +45,24 @@ if (FALSE) { # \dontrun{
 
 require(IceSat2R)
 
-#.................................................
+# .................................................
 # all available orbit files, dates and cycle names
-#.................................................
+# .................................................
 
-avail_dat = available_RGTs(only_cycle_names = FALSE,
-                           verbose = TRUE)
+avail_dat <- available_RGTs(
+  only_cycle_names = FALSE,
+  verbose = TRUE
+)
 avail_dat
 
-#.............................
+# .............................
 # receive only the cycle names
-#.............................
+# .............................
 
-avail_cycles = available_RGTs(only_cycle_names = TRUE,
-                              verbose = TRUE)
+avail_cycles <- available_RGTs(
+  only_cycle_names = TRUE,
+  verbose = TRUE
+)
 avail_cycles
-
 } # }
 ```

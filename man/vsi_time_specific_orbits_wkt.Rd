@@ -38,73 +38,77 @@ In case that this function does not return any results (empty list object) for a
 Moreover, set the parameter 'download_zip' to TRUE if the 'gdalinfo' function returns internally an empty character string. In that case also a warning will be shown in the R session.
 }
 \examples{
-
 \dontrun{
 
 require(IceSat2R)
 require(magrittr)
 
-#...........................................
+# ...........................................
 # extracting nominal orbits only for the WKT
-#...........................................
+# ...........................................
 
-WKT = 'POLYGON ((-14.765 18.979, -11.25 18.979, -11.25 21.943, -14.765 21.943, -14.765 18.979))'
+WKT <- "POLYGON ((-14.765 18.979, -11.25 18.979, -11.25 21.943, -14.765 21.943, -14.765 18.979))"
 
-dat_rgt = vsi_nominal_orbits_wkt(orbit_area = 'western_hemisphere',
-                                 track = 'GT3R',
-                                 rgt_repeat = 8,
-                                 wkt_filter = WKT,
-                                 download_method = 'curl',
-                                 download_zip = FALSE,
-                                 verbose = TRUE)
+dat_rgt <- vsi_nominal_orbits_wkt(
+  orbit_area = "western_hemisphere",
+  track = "GT3R",
+  rgt_repeat = 8,
+  wkt_filter = WKT,
+  download_method = "curl",
+  download_zip = FALSE,
+  verbose = TRUE
+)
 str(dat_rgt)
 
-out_rgt = dat_rgt[[1]]$RGT
+out_rgt <- dat_rgt[[1]]$RGT
 
-#.........................................
+# .........................................
 # time specific RGTs (for a time interval)
 # request using a single RGT cycle
-#.........................................
+# .........................................
 
-date_start = '2020-01-01'
-date_end = '2020-02-01'
+date_start <- "2020-01-01"
+date_end <- "2020-02-01"
 
-orb_cyc_single = vsi_time_specific_orbits_wkt(date_from = date_start,
-                                              date_to = date_end,
-                                              RGTs = out_rgt,
-                                              wkt_filter = WKT,
-                                              verbose = TRUE)
+orb_cyc_single <- vsi_time_specific_orbits_wkt(
+  date_from = date_start,
+  date_to = date_end,
+  RGTs = out_rgt,
+  wkt_filter = WKT,
+  verbose = TRUE
+)
 str(orb_cyc_single)
 
-#.........................................
+# .........................................
 # time specific RGTs (for a time interval)
 # request using more than one RGT cycles
-#.........................................
+# .........................................
 
-date_start = '2019-11-01'
-date_end = '2020-01-01'
+date_start <- "2019-11-01"
+date_end <- "2020-01-01"
 
-orb_cyc_multi = vsi_time_specific_orbits_wkt(date_from = date_start,
-                                             date_to = date_end,
-                                             RGTs = out_rgt,
-                                             wkt_filter = WKT,
-                                             verbose = TRUE)
+orb_cyc_multi <- vsi_time_specific_orbits_wkt(
+  date_from = date_start,
+  date_to = date_end,
+  RGTs = out_rgt,
+  wkt_filter = WKT,
+  verbose = TRUE
+)
 str(orb_cyc_multi)
 table(orb_cyc_multi$cycle)
 
 
-#.......................................................
+# .......................................................
 # visualization of the output cycles (including the WKT)
-#.......................................................
+# .......................................................
 
-orb_cyc_multi$cycle = as.factor(orb_cyc_multi$cycle)
-mp_orb = mapview::mapview(orb_cyc_multi, legend = TRUE, zcol = 'cycle')
+orb_cyc_multi$cycle <- as.factor(orb_cyc_multi$cycle)
+mp_orb <- mapview::mapview(orb_cyc_multi, legend = TRUE, zcol = "cycle")
 
-sf_aoi = sf::st_as_sfc(WKT, crs = 4326)
-mp_aoi = mapview::mapview(sf_aoi, alpha.regions = 0.3, legend = F)
+sf_aoi <- sf::st_as_sfc(WKT, crs = 4326)
+mp_aoi <- mapview::mapview(sf_aoi, alpha.regions = 0.3, legend = F)
 
 mp_orb + mp_aoi
-
 }
 }
 \references{

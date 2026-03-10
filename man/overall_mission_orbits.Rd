@@ -30,15 +30,16 @@ through the six-beam pattern that is handy for getting a sense of where the orbi
 observatory. However, the six tracks for the six beams are our best estimate of where the beams will actually fall on Earth's surface."
 }
 \examples{
-
 \dontrun{
 
 require(IceSat2R)
 
-res_orb  = overall_mission_orbits(orbit_area = 'antarctic',
-                                  download_method = 'curl',
-                                  threads = 1,
-                                  verbose = TRUE)
+res_orb <- overall_mission_orbits(
+  orbit_area = "antarctic",
+  download_method = "curl",
+  threads = 1,
+  verbose = TRUE
+)
 str(res_orb)
 }
 }

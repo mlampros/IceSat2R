@@ -27,34 +27,36 @@ an one column data.table of the output files
 This function returns the '.kml' and '.kmz' files in form of virtual file paths. Moreover, the user has the option to download these files.
 }
 \examples{
-
 \dontrun{
 
 require(IceSat2R)
 
-URL = 'https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/arcticallorbits.zip'
+URL <- "https://icesat-2.gsfc.nasa.gov/sites/default/files/page_files/arcticallorbits.zip"
 
-#..................................
+# ..................................
 # without downloading the .zip file
-#..................................
+# ..................................
 
-res_out = vsi_kml_from_zip(icesat_rgt_url = URL,
-                           download_zip = FALSE,
-                           download_method = 'curl',
-                           verbose = TRUE)
+res_out <- vsi_kml_from_zip(
+  icesat_rgt_url = URL,
+  download_zip = FALSE,
+  download_method = "curl",
+  verbose = TRUE
+)
 str(res_out)
 
 
-#.............................
+# .............................
 # by downloading the .zip file
-#.............................
+# .............................
 
-res_out = vsi_kml_from_zip(icesat_rgt_url = URL,
-                           download_zip = TRUE,
-                           download_method = 'curl',
-                           verbose = TRUE)
+res_out <- vsi_kml_from_zip(
+  icesat_rgt_url = URL,
+  download_zip = TRUE,
+  download_method = "curl",
+  verbose = TRUE
+)
 str(res_out)
-
 }
 }
 \references{

@@ -21,14 +21,12 @@ a 'data.table' object
 This function allows the user to view the latest 'Nominal' and 'Time Specfic' orbit metadata (Url, Reference Ground Track Names, Dates and Types)
 }
 \examples{
-
 \dontrun{
 
 require(IceSat2R)
 
-orbs = latest_orbits(verbose = TRUE)
+orbs <- latest_orbits(verbose = TRUE)
 orbs
-
 }
 }
 \references{

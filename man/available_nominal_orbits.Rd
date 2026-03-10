@@ -27,19 +27,21 @@ This function allows the user to view the nominal orbits (all or a selection)
 
 require(IceSat2R)
 
-#.............................
+# .............................
 # all available nominal orbits
-#.............................
+# .............................
 
-nomin_orb = available_nominal_orbits(verbose = TRUE)
+nomin_orb <- available_nominal_orbits(verbose = TRUE)
 nomin_orb
 
-#........................
+# ........................
 # specific nominal orbits
-#........................
+# ........................
 
-nomin_orb = available_nominal_orbits(orbit_area = 'arctic',
-                                     verbose = TRUE)
+nomin_orb <- available_nominal_orbits(
+  orbit_area = "arctic",
+  verbose = TRUE
+)
 nomin_orb
 
 }

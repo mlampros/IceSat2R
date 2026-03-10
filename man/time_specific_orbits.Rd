@@ -36,64 +36,73 @@ posted every 420 kilometers along-track (roughly 1 minute of flight time in betw
 begins. The date of each RGT is in the file name, so the user can easily ascertain where and when ICESat-2 will be on a particular day."
 }
 \examples{
-
 \dontrun{
 
 require(IceSat2R)
 
-#................................................
+# ................................................
 # RGTs (Reference Ground Tracks) for a single day
-#................................................
+# ................................................
 
-res_rgt_one = time_specific_orbits(date_from = '2019-06-01',
-                                   date_to = '2019-06-01',
-                                   download_method = 'curl',
-                                   threads = 1,
-                                   verbose = TRUE)
+res_rgt_one <- time_specific_orbits(
+  date_from = "2019-06-01",
+  date_to = "2019-06-01",
+  download_method = "curl",
+  threads = 1,
+  verbose = TRUE
+)
 str(res_rgt_one)
 
-#..........................................................
+# ..........................................................
 # RGTs (Reference Ground Tracks) for a specific time period
-#..........................................................
+# ..........................................................
 
-res_rgt_many = time_specific_orbits(date_from = '2019-06-01',
-                                    date_to = '2019-06-03',
-                                    download_method = 'curl',
-                                    threads = 1,
-                                    verbose = TRUE)
+res_rgt_many <- time_specific_orbits(
+  date_from = "2019-06-01",
+  date_to = "2019-06-03",
+  download_method = "curl",
+  threads = 1,
+  verbose = TRUE
+)
 str(res_rgt_many)
 
 
-#.........................................................
+# .........................................................
 # processing more than one RGTs for a specified date range
-#.........................................................
+# .........................................................
 
-res_rgt_inters = time_specific_orbits(date_from = '2021-03-23',
-                                      date_to = '2021-03-26',
-                                      download_method = 'curl',
-                                      threads = 1,
-                                      verbose = TRUE)
+res_rgt_inters <- time_specific_orbits(
+  date_from = "2021-03-23",
+  date_to = "2021-03-26",
+  download_method = "curl",
+  threads = 1,
+  verbose = TRUE
+)
 str(res_rgt_inters)
 
 table(res_rgt_inters$cycle)
 table(res_rgt_inters$day_of_year)
 table(res_rgt_inters$RGT)
 
-#...............................................................
+# ...............................................................
 # RGTs (Reference Ground Tracks) for a selected 'cycle'
 # Observe the available RGT-cycles and use all available threads
-#...............................................................
+# ...............................................................
 
-avail_cycles = available_RGTs(only_cycle_names = TRUE,
-                              verbose = TRUE)
+avail_cycles <- available_RGTs(
+  only_cycle_names = TRUE,
+  verbose = TRUE
+)
 avail_cycles
 
-choose_cycle = avail_cycles[3]
+choose_cycle <- avail_cycles[3]
 
-res_rgt_many = time_specific_orbits(RGT_cycle = choose_cycle,
-                                    download_method = 'curl',
-                                    threads = parallel::detectCores(),
-                                    verbose = TRUE)
+res_rgt_many <- time_specific_orbits(
+  RGT_cycle = choose_cycle,
+  download_method = "curl",
+  threads = parallel::detectCores(),
+  verbose = TRUE
+)
 }
 }
 \references{

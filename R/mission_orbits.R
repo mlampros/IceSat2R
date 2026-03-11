@@ -879,7 +879,7 @@ time_specific_orbits <- function(date_from = NULL,
       })
       flag_upper_descr <- TRUE
     }
-    descr_proc <- data.table::data.table(do.call(rbind, descr_proc), stringsAsFactors = F)
+    descr_proc <- data.table::as.data.table(do.call(rbind, descr_proc))
 
     # ............................................................................................................................................
     # !! IMPORTANT !! There was a case where only 'RGT' and 'Date_time' were returned. I have to include the other 2 columns too by using NA's
@@ -892,21 +892,21 @@ time_specific_orbits <- function(date_from = NULL,
     idx_date_time <- which(as.vector(unlist(lapply(gregexpr(pattern = "-", text = samp_rownames), function(x) all(x != -1)))))
     if (length(idx_date_time) == 0) stop("I expect that the Date-Time column exists!", call. = F)
 
-    colnames(descr_proc)[idx_rgt] <- "RGT"
-    colnames(descr_proc)[idx_date_time] <- "Date_time"
+    data.table::setnames(descr_proc, idx_rgt[1], "RGT")
+    data.table::setnames(descr_proc, idx_date_time[1], "Date_time")
 
     idx_doy <- which(as.vector(unlist(lapply(gregexpr(pattern = "DOY", text = samp_rownames), function(x) all(x != -1)))))
     if (length(idx_doy) == 0) {
       descr_proc$DOY <- rep(NA_integer_, nrow(descr_proc))
     } else {
-      colnames(descr_proc)[idx_doy] <- "DOY"
+      data.table::setnames(descr_proc, idx_doy[1], "DOY")
     }
 
     idx_cycle <- which(as.vector(unlist(lapply(gregexpr(pattern = "Cycle", text = samp_rownames), function(x) all(x != -1)))))
     if (length(idx_cycle) == 0) {
       descr_proc$cycle <- rep(NA_integer_, nrow(descr_proc))
     } else {
-      colnames(descr_proc)[idx_cycle] <- "cycle"
+      data.table::setnames(descr_proc, idx_cycle[1], "cycle")
     }
 
     # colnames(descr_proc) = c('RGT', 'Date_time', 'DOY', 'cycle')   # this is the order that normally appears in the output data
@@ -918,10 +918,10 @@ time_specific_orbits <- function(date_from = NULL,
       sf_objs$description <- NULL
     }
 
-    sf_objs$RGT <- as.integer(gsub("RGT ", "", descr_proc$RGT)) # keep the integer from the character string which corresponds to the 'RGT'
-    sf_objs$Date_time <- descr_proc$Date_time
-    sf_objs$day_of_year <- as.integer(gsub("DOY ", "", descr_proc$DOY)) # keep the integer from the character string which corresponds to the 'DOY'
-    sf_objs$cycle <- as.integer(gsub("Cycle ", "", descr_proc$cycle)) # keep the integer from the character string which corresponds to the 'cycle'
+    sf_objs$RGT <- as.integer(gsub("RGT ", "", descr_proc[["RGT"]])) # keep the integer from the character string which corresponds to the 'RGT'
+    sf_objs$Date_time <- descr_proc[["Date_time"]]
+    sf_objs$day_of_year <- as.integer(gsub("DOY ", "", descr_proc[["DOY"]])) # keep the integer from the character string which corresponds to the 'DOY'
+    sf_objs$cycle <- as.integer(gsub("Cycle ", "", descr_proc[["cycle"]])) # keep the integer from the character string which corresponds to the 'cycle'
     sf_objs <- sf::st_zm(x = sf_objs, drop = T) # drop the Z dimension
 
     all_cycles[[CYCLE]] <- sf_objs
@@ -1578,8 +1578,8 @@ vsi_time_specific_orbits_wkt <- function(date_from,
           })
         }
 
-        descr_proc <- data.table::data.table(do.call(rbind, descr_proc), stringsAsFactors = F)
-        colnames(descr_proc) <- c("RGT", "Date_time", "DOY", "cycle")
+        descr_proc <- data.table::as.data.table(do.call(rbind, descr_proc))
+        data.table::setnames(descr_proc, 1:ncol(descr_proc), c("RGT", "Date_time", "DOY", "cycle")[seq_len(ncol(descr_proc))])
 
         if (flag_upper_descr) {
           x$Description <- NULL
@@ -1587,10 +1587,10 @@ vsi_time_specific_orbits_wkt <- function(date_from,
           x$description <- NULL
         }
 
-        x$RGT <- as.integer(gsub("RGT ", "", descr_proc$RGT)) # keep the integer from the character string which corresponds to the 'RGT'
-        x$Date_time <- descr_proc$Date_time
-        x$day_of_year <- as.integer(gsub("DOY ", "", descr_proc$DOY)) # keep the integer from the character string which corresponds to the 'DOY'
-        x$cycle <- as.integer(gsub("Cycle ", "", descr_proc$cycle)) # keep the integer from the character string which corresponds to the 'cycle'
+        x$RGT <- as.integer(gsub("RGT ", "", descr_proc[["RGT"]])) # keep the integer from the character string which corresponds to the 'RGT'
+        x$Date_time <- descr_proc[["Date_time"]]
+        x$day_of_year <- as.integer(gsub("DOY ", "", descr_proc[["DOY"]])) # keep the integer from the character string which corresponds to the 'DOY'
+        x$cycle <- as.integer(gsub("Cycle ", "", descr_proc[["cycle"]])) # keep the integer from the character string which corresponds to the 'cycle'
       }
 
       x <- sf::st_zm(x = x, drop = T) # drop the Z dimension

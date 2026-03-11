@@ -832,51 +832,98 @@ time_specific_orbits <- function(date_from = NULL,
       descr_proc <- strsplit(x = sf_objs$description, split = "\n")
     } else {
       sf_objs$Description <- as.character(sf_objs$Description)
-      descr_proc <- strsplit(x = sf_objs$Description, split = " ") # in case that I have a 'Description' column, split by empty space
-      # ........................................................................... "start" error case with missing 'time' for midnight on Windows
-      len_desc <- lapply(descr_proc, function(x) length(x)) |>
-        unlist() |>
-        table()
-      len_desc <- as.integer(names(len_desc)[which.max(len_desc)])
-
-      # If the modal token count is odd, the expected even length is len_desc + 1.
-      # This handles the case where NASA changed the orbit-file Description format
-      # so that ALL rows now omit the time (i.e. the midnight-missing format
-      # became the majority rather than the exception).
-      len_desc_even <- if (len_desc %% 2 == 0) len_desc else len_desc + 1L
-
-      chk_row_items <- as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0))) # check that I have an even number of columns (normally 8 but can be fewer too) then concatenate the columns by pairs of consecutive items
-
-      if (!all(chk_row_items)) {
-        idx_not <- which(!chk_row_items)
-
-        for (idx_i in idx_not) {
-          item_i <- descr_proc[[idx_i]]
-          if (length(item_i) == (len_desc_even - 1)) { # we expect that only the time is missing
-
-            # This is the current exception:
-            # RGT 1264 15-Dec-2020 DOY 350 Cycle 9                         # midnight time is missing, i.e. "00:00:00" (time)
-            # RGT 1264 16-Dec-2020 00:01:00 DOY 351 Cycle 9                # after midnight case (as expected)
-
-            item_i <- append(x = item_i, values = "00:00:00", after = 3) # add the time after the date
-            descr_proc[[idx_i]] <- item_i
-          } else { # throw an error in any other case
-            len_dif <- len_desc_even - length(item_i)
-            stop(glue::glue("We expect a difference of maximum one and received a difference of length {len_dif}, which means {len_dif} attributes are missing from the character string!"))
+      # ---- PREVIOUS CODE (commented out) ----
+      # descr_proc <- strsplit(x = sf_objs$Description, split = " ") # in case that I have a 'Description' column, split by empty space
+      # # ........................................................................... "start" error case with missing 'time' for midnight on Windows
+      # len_desc <- lapply(descr_proc, function(x) length(x)) |>
+      #   unlist() |>
+      #   table()
+      # len_desc <- as.integer(names(len_desc)[which.max(len_desc)])
+      # # If the modal token count is odd, the expected even length is len_desc + 1.
+      # # This handles the case where NASA changed the orbit-file Description format
+      # # so that ALL rows now omit the time (i.e. the midnight-missing format
+      # # became the majority rather than the exception).
+      # len_desc_even <- if (len_desc %% 2 == 0) len_desc else len_desc + 1L
+      # chk_row_items <- as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0))) # check that I have an even number of columns (normally 8 but can be fewer too) then concatenate the columns by pairs of consecutive items
+      # if (!all(chk_row_items)) {
+      #   idx_not <- which(!chk_row_items)
+      #   for (idx_i in idx_not) {
+      #     item_i <- descr_proc[[idx_i]]
+      #     if (length(item_i) == (len_desc_even - 1)) { # we expect that only the time is missing
+      #       # This is the current exception:
+      #       # RGT 1264 15-Dec-2020 DOY 350 Cycle 9                         # midnight time is missing, i.e. "00:00:00" (time)
+      #       # RGT 1264 16-Dec-2020 00:01:00 DOY 351 Cycle 9                # after midnight case (as expected)
+      #       item_i <- append(x = item_i, values = "00:00:00", after = 3) # add the time after the date
+      #       descr_proc[[idx_i]] <- item_i
+      #     } else { # throw an error in any other case
+      #       len_dif <- len_desc_even - length(item_i)
+      #       stop(glue::glue("We expect a difference of maximum one and received a difference of length {len_dif}, which means {len_dif} attributes are missing from the character string!"))
+      #     }
+      #   }
+      # }
+      # chk_row_items <- as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0)))
+      # if (!all(chk_row_items)) {
+      #   stop("We expect after the code adjustments to receive equal length of vector (split) character strings!")
+      # }
+      # # ........................................................................... "end" error case with missing 'time' for midnight on Windows
+      # descr_proc <- lapply(descr_proc, function(x) {
+      #   seq_item <- seq(from = 1, to = length(x), by = 2)
+      #   sapply(seq_item, function(y) paste(c(x[y], x[y + 1]), collapse = " "))
+      # })
+      # flag_upper_descr <- TRUE
+      # ---- END PREVIOUS CODE ----
+      # Detect whether Description entries use newline separators (new NASA KMZ format <U+2014>
+      # CRLF on Windows) or space separators (classic Windows/macOS format).
+      # When CRLF is embedded in space-split tokens (e.g. "1264\r\n15-Dec-2020"), both
+      # idx_rgt and idx_date_time resolve to the same column and the second setnames call
+      # silently overwrites the first, making descr_proc[["RGT"]] return NULL.
+      non_empty_idx <- which(nchar(sf_objs$Description) > 0 & !is.na(sf_objs$Description))
+      uses_newlines <- length(non_empty_idx) > 0 &&
+        grepl("[\r\n]", sf_objs$Description[[non_empty_idx[[1]]]], perl = TRUE)
+      if (uses_newlines) {
+        # New format: Description uses CR/LF separators <U+2014> identical logical structure to
+        # the lowercase "description" path, so split the same way.
+        descr_proc <- strsplit(x = sf_objs$Description, split = "[\r\n]+", perl = TRUE)
+      } else {
+        # Classic format: Description uses space-separated tokens that must be paired.
+        descr_proc <- strsplit(x = sf_objs$Description, split = " ") # in case that I have a 'Description' column, split by empty space
+        # ........................................................................... "start" error case with missing 'time' for midnight on Windows
+        len_desc <- lapply(descr_proc, function(x) length(x)) |>
+          unlist() |>
+          table()
+        len_desc <- as.integer(names(len_desc)[which.max(len_desc)])
+        # If the modal token count is odd, the expected even length is len_desc + 1.
+        # This handles the case where NASA changed the orbit-file Description format
+        # so that ALL rows now omit the time (i.e. the midnight-missing format
+        # became the majority rather than the exception).
+        len_desc_even <- if (len_desc %% 2 == 0) len_desc else len_desc + 1L
+        chk_row_items <- as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0))) # check that I have an even number of columns (normally 8 but can be fewer too) then concatenate the columns by pairs of consecutive items
+        if (!all(chk_row_items)) {
+          idx_not <- which(!chk_row_items)
+          for (idx_i in idx_not) {
+            item_i <- descr_proc[[idx_i]]
+            if (length(item_i) == (len_desc_even - 1)) { # we expect that only the time is missing
+              # This is the current exception:
+              # RGT 1264 15-Dec-2020 DOY 350 Cycle 9                         # midnight time is missing, i.e. "00:00:00" (time)
+              # RGT 1264 16-Dec-2020 00:01:00 DOY 351 Cycle 9                # after midnight case (as expected)
+              item_i <- append(x = item_i, values = "00:00:00", after = 3) # add the time after the date
+              descr_proc[[idx_i]] <- item_i
+            } else { # throw an error in any other case
+              len_dif <- len_desc_even - length(item_i)
+              stop(glue::glue("We expect a difference of maximum one and received a difference of length {len_dif}, which means {len_dif} attributes are missing from the character string!"))
+            }
           }
         }
+        chk_row_items <- as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0)))
+        if (!all(chk_row_items)) {
+          stop("We expect after the code adjustments to receive equal length of vector (split) character strings!")
+        }
+        # ........................................................................... "end" error case with missing 'time' for midnight on Windows
+        descr_proc <- lapply(descr_proc, function(x) {
+          seq_item <- seq(from = 1, to = length(x), by = 2)
+          sapply(seq_item, function(y) paste(c(x[y], x[y + 1]), collapse = " "))
+        })
       }
-
-      chk_row_items <- as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0)))
-      if (!all(chk_row_items)) {
-        stop("We expect after the code adjustments to receive equal length of vector (split) character strings!")
-      }
-      # ........................................................................... "end" error case with missing 'time' for midnight on Windows
-
-      descr_proc <- lapply(descr_proc, function(x) {
-        seq_item <- seq(from = 1, to = length(x), by = 2)
-        sapply(seq_item, function(y) paste(c(x[y], x[y + 1]), collapse = " "))
-      })
       flag_upper_descr <- TRUE
     }
     descr_proc <- data.table::as.data.table(do.call(rbind, descr_proc))
@@ -1569,13 +1616,30 @@ vsi_time_specific_orbits_wkt <- function(date_from,
           descr_proc <- strsplit(x = x$description, split = "\n")
         } else {
           x$Description <- as.character(x$Description)
-          descr_proc <- strsplit(x = x$Description, split = " ") # in case that I have a 'Description' column, split by empty space
-          chk_row_items <- as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0))) # check that I have an even number of columns (normally 8 but can be fewer too) then concatenate the columns by pairs of consecutive items
-          if (!all(chk_row_items)) stop("It seems that after splitting the observations by empty space the number of columns (per row) are not an even number (vsi function)!", call. = F)
-          descr_proc <- lapply(descr_proc, function(x) {
-            seq_item <- seq(from = 1, to = length(x), by = 2)
-            sapply(seq_item, function(y) paste(c(x[y], x[y + 1]), collapse = " "))
-          })
+          # ---- PREVIOUS CODE (commented out) ----
+          # descr_proc <- strsplit(x = x$Description, split = " ") # in case that I have a 'Description' column, split by empty space
+          # chk_row_items <- as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0))) # check that I have an even number of columns (normally 8 but can be fewer too) then concatenate the columns by pairs of consecutive items
+          # if (!all(chk_row_items)) stop("It seems that after splitting the observations by empty space the number of columns (per row) are not an even number (vsi function)!", call. = F)
+          # descr_proc <- lapply(descr_proc, function(x) {
+          #   seq_item <- seq(from = 1, to = length(x), by = 2)
+          #   sapply(seq_item, function(y) paste(c(x[y], x[y + 1]), collapse = " "))
+          # })
+          # ---- END PREVIOUS CODE ----
+          # Same newline detection as the time_specific_orbits path.
+          non_empty_idx_x <- which(nchar(x$Description) > 0 & !is.na(x$Description))
+          uses_newlines_x <- length(non_empty_idx_x) > 0 &&
+            grepl("[\r\n]", x$Description[[non_empty_idx_x[[1]]]], perl = TRUE)
+          if (uses_newlines_x) {
+            descr_proc <- strsplit(x = x$Description, split = "[\r\n]+", perl = TRUE)
+          } else {
+            descr_proc <- strsplit(x = x$Description, split = " ") # in case that I have a 'Description' column, split by empty space
+            chk_row_items <- as.vector(unlist(lapply(descr_proc, function(x) (length(x) %% 2) == 0))) # check that I have an even number of columns (normally 8 but can be fewer too) then concatenate the columns by pairs of consecutive items
+            if (!all(chk_row_items)) stop("It seems that after splitting the observations by empty space the number of columns (per row) are not an even number (vsi function)!", call. = F)
+            descr_proc <- lapply(descr_proc, function(x) {
+              seq_item <- seq(from = 1, to = length(x), by = 2)
+              sapply(seq_item, function(y) paste(c(x[y], x[y + 1]), collapse = " "))
+            })
+          }
         }
 
         descr_proc <- data.table::as.data.table(do.call(rbind, descr_proc))

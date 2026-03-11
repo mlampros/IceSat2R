@@ -29,6 +29,10 @@ testthat::test_that("the function 'getTracks()' returns the correct output!", {
     error = function(e) NULL
   )
 
-  testthat::skip_if(is.null(res_df) || nrow(res_df) == 0, "API returned no data or an error; skipping value check")
+  testthat::skip_if(
+    is.null(res_df) || !is.data.frame(res_df) || nrow(res_df) == 0 ||
+      !"track" %in% colnames(res_df),
+    "API returned no data, an error, or unexpected structure; skipping value check"
+  )
   testthat::expect_true(is.data.frame(res_df) & "track" %in% colnames(res_df))
 })

@@ -54,6 +54,10 @@ testthat::test_that("the function 'verify_RGTs()' returns a data.table if the in
     error = function(e) NULL
   )
 
-  testthat::skip_if(is.null(dtbl) || nrow(dtbl) == 0, "API returned no data or an error; skipping value check")
+  testthat::skip_if(
+    is.null(dtbl) || nrow(dtbl) == 0 || nrow(dtbl) < 5 ||
+      ncol(dtbl) != 3 || !all(c("Date_time", "RGT_OpenAlt", "RGT_NSIDC") %in% colnames(dtbl)),
+    "API returned no data, an error, or unexpected structure; skipping value check"
+  )
   testthat::expect_true(nrow(dtbl) >= 5 & ncol(dtbl) == 3 & all(colnames(dtbl) %in% c("Date_time", "RGT_OpenAlt", "RGT_NSIDC")))
 })

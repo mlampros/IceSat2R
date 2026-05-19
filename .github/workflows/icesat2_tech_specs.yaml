@@ -31,12 +31,9 @@ jobs:
         run: sudo apt install libcurl4-openssl-dev libgit2-dev
       - name: "Install geo-spatial system requirements"
         run: sudo apt-get install libgdal-dev libproj-dev libgeos-dev libudunits2-dev
-      - name: Install required packages
-        run: Rscript -e 'install.packages(c("remotes"))'
-      - name: "Install 'IceSat2R' dependencies"
-        run: Rscript -e "remotes::install_deps('.', upgrade = 'always', dependencies = TRUE, repos = 'https://cloud.r-project.org/')"
-      - name: "Install 'IceSat2R' from local source"
-        run: R CMD INSTALL .
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: local::.
       - name: "Run code snippet to update the 'technical_specs_urls.csv' file"
         working-directory: ${{ github.workspace }}
         run: Rscript inst/data_files/technical_specs_urls.R

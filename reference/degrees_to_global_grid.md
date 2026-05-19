@@ -75,6 +75,7 @@ https://www.usna.edu/Users/oceano/pguth/md_help/html/approx_equivalents.htm
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 
 require(IceSat2R)

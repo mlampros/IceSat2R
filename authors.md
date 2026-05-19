@@ -25,7 +25,7 @@ package version 1.0.9, <https://CRAN.R-project.org/package=IceSat2R>.
 
 Khalsa S, Borsa A, Nandigam V (2020). “OpenAltimetry - rapid analysis
 and visualization of Spaceborne altimeter data.” *Earth Sci Inform*.
-[doi:10.1007/s12145-020-00520-2](https://doi.org/10.1007/s12145-020-00520-2),
+[doi:10.1007/s12145-020-00520-2](https://doi.org/10.1007/s12145-020-00520-2).
 <https://link.springer.com/content/pdf/10.1007/s12145-020-00520-2.pdf>.
 
     @Article{,

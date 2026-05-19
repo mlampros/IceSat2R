@@ -27,6 +27,7 @@ First, we load the data,
   
 
 ``` r
+
 pkgs = c('IceSat2R', 'magrittr', 'sf', 'mapview', 'leaflet')
 load_pkgs = lapply(pkgs, require, character.only = TRUE)  # load required R packages
 
@@ -56,6 +57,7 @@ orbits*,
   
 
 ``` r
+
 sf_wkt = sf::st_geometry(subset(geoms_himal, area_size == 'big'))
 
 centr_wkt = sf::st_coordinates(sf::st_centroid(sf_wkt))
@@ -100,6 +102,7 @@ for (iter in 1:8) {         # iterate over all available repeats
   
 
 ``` r
+
 lst_out = unlist(lst_out, recursive = F)
 unq_rgts = as.vector(unique(unlist(lapply(lst_out, function(x) x$RGT))))
 unq_rgts
@@ -124,6 +127,7 @@ intersection for the specified 1-year time interval,
   
 
 ``` r
+
 date_start = '2020-01-01'
 date_end = '2021-01-01'
 
@@ -195,6 +199,7 @@ time period,
   
 
 ``` r
+
 orb_cyc_multi
 
 # Simple feature collection with 18 features and 14 fields
@@ -224,6 +229,7 @@ the intersected time-specific RGTs,
   
 
 ``` r
+
 # make the sf-objects valid
 orb_cyc_multi = sf::st_make_valid(orb_cyc_multi)
 sf_wkt = sf::st_make_valid(sf_wkt)
@@ -254,6 +260,7 @@ the *OpenAltimetry’s ‘getTracks()’* function,
   
 
 ``` r
+
 bbx_aoi = sf::st_bbox(obj = sf_wkt)
 
 dtbl_rgts = verify_RGTs(nsidc_rgts = orb_cyc_multi, 

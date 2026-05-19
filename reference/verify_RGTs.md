@@ -37,6 +37,7 @@ OpenAltimetry RGTs is higher compared to the NSIDC RGTs
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 
 require(IceSat2R)

@@ -172,6 +172,7 @@ installed. The whole process was tested on Ubuntu 18.04. To **pull** &
   
 
 ``` r
+
 docker pull mlampros/icesat2r:rstudiodev
 
 docker run -d --name rstudio_dev -e USER=rstudio -e PASSWORD=give_here_your_password --rm -p 8787:8787 mlampros/icesat2r:rstudiodev
@@ -185,6 +186,7 @@ its files by specifying the **-v** command,
   
 
 ``` r
+
 docker run -d --name rstudio_dev -e USER=rstudio -e PASSWORD=give_here_your_password --rm -p 8787:8787 -v /home/YOUR_DIR:/home/rstudio/YOUR_DIR mlampros/icesat2r:rstudiodev
 ```
 
@@ -233,6 +235,7 @@ password.
 To install the package from CRAN use,
 
 ``` r
+
 install.packages("IceSat2R")
 ```
 
@@ -241,6 +244,7 @@ install.packages("IceSat2R")
 and to download the latest version of the package from Github,
 
 ``` r
+
 remotes::install_github('mlampros/IceSat2R')
 ```
 
@@ -254,6 +258,7 @@ To execute the package tests (all or a specific file) use the following
 code snippet:
 
 ``` r
+
 
 # first download the latest version of the package
 

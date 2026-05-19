@@ -205,6 +205,7 @@ https://nsidc.org/data/icesat-2
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 
 require(IceSat2R)

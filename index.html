@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>ICESat-2 Altimeter Data using R • IceSat2R</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="ICESat-2 Altimeter Data using R">
 <meta name="description" content="Programmatic connection to the OpenAltimetry API &lt;https://openaltimetry.earthdatacloud.nasa.gov/data/openapi/swagger-ui/index.html/&gt; to download and process ATL03 (Global Geolocated Photon Data), ATL06 (Land Ice Height), ATL07 (Sea Ice Height), ATL08 (Land and Vegetation Height), ATL10 (Sea Ice Freeboard), ATL12 (Ocean Surface Height) and ATL13 (Inland Water Surface Height) ICESat-2 Altimeter Data. The user has the option to download the data by selecting a bounding box from a 1- or 5-degree grid globally utilizing a shiny application. The ICESat-2 mission collects altimetry data of the Earths surface. The sole instrument on ICESat-2 is the Advanced Topographic Laser Altimeter System (ATLAS) instrument that measures ice sheet elevation change and sea ice thickness, while also generating an estimate of global vegetation biomass. ICESat-2 continues the important observations of ice-sheet elevation change, sea-ice freeboard, and vegetation canopy height begun by ICESat' in 2003.">
@@ -287,38 +287,38 @@ ATLAS oriented forward (+x)
 <col width="40%">
 <col width="27%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th align="center">ATLAS Spot Number</th>
 <th align="center">Ground track Designation</th>
 <th align="center">Beam Strength</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td align="center">1</td>
 <td align="center">gt3r</td>
 <td align="center">Strong</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="center">2</td>
 <td align="center">gt3l</td>
 <td align="center">Weak</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="center">3</td>
 <td align="center">gt2r</td>
 <td align="center">Strong</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="center">4</td>
 <td align="center">gt2l</td>
 <td align="center">Weak</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="center">5</td>
 <td align="center">gt1r</td>
 <td align="center">Strong</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="center">6</td>
 <td align="center">gt1l</td>
 <td align="center">Weak</td>
@@ -337,38 +337,38 @@ ATLAS oriented backwards (-x)
 <col width="40%">
 <col width="27%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th align="center">ATLAS Spot Number</th>
 <th align="center">Ground track Designation</th>
 <th align="center">Beam Strength</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td align="center">1</td>
 <td align="center">gt3r</td>
 <td align="center">Weak</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="center">2</td>
 <td align="center">gt3l</td>
 <td align="center">Strong</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="center">3</td>
 <td align="center">gt2r</td>
 <td align="center">Weak</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="center">4</td>
 <td align="center">gt2l</td>
 <td align="center">Strong</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="center">5</td>
 <td align="center">gt1r</td>
 <td align="center">Weak</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="center">6</td>
 <td align="center">gt1l</td>
 <td align="center">Strong</td>

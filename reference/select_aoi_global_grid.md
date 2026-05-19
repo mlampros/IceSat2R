@@ -207,6 +207,7 @@ The objects of this class are cloneable with this method.
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 
 require(IceSat2R)

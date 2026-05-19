@@ -32,6 +32,7 @@ https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-glaciated-ar
 ## Examples
 
 ``` r
+
 require(IceSat2R)
 require(sf)
 #> Loading required package: sf

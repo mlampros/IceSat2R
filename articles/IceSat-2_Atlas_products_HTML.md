@@ -38,6 +38,7 @@ First, we’ll compute the time *specific orbits* for both periods,
   
 
 ``` r
+
 pkgs <- c(
   "IceSat2R", "sf", "data.table", "stargazer", "glue", "utils",
   "reshape2", "plotly", "magrittr", "geodist", "CopernicusDEM", "terra"
@@ -56,6 +57,7 @@ if (requireNamespace("mapview", quietly = TRUE)) {
   
 
 ``` r
+
 # ....................
 # winter (2020, 2021)
 # ....................
@@ -105,6 +107,7 @@ rgt_winter <- time_specific_orbits(
   
 
 ``` r
+
 rgt_winter
 
 # Simple feature collection with 91390 features and 14 fields
@@ -135,6 +138,7 @@ process the 962 .kml files utilizing 8 threads and then return an ‘sf’
   
 
 ``` r
+
 # ..............
 # summer (2021)
 # ..............
@@ -184,6 +188,7 @@ rgt_summer <- time_specific_orbits(
   
 
 ``` r
+
 rgt_summer
 
 # Simple feature collection with 89965 features and 14 fields
@@ -215,6 +220,7 @@ summer) with the area of the *East ‘Greenland Ice Sheet’*,
   
 
 ``` r
+
 # ...............................
 # load the 'Greenland Ice Sheet'
 # ...............................
@@ -232,6 +238,7 @@ We’ll continue with one of the 2 Greenland Ice Sheet parts (‘East’)
   
 
 ``` r
+
 greenl_sh_east <- greenl_sh[2, ]
 # mapview::mapview(greenl_sh_east, legend = F)
 
@@ -247,6 +254,7 @@ sfc_bbx_greenl_sh_east <- sf::st_as_sfc(bbx_greenl_sh_east)
 ```
 
 ``` r
+
 # ..............................................
 # intersection with the computed "winter" RGT's
 # ..............................................
@@ -293,6 +301,7 @@ the same for the summer period,
   
 
 ``` r
+
 # ..............................................
 # intersection with the computed "summer" RGT's
 # ..............................................
@@ -339,6 +348,7 @@ common RGT’s that we’ll use for comparison purposes,
   
 
 ``` r
+
 # ...............................................
 # compute the unique RGT's for summer and winter
 # ...............................................
@@ -383,6 +393,7 @@ match the *OpenAltimetry Tracks* for both winter and summer,
   
 
 ``` r
+
 # .........................................................
 # we keep the relevant columns and remove duplicated
 # Dates and RGTs to iterate over each pair of observations
@@ -457,6 +468,7 @@ avoid any *‘over limit’ OpenAltimetry API* errors,
   
 
 ``` r
+
 greenl_grid <- degrees_to_global_grid(
   minx = as.numeric(bbx_greenl_sh_east["xmin"]),
   maxx = as.numeric(bbx_greenl_sh_east["xmax"]),
@@ -480,6 +492,7 @@ with our initial area,
   
 
 ``` r
+
 inters_init <- sf::st_intersects(sf::st_geometry(greenl_sh_east), greenl_grid)
 inters_init <- data.frame(inters_init)
 inters_init <- inters_init$col.id
@@ -513,6 +526,7 @@ with the up to 5x5 degree grid,
   
 
 ``` r
+
 # ............
 # winter join
 # ............
@@ -541,6 +555,7 @@ subs_join_w
 ```
 
 ``` r
+
 # ............
 # summer join
 # ............
@@ -575,6 +590,7 @@ Since the *winter* and *summer* intersected spatial data are identical,
   
 
 ``` r
+
 identical(subs_join_w, subs_join_s)
 # [1] TRUE   (small rounding differences in the coordinate values might give FALSE)
 ```
@@ -592,6 +608,7 @@ Sheet’*,
   
 
 ``` r
+
 if (requireNamespace("mapview", quietly = TRUE)) {
   mapview::mapview(subs_join_s, legend = F)
 }
@@ -609,6 +626,7 @@ Cells,
   
 
 ``` r
+
 join_geoms <- 1:5
 subs_join_reduced <- subs_join_s[join_geoms]
 
@@ -650,11 +668,12 @@ and to the following RGTs,
 | 1,373 | 113,191       | 103,279       | geom_idx_5_RGT_1373 | 5              |
 |       |               |               |                     |                |
 
-**Greenland Grid Cells**
+**Greenland Grid Cells** {.table style="text-align:center"}
 
   
 
 ``` r
+
 # ...............................................
 # keep a subset of RGTs and Greenland Grid cells
 # ...............................................
@@ -762,11 +781,13 @@ We then sort and observe the output LOGs,
   
 
 ``` r
+
 logs_out_dtbl <- data.table::rbindlist(logs_out)
 logs_out_dtbl$index <- names(dat_out_w)
 ```
 
 ``` r
+
 logs_out_dtbl <- logs_out_dtbl[order(logs_out_dtbl$N_rows_winter, decreasing = T), ]
 
 stargazer::stargazer(logs_out_dtbl,
@@ -812,7 +833,7 @@ stargazer::stargazer(logs_out_dtbl,
 | 94    | 2,110         | 1,963         |
 |       |               |               |
 
-**LOGs**
+**LOGs** {.table style="text-align:center"}
 
   
 
@@ -821,6 +842,7 @@ We’ll first process and visualize one of Greenland’s geometries and RGT,
   
 
 ``` r
+
 # ................................
 # we pick one with approx. same
 # rows for both summer and winter
@@ -855,6 +877,7 @@ w_subs
 ```
 
 ``` r
+
 # ...............
 # summer sublist
 # ...............
@@ -918,6 +941,7 @@ for *summer* is ‘2021-06-17’. We’ll
   
 
 ``` r
+
 cols_keep <- c("date", "segment_id", "longitude", "latitude", "h_li", "beam")
 
 w_subs_hq <- subset(w_subs, atl06_quality_summary == 0)
@@ -951,11 +975,13 @@ the following code snippet will create the visualizations for the beams
   
 
 ``` r
+
 cols_viz <- c("segment_id_winter", "beam_winter", "h_li_winter", "h_li_summer")
 ws_vis <- sw_hq_merg[, ..cols_viz]
 ```
 
 ``` r
+
 ws_vis_mlt <- reshape2::melt(ws_vis, id.vars = c("segment_id_winter", "beam_winter"))
 ws_vis_mlt <- data.table::data.table(ws_vis_mlt, stringsAsFactors = F)
 ws_vis_mlt_spl <- split(ws_vis_mlt, by = "beam_winter")
@@ -963,6 +989,7 @@ ws_vis_mlt_spl <- split(ws_vis_mlt, by = "beam_winter")
 ```
 
 ``` r
+
 # ...................................
 # function to plot each subplot beam
 # ...................................
@@ -1043,6 +1070,7 @@ land-ice-height between the winter and summer periods,
   
 
 ``` r
+
 plt_gt1l <- plotly_beams(
   spl_data = ws_vis_mlt_spl,
   beam = "gt1l",
@@ -1056,12 +1084,14 @@ plt_gt1l <- plotly_beams(
     ## Plot for Beam 'gt1l' will be created ...
 
 ``` r
+
 plt_gt1l
 ```
 
   
 
 ``` r
+
 plt_gt1r <- plotly_beams(
   spl_data = ws_vis_mlt_spl,
   beam = "gt1r",
@@ -1075,6 +1105,7 @@ plt_gt1r <- plotly_beams(
     ## Plot for Beam 'gt1r' will be created ...
 
 ``` r
+
 plt_gt1r
 ```
 
@@ -1086,6 +1117,7 @@ purposes. We’ll choose another Greenland Grid cell, RGT, and beams,
   
 
 ``` r
+
 Greenland_Geom_index <- 2
 RGT <- 33
 
@@ -1124,6 +1156,7 @@ lowest difference in distance (for a fair comparison),
   
 
 ``` r
+
 # ...............................
 # compute the pair-wise distance
 # ...............................
@@ -1182,6 +1215,7 @@ by approximately 3 kilometers from each other.
   
 
 ``` r
+
 # ......................................
 # keep only the 'gt1r' and 'gt2l' beams
 # ......................................
@@ -1220,6 +1254,7 @@ package,
   
 
 ``` r
+
 sf_aoi <- sf::st_as_sf(sw_hq_merg_beams, coords = c("longitude", "latitude"), crs = 4326)
 bbx_aoi <- sf::st_bbox(sf_aoi)
 sfc_aoi <- sf::st_as_sfc(bbx_aoi)
@@ -1370,11 +1405,13 @@ coordinates. The following 3-dimensional interactive line plot shows,
   
 
 ``` r
+
 cols_viz_dem <- c("beam", "longitude", "latitude", "h_li_winter", "h_li_summer", "dem30")
 merg_cells_viz <- merg_cells[, ..cols_viz_dem]
 ```
 
 ``` r
+
 merg_cells_viz_mlt <- reshape2::melt(merg_cells_viz, id.vars = c("beam", "longitude", "latitude"))
 merg_cells_viz_mlt <- data.table::data.table(merg_cells_viz_mlt, stringsAsFactors = F)
 colnames(merg_cells_viz_mlt) <- c("beam", "longitude", "latitude", "variable", "height")

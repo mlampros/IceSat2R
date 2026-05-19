@@ -44,6 +44,7 @@ https://icesat-2.gsfc.nasa.gov/science/specs
 ## Examples
 
 ``` r
+
 require(IceSat2R)
 
 # .......................................................

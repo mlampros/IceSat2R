@@ -56,9 +56,15 @@ https://icesat-2.gsfc.nasa.gov/science/specs
 ## Examples
 
 ``` r
+
 require(IceSat2R)
 require(data.table)
 #> Loading required package: data.table
+#> 
+#> Attaching package: ‘data.table’
+#> The following object is masked from ‘package:base’:
+#> 
+#>     %notin%
 
 data(RGT_cycle_14)
 ```

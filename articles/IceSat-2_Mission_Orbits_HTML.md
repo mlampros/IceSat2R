@@ -15,6 +15,7 @@ the same data format for any of the RGT Cycles.
   
 
 ``` r
+
 pkgs <- c(
   "IceSat2R", "magrittr", "sf", "rnaturalearth",
   "data.table", "DT", "stargazer"
@@ -70,6 +71,7 @@ purpose, we keep only the *“sovereignt”* and *“sov_a3”* columns,
   
 
 ``` r
+
 cntr <- rnaturalearth::ne_countries(scale = 110, type = "countries", returnclass = "sf")
 cntr <- cntr[, c("sovereignt", "sov_a3")]
 cntr
@@ -102,6 +104,7 @@ with the *rnaturalearth* countries data,
   
 
 ``` r
+
 dat_both <- suppressMessages(sf::st_join(
   x = res_rgt_many,
   y = cntr,
@@ -147,6 +150,7 @@ The unique number of RGT’s for *“RGT_cycle_14”* are
   
 
 ``` r
+
 length(unique(dat_both$RGT))
 ```
 
@@ -159,6 +163,7 @@ We observe that from *December 22, 2021* to *March 23, 2022*,
   
 
 ``` r
+
 df_tbl <- data.frame(table(dat_both$sovereignt), stringsAsFactors = F)
 colnames(df_tbl) <- c("country", "Num_IceSat2_points")
 
@@ -188,6 +193,7 @@ df_tbl <- df_tbl[order(df_tbl$Num_IceSat2_points, decreasing = T), ]
   
 
 ``` r
+
 DT_dtbl <- DT::datatable(df_tbl, rownames = FALSE)
 ```
 
@@ -210,6 +216,7 @@ percentages for the *“RGT_cycle_14”* equal to
   
 
 ``` r
+
 num_sea <- sum(is.na(dat_both$sovereignt))
 num_land <- sum(!is.na(dat_both$sovereignt))
 
@@ -227,6 +234,7 @@ row.names(dtbl_land_sea) <- c("sea", "land")
   
 
 ``` r
+
 stargazer::stargazer(dtbl_land_sea,
   type = "html",
   summary = FALSE,
@@ -246,7 +254,7 @@ stargazer::stargazer(dtbl_land_sea,
 | land | 32.930     | 43,396             |
 |      |            |                    |
 
-**Land and Sea Proportions**
+**Land and Sea Proportions** {.table style="text-align:center"}
 
   
 
@@ -262,6 +270,7 @@ data,
   
 
 ``` r
+
 data(ne_10m_glaciated_areas)
 ```
 
@@ -273,6 +282,7 @@ name included),
   
 
 ``` r
+
 ne_obj_subs <- subset(ne_10m_glaciated_areas, !is.na(name))
 ne_obj_subs <- sf::st_make_valid(x = ne_obj_subs) # check validity of geometries
 ne_obj_subs
@@ -314,6 +324,7 @@ and we’ll visualize the subset using the *mapview* package,
   
 
 ``` r
+
 if (requireNamespace("mapview", quietly = TRUE)) {
   mpv <- mapview::mapview(ne_obj_subs,
     color = "cyan",
@@ -333,6 +344,7 @@ these major polar glaciers,
   
 
 ``` r
+
 res_rgt_many$id_rgt <- 1:nrow(res_rgt_many) # include 'id' for fast subsetting
 
 dat_glac_sf <- suppressMessages(sf::st_join(
@@ -380,6 +392,7 @@ We’ll split the merged data by the *‘name’* of the glacier,
   
 
 ``` r
+
 dat_glac_name <- split(x = dat_glac, by = "name")
 
 sum_stats_glac <- lapply(dat_glac_name, function(x) {
@@ -403,6 +416,7 @@ the major polar glaciers,
   
 
 ``` r
+
 stargazer::stargazer(sum_stats_glac,
   type = "html",
   summary = FALSE,
@@ -434,7 +448,7 @@ stargazer::stargazer(sum_stats_glac,
 | Jostedalsbreen                | 1                | 1               |
 |                               |                  |                 |
 
-**Days and RGTs**
+**Days and RGTs** {.table style="text-align:center"}
 
   
 
@@ -445,6 +459,7 @@ Ice Field’*),
   
 
 ``` r
+
 sample_glacier <- "Southern Patagonian Ice Field"
 dat_glac_smpl <- dat_glac_name[[sample_glacier]]
 ```
@@ -452,6 +467,7 @@ dat_glac_smpl <- dat_glac_name[[sample_glacier]]
   
 
 ``` r
+
 cols_display <- c("name", "day_of_year", "Date", "hour", "minute", "second", "RGT")
 
 stargazer::stargazer(dat_glac_smpl[, ..cols_display],
@@ -476,7 +492,7 @@ stargazer::stargazer(dat_glac_smpl[, ..cols_display],
 | Southern Patagonian Ice Field | 64          | 2022-03-05 | 9    | 31     | 50     | 1,116 |
 |                               |             |            |      |        |        |       |
 
-**Southern Patagonian Ice Field**
+**Southern Patagonian Ice Field** {.table style="text-align:center"}
 
   
 
@@ -486,6 +502,7 @@ glacier,
   
 
 ``` r
+
 subs_rgts <- subset(res_rgt_many, id_rgt %in% dat_glac_smpl$id_rgt)
 
 set.seed(1)
@@ -499,6 +516,7 @@ subs_rgts$color <- samp_colrs
   
 
 ``` r
+
 ne_obj_subs_smpl <- subset(ne_obj_subs, name == sample_glacier)
 
 if (requireNamespace("mapview", quietly = TRUE)) {
@@ -527,6 +545,7 @@ map and point popups include more information,
   
 
 ``` r
+
 if (requireNamespace("mapview", quietly = TRUE)) {
   lft <- mpv_glacier + mpv_RGTs
   lft

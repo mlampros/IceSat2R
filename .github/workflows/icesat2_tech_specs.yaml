@@ -33,8 +33,8 @@ jobs:
         run: sudo apt-get install libgdal-dev libproj-dev libgeos-dev libudunits2-dev
       - name: Install required packages
         run: Rscript -e 'install.packages(c("remotes"))'
-      - name: "Install the Github version of 'IceSat2R'"
-        run: Rscript -e "Sys.setenv(GITHUB_PAT = '${{ secrets.GH_PAT }}'); remotes::install_github(c('mlampros/IceSat2R'), upgrade = 'always', dependencies = TRUE, repos = 'https://cloud.r-project.org/')"
+      - name: "Install 'IceSat2R' dependencies and package from local source"
+        run: Rscript -e "remotes::install_local('.', upgrade = 'always', dependencies = TRUE, repos = 'https://cloud.r-project.org/')"
       - name: "Run code snippet to update the 'technical_specs_urls.csv' file"
         working-directory: ${{ github.workspace }}
         run: Rscript inst/data_files/technical_specs_urls.R

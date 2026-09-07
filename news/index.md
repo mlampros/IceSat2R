@@ -1,5 +1,23 @@
 # Changelog
 
+## IceSat2R 1.1.0
+
+CRAN release: 2026-06-12
+
+- Modified
+  [`get_URL_data()`](https://mlampros.github.io/IceSat2R/reference/get_URL_data.md)
+  to fail gracefully with an informative message (and return `NULL`)
+  when the OpenAltimetry API is unavailable or returns a non-200 HTTP
+  status, per CRAN policy for internet resources.
+- Updated `tests/testthat/test-get_Atlas_data.R` to reflect the changed
+  upstream API behavior for `atl03` queries without `beamName` (the API
+  no longer errors). API-dependent tests now use `skip_on_cran()` and
+  `skip_if_offline()`.
+- Fixed `vignettes/IceSat-2_Atlas_products_PDF.Rmd` to build on machines
+  without Chrome by adding `screenshot.force = FALSE` to the setup
+  chunk, preventing `knitr` from attempting to screenshot htmlwidgets
+  via `webshot2`/`chromote`.
+
 ## IceSat2R 1.0.9
 
 CRAN release: 2026-03-05

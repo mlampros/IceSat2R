@@ -13,13 +13,13 @@ Source:
 [`inst/CITATION`](https://github.com/mlampros/IceSat2R/blob/master/inst/CITATION)
 
 Mouselimis L (2026). *IceSat2R: ICESat-2 Altimeter Data using R*. R
-package version 1.0.9, <https://CRAN.R-project.org/package=IceSat2R>.
+package version 1.1.0, <https://CRAN.R-project.org/package=IceSat2R>.
 
     @Manual{,
       title = {{IceSat2R}: ICESat-2 Altimeter Data using R},
       author = {Lampros Mouselimis},
       year = {2026},
-      note = {R package version 1.0.9},
+      note = {R package version 1.1.0},
       url = {https://CRAN.R-project.org/package=IceSat2R},
     }
 

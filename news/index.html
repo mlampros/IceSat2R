@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">IceSat2R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,12 @@
       <small>Source: <a href="https://github.com/mlampros/IceSat2R/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.0" id="icesat2r-110">IceSat2R 1.1.0<a class="anchor" aria-label="anchor" href="#icesat2r-110"></a></h2><p class="text-muted">CRAN release: 2026-06-12</p>
+<ul><li>Modified <code><a href="../reference/get_URL_data.html">get_URL_data()</a></code> to fail gracefully with an informative message (and return <code>NULL</code>) when the OpenAltimetry API is unavailable or returns a non-200 HTTP status, per CRAN policy for internet resources.</li>
+<li>Updated <code>tests/testthat/test-get_Atlas_data.R</code> to reflect the changed upstream API behavior for <code>atl03</code> queries without <code>beamName</code> (the API no longer errors). API-dependent tests now use <code>skip_on_cran()</code> and <code>skip_if_offline()</code>.</li>
+<li>Fixed <code>vignettes/IceSat-2_Atlas_products_PDF.Rmd</code> to build on machines without Chrome by adding <code>screenshot.force = FALSE</code> to the setup chunk, preventing <code>knitr</code> from attempting to screenshot htmlwidgets via <code>webshot2</code>/<code>chromote</code>.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.9" id="icesat2r-109">IceSat2R 1.0.9<a class="anchor" aria-label="anchor" href="#icesat2r-109"></a></h2><p class="text-muted">CRAN release: 2026-03-05</p>
 <ul><li>I updated the vignettes due to CRAN errors (Error in loadNamespace(): there is no package called ‘mapview’). In the vignettes I set <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace(..., quietly = TRUE)</a></code> which allows to test for the <code>noSuggests</code> type of checks. For <code>noSuggests</code> I had to use <code>Sys.setenv("_R_CHECK_DEPENDS_ONLY_" = "true")</code> before I use <code>R CMD check --as-cran</code>
@@ -119,7 +125,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

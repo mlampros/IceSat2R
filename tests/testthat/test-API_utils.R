@@ -1,13 +1,15 @@
-testthat::test_that("the function 'get_URL_data()' gives an error if the input url is invalid!", {
+testthat::test_that("the function 'get_URL_data()' returns NULL for an invalid URL (graceful failure)", {
   testthat::skip_on_cran() # skip on CRAN due to time limits and might fail
+  testthat::skip_if_offline()
 
-  testthat::expect_error(get_URL_data(
+  res <- get_URL_data(
     URL = INVALID_URL,
     outputFormat = "csv",
     download_method = "curl",
     file_path_zip = NULL,
     verbose = FALSE
-  ))
+  )
+  testthat::expect_null(res)
 })
 
 

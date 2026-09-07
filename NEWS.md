@@ -1,4 +1,10 @@
 
+## IceSat2R 1.1.0
+
+* Modified `get_URL_data()` to fail gracefully with an informative message (and return `NULL`) when the OpenAltimetry API is unavailable or returns a non-200 HTTP status, per CRAN policy for internet resources.
+* Updated `tests/testthat/test-get_Atlas_data.R` to reflect the changed upstream API behavior for `atl03` queries without `beamName` (the API no longer errors). API-dependent tests now use `skip_on_cran()` and `skip_if_offline()`.
+* Fixed `vignettes/IceSat-2_Atlas_products_PDF.Rmd` to build on machines without Chrome by adding `screenshot.force = FALSE` to the setup chunk, preventing `knitr` from attempting to screenshot htmlwidgets via `webshot2`/`chromote`.
+
 ## IceSat2R 1.0.9
 
 * I updated the vignettes due to CRAN errors (Error in loadNamespace(): there is no package called 'mapview'). In the vignettes I set `requireNamespace(..., quietly = TRUE)` which allows to test for the `noSuggests` type of checks. For `noSuggests` I had to use `Sys.setenv("_R_CHECK_DEPENDS_ONLY_" = "true")` before I use `R CMD check --as-cran`

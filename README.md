@@ -318,7 +318,7 @@ If you use the code of this repository in your paper or research please cite bot
   author = {Lampros Mouselimis},
   year = {2026},
   doi = 10.32614/CRAN.package.IceSat2R,
-  note = {R package version 1.0.9},
+  note = {R package version 1.1.0},
   url = {https://CRAN.R-project.org/package=IceSat2R},
 }
 ```

@@ -69,7 +69,7 @@ download_file = function(url,
 #'
 #' @importFrom glue glue
 #' @importFrom data.table fread
-#' @importFrom httr content GET
+#' @importFrom httr content GET http_error
 #' @importFrom utils download.file
 #' @importFrom tools file_ext
 #'
@@ -83,21 +83,39 @@ get_URL_data = function(URL,
 
   if (verbose) t_start = proc.time()
 
-  query_response = httr::GET(url = URL)                         # this line is necessary even if I read directly with the data.table package to catch potential errors
+  # Error code mapping for informative messages (per CRAN graceful-failure policy)
+  openaltimetry_error_codes = list(
+    '400' = 'Bad request',
+    '401' = 'Unauthorized',
+    '404' = 'Not found',
+    '500' = 'Internal error'
+  )
 
-  if (query_response$status_code != 200) {                      # code 200 satisfies the specified conditions
-    openaltimetry_error_codes = list('400' = 'Bad request',
-                                     '401' = 'Unauthorized',
-                                     '500' = 'Internal error')
+  # Wrap the HTTP request in tryCatch to handle network/DNS/timeout errors gracefully
+  query_response = tryCatch(
+    httr::GET(url = URL),
+    error = function(e) {
+      message(glue::glue("The OpenAltimetry API request failed: {conditionMessage(e)} (URL: {URL})"))
+      return(NULL)
+    }
+  )
 
-    url_error_code = openaltimetry_error_codes[[as.character(query_response$status_code)]]
+  # If a network error occurred, return NULL (no error thrown)
+  if (is.null(query_response)) {
+    return(NULL)
+  }
+
+  # Check HTTP status using httr::http_error() - fail gracefully per CRAN policy
+  if (httr::http_error(query_response)) {
+    status_code <- query_response$status_code
+    url_error_code <- openaltimetry_error_codes[[as.character(status_code)]]
     if (is.null(url_error_code)) {
-      msg = glue::glue("The input URL: '{URL}'  returned error code '{query_response$status_code}'!")
+      msg <- glue::glue("The OpenAltimetry API request failed: HTTP {status_code} (URL: {URL})")
+    } else {
+      msg <- glue::glue("The OpenAltimetry API request failed: HTTP {status_code} - {url_error_code} (URL: {URL})")
     }
-    else {
-      msg = glue::glue("The input URL: '{URL}'  returned error code '{query_response$status_code}' ('{url_error_code}')!")
-    }
-    stop(msg, call. = F)
+    message(msg)
+    return(NULL)
   }
 
   obj_out_flag = TRUE
